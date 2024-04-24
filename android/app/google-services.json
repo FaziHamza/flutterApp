@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "676375970629",
+    "project_id": "sportblitzapp",
+    "storage_bucket": "sportblitzapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676375970629:android:6b7a7e1df20c464d5a742c",
+        "android_client_info": {
+          "package_name": "com.sportblitz.news"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4J9jkZ8bWsk-IWDSFHsjsAWqXua-hz-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

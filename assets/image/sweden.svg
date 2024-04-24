@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1200 1200" style="enable-background:new 0 0 1200 1200;" xml:space="preserve">
+<g id="New_Symbol_1_8_">
+	<g>
+		<defs>
+			<ellipse id="SVGID_1_" cx="621.418" cy="572.728" rx="426.99" ry="426.563"/>
+		</defs>
+		<clipPath id="SVGID_00000106135197476350251980000011139166731076402080_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<g style="clip-path:url(#SVGID_00000106135197476350251980000011139166731076402080_);">
+			<rect x="-106.382" y="120.999" style="fill:#0169A8;" width="1408.281" height="880.444"/>
+			<rect x="-113.285" y="472.717" style="fill:#FDCD00;" width="1412.884" height="177.008"/>
+			<rect x="326.227" y="116.401" style="fill:#FDCD00;" width="172.583" height="889.639"/>
+		</g>
+	</g>
+	
+		<radialGradient id="SVGID_00000153691953797029241440000015365844009294737024_" cx="-5758" cy="-10038.7178" r="237.2577" gradientTransform="matrix(1.799 0 0 1.7972 10979.9219 18614.0625)" gradientUnits="userSpaceOnUse">
+		<stop  offset="0.8162" style="stop-color:#130C0E;stop-opacity:0"/>
+		<stop  offset="0.9945" style="stop-color:#130C0E;stop-opacity:0.9215"/>
+		<stop  offset="1" style="stop-color:#130C0E;stop-opacity:0.95"/>
+	</radialGradient>
+	<path style="fill:url(#SVGID_00000153691953797029241440000015365844009294737024_);" d="M1048.239,572.723
+		c0,235.497-191.089,426.398-426.82,426.398c-235.73,0-426.823-190.902-426.823-426.398c0-235.482,191.093-426.388,426.823-426.388
+		C857.151,146.335,1048.239,337.241,1048.239,572.723z"/>
+</g>
+<g id="New_Symbol_2_">
+</g>
+<g id="New_Symbol_3_">
+</g>
+<g id="New_Symbol_9_">
+</g>
+<g id="New_Symbol_8_">
+</g>
+<g id="New_Symbol_6_">
+</g>
+<g id="New_Symbol_7_">
+</g>
+<g id="New_Symbol_5_">
+</g>
+<g id="New_Symbol_4_">
+</g>
+<g id="New_Symbol">
+</g>
+<radialGradient id="SVGID_00000118367147003543681120000002671315970251589504_" cx="738.9105" cy="11719.6162" r="230.4374" gradientTransform="matrix(1.5519 0 0 0.1498 -530.694 -656.9218)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0" style="stop-color:#130C0E;stop-opacity:0.6"/>
+	<stop  offset="0.0688" style="stop-color:#130C0E;stop-opacity:0.552"/>
+	<stop  offset="0.8602" style="stop-color:#130C0E;stop-opacity:0"/>
+</radialGradient>
+<path style="fill:url(#SVGID_00000118367147003543681120000002671315970251589504_);" d="M973.663,1098.777
+	c0,33.813-160.115,61.223-357.638,61.223s-357.645-27.411-357.645-61.223c0-33.812,160.122-61.222,357.645-61.222
+	S973.663,1064.965,973.663,1098.777z"/>
+<linearGradient id="SVGID_00000028320650591721577780000006227146168699000976_" gradientUnits="userSpaceOnUse" x1="616.0211" y1="569.683" x2="616.0211" y2="194.2193">
+	<stop  offset="0" style="stop-color:#E7E7E7;stop-opacity:0"/>
+	<stop  offset="0.973" style="stop-color:#FFFFFF;stop-opacity:0.7"/>
+</linearGradient>
+<ellipse style="fill:url(#SVGID_00000028320650591721577780000006227146168699000976_);" cx="616.021" cy="381.951" rx="299.796" ry="187.732"/>
+</svg>
