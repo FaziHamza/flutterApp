@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:news/components/app_drawer.dart';
 import 'package:news/controllers/app_web_controller.dart';
 import 'package:news/pages/bottom_navbar_section.dart';
@@ -11,6 +12,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../models/api_response_controller.dart';
 import '../utils/app_color_swatch.dart';
 import '../utils/drawer_controller.dart';
+import '../utils/subtopic_navitem_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.isFirstTime = true});
@@ -24,6 +26,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       Get.put(ApiResponseController(), permanent: true);
 
   final drawerController = Get.put(CustomDrawerController(), permanent: true);
+  final storage = GetStorage();
 
   @override
   void initState() {
@@ -111,8 +114,20 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               return true; // Allow app to exit
             }
           },
-          child: WebViewWidget(
-            controller: AppWebController.to.controller.value,
+          child: 
+          
+          GetBuilder<SubtopicNavController>(
+            builder: (navController) {
+              var item = navController.getNavbarItems();
+              if(item.isEmpty) {
+                return
+                
+                Center(child: Text("No option is selected"),);
+              }
+              return WebViewWidget(
+                controller: AppWebController.to.controller.value,
+              );
+            }
           ),
         ),
       ),

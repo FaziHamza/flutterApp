@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../utils/app_color_swatch.dart';
@@ -116,7 +117,19 @@ class _NextPageState extends State<NextPage> {
               
               ((widget.title == '' && widget.logImage == '') ||
               (widget.title == 'null' && widget.logImage == 'null'))
-          ?  BottomNavbarSection()
+          ?  BottomNavbarSection(
+            onClick: 
+            (valu){
+              print("this is the value of on click on next screen:_ $valu");
+              if(valu){
+
+              Navigator.pop(context);
+              }
+            }
+            
+         
+          
+          )
           : 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

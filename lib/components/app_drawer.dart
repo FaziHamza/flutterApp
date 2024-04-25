@@ -22,14 +22,14 @@ class AppDrawer {
     showSnackBar() {
       final storage = GetStorage();
       storage.write("isFirstTime", false);
-      Get.snackbar(
-        'Loading',
-        "Saving. Please wait...",
-        colorText: Colors.white,
-        backgroundColor: AppColorSwatch.appChipColor,
-        snackPosition: SnackPosition.BOTTOM,
-        showProgressIndicator: true,
-      );
+      // Get.snackbar(
+      //   'Loading',
+      //   "Saving. Please wait...",
+      //   colorText: Colors.white,
+      //   backgroundColor: AppColorSwatch.appChipColor,
+      //   snackPosition: SnackPosition.BOTTOM,
+      //   showProgressIndicator: true,
+      // );
       // static AppWebController get to => Get.put(AppWebController());
 
       final appWebController = Get.find<AppWebController>();

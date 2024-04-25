@@ -8,8 +8,9 @@ class BottomNavigationBarItemWidget extends StatelessWidget {
   final SubtopicNavController navController = Get.find();
   final BottomNavigationBarItem item;
   final int navItemPosition;
+  final ValueChanged<bool>? isClicked;
 
-  BottomNavigationBarItemWidget(this.item, this.navItemPosition, {super.key});
+  BottomNavigationBarItemWidget(this.item, this.navItemPosition, this.isClicked, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class BottomNavigationBarItemWidget extends StatelessWidget {
 
               AppWebController.to.controller.value.loadRequest(
                   Uri.parse('https://sportblitznews.se/news/${link}'));
+              isClicked!(true);
             },
             child: Row(
               children: <Widget>[

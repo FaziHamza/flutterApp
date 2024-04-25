@@ -29,10 +29,12 @@ void main() async {
   Get.put(AppController());
   final ApiResponseController apiResponseController =
       Get.put(ApiResponseController());
-
+print("going to initialize firebase app");
   //Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  print("created firebase app......");
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  print("ended firebase initialization app.......");
 
   //Hive
   await Hive.initFlutter();

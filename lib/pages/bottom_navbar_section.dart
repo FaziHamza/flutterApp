@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../utils/app_color_swatch.dart';
 import '../utils/subtopic_navitem_controller.dart';
 import 'bottom_navbar_item.dart';
 
 class BottomNavbarSection extends StatelessWidget {
-  const BottomNavbarSection({super.key});
+  final ValueChanged<bool>? onClick;
+  const BottomNavbarSection({super.key, this.onClick});
 
   // final SubtopicNavController navController =
   //   Get.put(SubtopicNavController(), permanent: true);
@@ -34,7 +36,10 @@ class BottomNavbarSection extends StatelessWidget {
           child: Row(
             children: items
                 .map((item) =>
-                    BottomNavigationBarItemWidget(item, items.indexOf(item)))
+                    BottomNavigationBarItemWidget(item, items.indexOf(item), (val) {
+                      onClick!(val);
+                      print("this is the value of on click:: $val");
+                    }))
                 .toList(),
           ),
         ),
