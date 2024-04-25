@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:news/components/app_drawer.dart';
@@ -11,7 +11,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../models/api_response_controller.dart';
 import '../utils/app_color_swatch.dart';
 import '../utils/drawer_controller.dart';
-import '../utils/subtopic_navitem_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.isFirstTime = true});
@@ -20,7 +19,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final apiResponseController =
       Get.put(ApiResponseController(), permanent: true);
 
@@ -31,6 +30,35 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     if (widget.isFirstTime) {
       AppWebController.to.initializeController();
+    }
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch(state){
+      case AppLifecycleState.resumed:
+      print("App resumed......");
+       final webAppController = Get.find<AppWebController>();
+    String lastLink = webAppController.lastPageLink;
+    // webAppController.controller.value.
+    AppWebController.to.controller.value.loadRequest(Uri.parse(lastLink
+        // 'https://sportblitznews.se/news/${link}'
+        ));
+      break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.detached:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.hidden:
+      print("Application goes out side.....");
+      break;
     }
   }
 

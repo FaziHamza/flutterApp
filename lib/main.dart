@@ -2,12 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:news/controllers/app_controller.dart';
 import 'package:news/pages/home_page.dart';
-import 'package:news/pages/preference_page.dart';
 import 'package:news/services/notification_service.dart';
-import 'package:news/services/preference_service.dart';
 import 'package:news/utils/app_color_swatch.dart';
 import 'package:news/utils/subtopic_navitem_controller.dart';
 
@@ -37,6 +36,8 @@ void main() async {
 
   //Hive
   await Hive.initFlutter();
+  await GetStorage.init();
+
   Hive.registerAdapter(SubtopicAdapter());
   await Hive.openBox('navbarBox');
   await Hive.openBox('settings');

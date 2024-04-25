@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../controllers/app_web_controller.dart';
 import '../utils/app_color_swatch.dart';
+import 'bottom_navbar_section.dart';
 
 class NextPage extends StatefulWidget {
   final String title;
@@ -111,12 +110,15 @@ class _NextPageState extends State<NextPage> {
             )
           : WebViewWidget(controller: controller),
       // bottomNavigationBar: ,
-      bottomNavigationBar: ((widget.title == '' && widget.logImage == '') ||
-              (widget.title == 'null' && widget.logImage == 'null'))
-          ? const SizedBox()
-          : Container(
+      bottomNavigationBar: Container(
               color: AppColorSwatch.appBarColor,
-              child: Row(
+              child: 
+              
+              ((widget.title == '' && widget.logImage == '') ||
+              (widget.title == 'null' && widget.logImage == 'null'))
+          ?  BottomNavbarSection()
+          : 
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(

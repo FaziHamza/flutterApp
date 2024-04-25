@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:news/pages/next_page.dart';
 import 'package:news/utils/subtopic_navitem_controller.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -44,13 +45,19 @@ class AppWebController extends GetxController {
   }
 
   findItem() {
-    var items = navController.getNavbarItems();
-    if (items.isEmpty || items[0].label == null) {
-      SubtopicNavController subtopicNavController =
-          Get.find<SubtopicNavController>();
-      subtopicNavController.toggleSaveButton(true);
+    final storage = GetStorage();
+    storage.writeIfNull("isFirstTime", true);
+    if(storage.read("isFirstTime") == true) {
       homeScaffoldKey.currentState?.openDrawer();
-    } else {}
+    }
+    storage.write("isFirstTime", false);
+    // var items = navController.getNavbarItems();
+    // if (items.isEmpty || items[0].label == null) {
+    //   SubtopicNavController subtopicNavController =
+    //       Get.find<SubtopicNavController>();
+    //   subtopicNavController.toggleSaveButton(true);
+    //   homeScaffoldKey.currentState?.openDrawer();
+    // } else {}
   }
 
   void _onDrawerClose() {

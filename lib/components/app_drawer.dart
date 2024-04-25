@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:news/models/api_response_controller.dart';
 import 'package:news/utils/subtopic_navitem_controller.dart';
 
@@ -19,6 +20,8 @@ class AppDrawer {
     List<Subtopic> savedSubtopics = PreferenceService().loadNavbarItems();
 
     showSnackBar() {
+      final storage = GetStorage();
+      storage.write("isFirstTime", false);
       Get.snackbar(
         'Loading',
         "Saving. Please wait...",
@@ -47,6 +50,9 @@ class AppDrawer {
           .loadRequest(Uri.parse('https://sportblitznews.se/news/${link}'));
     }
 
+    final storage = GetStorage();
+    storage.writeIfNull("isFirstTime", true);
+
     // bool isShowSaveButton = subtopicNavController.isShowSaveButton;
 
     return Padding(
@@ -66,10 +72,13 @@ class AppDrawer {
                         width: 120,
                         height: 60,
                       ),
+                      // if(storage.read("isFirstTime") )
                       GetBuilder<SubtopicNavController>(
                           builder: (subTopNavController) {
-                        return subTopNavController.isShowSaveButton
-                            ? InkWell(
+                        return 
+                        // subTopNavController.isShowSaveButton
+                        //     ? 
+                            InkWell(
                                 onTap: () {
                                   showSnackBar();
                                 },
@@ -80,8 +89,8 @@ class AppDrawer {
                                     color: AppColorSwatch.appChipColor,
                                   ),
                                 ),
-                              )
-                            : const SizedBox();
+                              );
+                            // : const SizedBox();
                       })
                     ],
                   ),
