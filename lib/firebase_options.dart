@@ -25,8 +25,8 @@ class DefaultFirebaseOptions {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
-      // case TargetPlatform.iOS:
-      //   return ios;
+      case TargetPlatform.iOS:
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -55,6 +55,15 @@ class DefaultFirebaseOptions {
     messagingSenderId: '676375970629',
     projectId: 'sportblitzapp',
     storageBucket: 'sportblitzapp.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDcdT1cEO2l9TlMhRxcVdtRGR-izYf6w_Y',
+    appId: '1:676375970629:ios:1c8762a465e7b4265a742c',
+    messagingSenderId: '676375970629',
+    projectId: 'sportblitzapp',
+    storageBucket: 'sportblitzapp.appspot.com',
+    iosBundleId: 'com.sportblitz.ios',
   );
   
 }

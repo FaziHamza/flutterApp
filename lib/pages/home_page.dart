@@ -9,6 +9,7 @@ import 'package:news/controllers/app_web_controller.dart';
 import 'package:news/pages/bottom_navbar_section.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../firebase_api/firebase_api.dart';
 import '../models/api_response_controller.dart';
 import '../utils/app_color_swatch.dart';
 import '../utils/drawer_controller.dart';
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+
     if (widget.isFirstTime) {
       AppWebController.to.initializeController();
     }
@@ -120,8 +122,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             builder: (navController) {
               var item = navController.getNavbarItems();
               if(item.isEmpty) {
+                final appWebContr = Get.find<AppWebController>();
+                appWebContr.toggleLastLink("https://sportblitznews.se");
+                 AppWebController.to.controller.value.loadRequest(
+                  Uri.parse('https://sportblitznews.se'));
                 return
-                
+
                 Center(child: Text("No option is selected"),);
               }
               return WebViewWidget(

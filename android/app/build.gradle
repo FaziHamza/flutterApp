@@ -22,7 +22,13 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-android {
+   def keystoreProperties = new Properties()
+   def keystorePropertiesFile = rootProject.file('key.properties')
+   if (keystorePropertiesFile.exists()) {
+       keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+   }
+
+   android {
     namespace "com.sportblitz.news"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
@@ -37,20 +43,38 @@ android {
         applicationId "com.sportblitz.news"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
     }
 
-    buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
-        }
-    }
+   signingConfigs {
+       release {
+           keyAlias keystoreProperties['keyAlias']
+           keyPassword keystoreProperties['keyPassword']
+           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+           storePassword keystoreProperties['storePassword']
+       }
+   }
+   buildTypes {
+      release {
+         // TODO: Add your own signing config for the release build.
+         // Signing with the debug keys for now,
+         // so `flutter run --release` works.
+// -           signingConfig signingConfigs.debug
+          signingConfig signingConfigs.release
+      }
+   }
+
+    // buildTypes {
+    //     release {
+    //         // TODO: Add your own signing config for the release build.
+    //         // Signing with the debug keys for now, so `flutter run --release` works.
+    //         signingConfig signingConfigs.debug
+    //     }
+    // }
 }
 
 flutter {
@@ -61,4 +85,6 @@ dependencies{
     implementation 'com.google.gms:google-services:4.4.1'
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.google.firebase:firebase-messaging:23.4.1'
+    implementation 'com.google.android.material:material:1.1.0'
+
 }

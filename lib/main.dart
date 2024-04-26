@@ -1,3 +1,4 @@
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:news/controllers/app_controller.dart';
+import 'package:news/firebase_api/firebase_api.dart';
 import 'package:news/pages/home_page.dart';
 import 'package:news/services/notification_service.dart';
 import 'package:news/utils/app_color_swatch.dart';
@@ -24,17 +26,24 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   NotificationService().postMessageHandler();
 }
 
+getToken() async{
+  String? token = await FirebaseMessaging.instance.getToken();
+  print("Token ; $token");
+
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(AppController());
   final ApiResponseController apiResponseController =
       Get.put(ApiResponseController());
-print("going to initialize firebase app");
   //Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print("created firebase app......");
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  print("ended firebase initialization app.......");
+  
+  FirebaseApi().initNotification();
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // getToken();
+
 
   //Hive
   await Hive.initFlutter();
@@ -60,6 +69,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     apiResponseController.fetchTopics();
     var navController = Get.put(SubtopicNavController());
     return GetMaterialApp(

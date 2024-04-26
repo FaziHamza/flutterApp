@@ -171,7 +171,7 @@ class AppWebController extends GetxController {
       link = link.substring(0, link.length - 1);
     }
     toggleLastLink('https://sportblitznews.se/news/${link}');
-
+print("this is link ;;;; ${link}");
     return 'https://sportblitznews.se/news/${link}';
 
     // AppWebController.to.controller.value.loadRequest(Uri.parse());

@@ -21,15 +21,19 @@ class AppDrawer {
 
     showSnackBar() {
       final storage = GetStorage();
+      if(storage.read("showNotification") == true) {
+
+      Get.snackbar(
+        'Loading',
+        "Saving. Please wait...",
+        colorText: Colors.white,
+        backgroundColor: AppColorSwatch.appChipColor,
+        snackPosition: SnackPosition.BOTTOM,
+        showProgressIndicator: true,
+      );
+      storage.write("showNotification", false);
       storage.write("isFirstTime", false);
-      // Get.snackbar(
-      //   'Loading',
-      //   "Saving. Please wait...",
-      //   colorText: Colors.white,
-      //   backgroundColor: AppColorSwatch.appChipColor,
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   showProgressIndicator: true,
-      // );
+      }
       // static AppWebController get to => Get.put(AppWebController());
 
       final appWebController = Get.find<AppWebController>();
@@ -52,6 +56,7 @@ class AppDrawer {
 
     final storage = GetStorage();
     storage.writeIfNull("isFirstTime", true);
+    storage.writeIfNull("showNotification", true);
 
     // bool isShowSaveButton = subtopicNavController.isShowSaveButton;
 
