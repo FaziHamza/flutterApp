@@ -1,8 +1,13 @@
+
+import 'dart:developer';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:news/pages/next_page.dart';
+import 'package:news/utils/app_constants.dart';
 import 'package:news/utils/subtopic_navitem_controller.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -16,12 +21,22 @@ class AppWebController extends GetxController {
   final GlobalKey<ScaffoldState> homeScaffoldKey = GlobalKey<ScaffoldState>();
 
   Rx<WebViewController> controller = WebViewController().obs;
+  Rx<WebViewController> detailController = WebViewController().obs;
 
   String _lastPageLink = '';
   String get lastPageLink => _lastPageLink;
 
+  bool _isShowBackButton = false;
+  bool get isShowBackButton => _isShowBackButton;
+
+
   toggleLastLink(String link) {
     _lastPageLink = link;
+    update();
+  }
+
+  toogleBackButton(bool value){
+    _isShowBackButton = value;
     update();
   }
 
@@ -47,7 +62,7 @@ class AppWebController extends GetxController {
   findItem() {
     final storage = GetStorage();
     storage.writeIfNull("isFirstTime", true);
-    if(storage.read("isFirstTime") == true) {
+    if (storage.read("isFirstTime") == true) {
       homeScaffoldKey.currentState?.openDrawer();
     }
     storage.write("isFirstTime", false);
@@ -69,6 +84,7 @@ class AppWebController extends GetxController {
   }
 
   List<BottomNavigationBarItem> bottomBarItems = [];
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   void initializeController() {
     late final PlatformWebViewControllerCreationParams params;
@@ -84,8 +100,9 @@ class AppWebController extends GetxController {
 
     if (controller.value.platform is AndroidWebViewController) {
       AndroidWebViewController.enableDebugging(true);
+      
       (controller.value.platform as AndroidWebViewController)
-          .setMediaPlaybackRequiresUserGesture(false);
+          .setMediaPlaybackRequiresUserGesture(true);
     }
 
     controller.value = WebViewController.fromPlatformCreationParams(params);
@@ -108,6 +125,7 @@ class AppWebController extends GetxController {
             controller.value.runJavaScript(scriptContent);
           },
           onPageFinished: (String url) async {
+            
             debugPrint('Page finished loading: $url');
             String scriptContent = await loadScript();
             controller.value.runJavaScript(scriptContent);
@@ -118,17 +136,30 @@ class AppWebController extends GetxController {
             controller.value.runJavaScript(scriptContent);
             return NavigationDecision.navigate;
           },
+          onWebResourceError: (error) {
+            print('this is error: ${error.description}');
+            controller.value.loadRequest(Uri.parse(error.url!));
+          },
           onUrlChange: (UrlChange change) async {
             // Uri changeUrl = Uri.parse(change.url!);
-            print('this is change url :: ${change.url}');
             if (change.url!.contains('isExternal')) {
+              analytics.logEvent(
+      name: 'pages_tracked',
+      parameters: {
+        'page_name': 'External Link Page',
+      },
+    );
               String url = change.url!;
 
               Uri uri = Uri.parse(url);
+              print("this is uri of the link ::: $uri");
+              debugPrint("hello world this is uri link :: $uri");
+              log("hello world this is log of uri ::: $uri");
 
               // String host = uri.host; // 'sportblitznews.se'
               // String path = uri.path; // '/external'
               Map<String, String> queryParameters = uri.queryParameters;
+              print("this is query parameteres ::: $queryParameters");
 
               String articleLink = queryParameters['ArticleLink'].toString();
 
@@ -142,10 +173,44 @@ class AppWebController extends GetxController {
               controller.value.loadRequest(Uri.parse(_lastPageLink));
               return;
             } else {
+
+              Uri uria = Uri.parse(change.url.toString());
+           
+            if(uria.pathSegments.length > 2 
+            ) {
+              
+            toogleBackButton(true);
+            
+            } else if((uria.path).contains("videohighlights") || 
+            (uria.path).contains("highlights") ||
+            (uria.path).contains("podcast")) {
+              toogleBackButton(true);
+            } 
+            
+            else{
+
+
+
+
+              analytics.logEvent(
+              name: 'pages_tracked',
+              parameters: {
+                'page_name': 'Home Page',
+                },
+              );
               toggleLastLink(change.url!);
               String scriptContent = await loadScript();
+              if(change.url!.contains("/show/") || 
+              change.url!.contains("spotify.com") ||
+              (change.url!).contains("/embed/")){}else{
+
               controller.value.runJavaScript(scriptContent);
+              }
             }
+            
+
+
+             }
           },
           onHttpAuthRequest: (HttpAuthRequest request) async {
             print('this is on url request :: $request');
@@ -158,11 +223,13 @@ class AppWebController extends GetxController {
         Uri.parse(bottomBarItems.isNotEmpty
             ? getLink(bottomBarItems[0].tooltip.toString())
             : navController.activeSubtopics.isNotEmpty
-                ? 'https://sportblitznews.se/news/${navController.activeSubtopics[0].name!.toLowerCase().replaceAll(' ', '_')}_'
-                : 'https://sportblitznews.se'),
+                ? '${AppConstants.baseUrl}/news/${navController.activeSubtopics[0].name!.toLowerCase().replaceAll(' ', '_')}_'
+                : '${AppConstants.baseUrl}'),
       );
     update();
   }
+  
+  
 
   String getLink(String item) {
     String link = item;
@@ -170,9 +237,9 @@ class AppWebController extends GetxController {
     if (link[link.length - 1] == '_') {
       link = link.substring(0, link.length - 1);
     }
-    toggleLastLink('https://sportblitznews.se/news/${link}');
-print("this is link ;;;; ${link}");
-    return 'https://sportblitznews.se/news/${link}';
+    toggleLastLink('${AppConstants.baseUrl}/news/${link}');
+    print("this is link ;;;; ${link}");
+    return '${AppConstants.baseUrl}/news/${link}';
 
     // AppWebController.to.controller.value.loadRequest(Uri.parse());
   }

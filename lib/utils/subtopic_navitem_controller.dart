@@ -45,7 +45,22 @@ class SubtopicNavController extends GetxController {
     update();
   }
 
-  void toggleSelectedNavItem(index) {
+  void toggleSelectedNavItem(index, ) {
+    // final box = Hive.box("");
+    // final box = Hive.box('navbarBox');
+    // List<Subtopic> listofsubtopic = box.values.cast<Subtopic>().toList();
+    // for(var subTopic in listofsubtopic) {
+    //   if(subTopic.subTopicId == subtopicId){
+
+    //   }
+    // }
+    // int newIndex = 0;
+    // for(int i=0; i< listofsubtopic.length; i++){
+    //   final topic = listofsubtopic[i];
+    //   if(topic.subTopicId == subtopicId) {
+    //     newIndex = i;
+    //   }
+    // }
     navItemPosition.value = index;
     update();
   }

@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.sportblitz.news.sportblitzNews</string>
+	<string>com.sportblitz.ios</string>
 	<key>PROJECT_ID</key>
 	<string>sportblitzapp</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:676375970629:ios:1c8762a465e7b4265a742c</string>
+	<string>1:676375970629:ios:14007d9d8b7cd8b65a742c</string>
 </dict>
 </plist>

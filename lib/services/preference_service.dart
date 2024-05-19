@@ -4,9 +4,13 @@ import 'package:news/utils/subtopic_navitem_controller.dart';
 import '../models/subtopic.dart';
 
 class PreferenceService {
-  void saveSubtopic(Subtopic subtopic) {
+  void saveSubtopic(Subtopic subtopic, ) async {
     final box = Hive.box('navbarBox');
+    
+    // box.putAt(index, subtopic);
     box.put(subtopic.subTopicId, subtopic);
+
+    
   }
 
   void removeSubtopic(Subtopic subtopic) {

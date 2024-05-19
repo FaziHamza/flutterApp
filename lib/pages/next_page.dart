@@ -1,7 +1,6 @@
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../utils/app_color_swatch.dart';
@@ -37,10 +36,17 @@ class _NextPageState extends State<NextPage> {
   }
 
   bool isLoading = false;
+  // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
     super.initState();
+    // analytics.logEvent(
+    //   name: 'pages_tracked',
+    //   parameters: {
+    //     'page_name': 'External Link Page',
+    //   },
+    // );
     setImageLink();
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -112,26 +118,16 @@ class _NextPageState extends State<NextPage> {
           : WebViewWidget(controller: controller),
       // bottomNavigationBar: ,
       bottomNavigationBar: Container(
-              color: AppColorSwatch.appBarColor,
-              child: 
-              
-              ((widget.title == '' && widget.logImage == '') ||
-              (widget.title == 'null' && widget.logImage == 'null'))
-          ?  BottomNavbarSection(
-            onClick: 
-            (valu){
-              print("this is the value of on click on next screen:_ $valu");
-              if(valu){
-
-              Navigator.pop(context);
-              }
-            }
-            
-         
-          
-          )
-          : 
-              Row(
+        color: AppColorSwatch.appBarColor,
+        child: ((widget.title == '' && widget.logImage == '') ||
+                (widget.title == 'null' && widget.logImage == 'null'))
+            ? BottomNavbarSection(onClick: (valu) {
+                print("this is the value of on click on next screen:_ $valu");
+                if (valu) {
+                  Navigator.pop(context);
+                }
+              })
+            : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
@@ -177,7 +173,7 @@ class _NextPageState extends State<NextPage> {
                   ),
                 ],
               ),
-            ),
+      ),
       // BottomNavbarSection()
     );
   }

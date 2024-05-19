@@ -1,4 +1,4 @@
-
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +26,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   NotificationService().postMessageHandler();
 }
 
-getToken() async{
+getToken() async {
   String? token = await FirebaseMessaging.instance.getToken();
   print("Token ; $token");
-
 }
 
 void main() async {
@@ -39,11 +38,15 @@ void main() async {
       Get.put(ApiResponseController());
   //Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  
+
   FirebaseApi().initNotification();
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    analytics.setAnalyticsCollectionEnabled(true);
+
+
+
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   // getToken();
-
 
   //Hive
   await Hive.initFlutter();
@@ -58,19 +61,29 @@ void main() async {
 
 var localNotificationToken = ''.obs;
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   final ApiResponseController apiResponseController;
 
   MyApp({required this.apiResponseController, super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   void onDispose() {
     Hive.close();
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    apiResponseController.fetchTopics();
+    widget.apiResponseController.fetchTopics();
     var navController = Get.put(SubtopicNavController());
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,

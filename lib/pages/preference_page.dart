@@ -294,7 +294,7 @@ class BottomNavigationBarItemWidgetForPreference extends StatelessWidget {
           padding: const EdgeInsets.all(4.0),
           child: InkWell(
             onTap: () {
-              SubtopicNavController.to.toggleSelectedNavItem(navItemPosition);
+              SubtopicNavController.to.toggleSelectedNavItem(navItemPosition, );
             },
             child: Row(
               children: <Widget>[

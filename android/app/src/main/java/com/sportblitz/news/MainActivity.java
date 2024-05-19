@@ -1,4 +1,4 @@
-package com.sportblitz.news;
+package com.sportblitz;
 
 import io.flutter.embedding.android.FlutterActivity;
 
