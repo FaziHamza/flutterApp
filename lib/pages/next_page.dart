@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart'; 
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../utils/app_color_swatch.dart';
@@ -65,6 +66,13 @@ class _NextPageState extends State<NextPage> {
             setState(() {
               isLoading = false;
             });
+          },
+          
+          onNavigationRequest: (request) {
+             Get.to(() => 
+             NextPage(title: widget.title, url: request.url, logImage: widget.logImage),
+             preventDuplicates: false,);
+            return NavigationDecision.prevent;
           },
           onWebResourceError: (WebResourceError error) {},
           // onNavigationRequest: (NavigationRequest request) {
