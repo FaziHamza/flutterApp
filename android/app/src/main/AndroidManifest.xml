@@ -3,7 +3,8 @@
     <application
         android:label="Sportblitz News"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="362197586779556"/>
    	    <meta-data android:name="com.facebook.sdk.ClientToken" android:value="f175a58f25080f319504551f8dd73cbe"/>
     

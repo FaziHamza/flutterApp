@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -51,6 +53,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
   }
 
+  
+  String _getBaseUrl() {
+  if (Platform.isAndroid) {
+    return AppConstants.androidBaseUrl;
+  } else if (Platform.isIOS) {
+    return AppConstants.iosBaseUrl;
+  } else {
+    return AppConstants.baseUrl;
+  }
+}
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
@@ -59,10 +72,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         print("App resumed......");
         final webAppController = Get.find<AppWebController>();
         String lastLink = webAppController.lastPageLink;
-        // webAppController.controller.value.
-        AppWebController.to.controller.value.loadRequest(Uri.parse(lastLink
-            // '${AppConstants.baseUrl}/news/${link}'
-            ));
+        if(lastLink == ''){
+          lastLink = _getBaseUrl();
+        }
+        AppWebController.to.controller.value.loadRequest(Uri.parse(lastLink));
         break;
       case AppLifecycleState.inactive:
       case AppLifecycleState.detached:
@@ -145,22 +158,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   return true; // Allow app to exit
                 }
               },
-              child: GetBuilder<SubtopicNavController>(builder: (navController) {
-                var item = navController.getNavbarItems();
-                if (item.isEmpty) {
-                  final appWebContr = Get.find<AppWebController>();
-                  appWebContr.toggleLastLink("${AppConstants.baseUrl}");
-                  AppWebController.to.controller.value
-                      .loadRequest(Uri.parse('${AppConstants.baseUrl}'));
-                  return const Center(
-                    child: Text("No option is selected"),
-                  );
-                }
-                return WebViewWidget(
-                  controller: 
-                  // appWebController.controller.value,
-                  AppWebController.to.controller.value,
-                );
+             child: GetBuilder<SubtopicNavController>(builder: (navController) {
+               // var items = navController.getNavbarItems(); // Corrected variable name to plural
+                // if (items.isEmpty) {
+                //   final appWebContr = AppWebController.to.controller;
+                //     appWebContr.toggleLastLink(_getBaseUrl()); 
+                //     appWebContr.controller.value.loadRequest(Uri.parse(_getBaseUrl()));
+                //     return WebViewWidget(controller: appWebContr.controller.value);
+                // }
+                    return WebViewWidget(controller: AppWebController.to.controller.value);
               }),
             ),
           ),
