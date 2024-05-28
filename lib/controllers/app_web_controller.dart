@@ -1,5 +1,6 @@
 
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:news/pages/next_page.dart';
+import 'package:news/pages/potcast_page.dart';
 import 'package:news/utils/app_constants.dart';
 import 'package:news/utils/subtopic_navitem_controller.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -142,13 +144,20 @@ class AppWebController extends GetxController {
           },
           onUrlChange: (UrlChange change) async {
             // Uri changeUrl = Uri.parse(change.url!);
-            if (change.url!.contains('isExternal')) {
-              analytics.logEvent(
-      name: 'pages_tracked',
-      parameters: {
-        'page_name': 'External Link Page',
-      },
-    );
+            String url = change.url!;
+
+              Uri uri = Uri.parse(url);
+              print("this is uri of the link ::: $uri");
+              debugPrint("hello world this is uri link :: $uri");
+              log("hello world this is log of uri ::: $uri");
+
+              if (change.url!.contains('isExternal')) {
+                    analytics.logEvent(
+                    name: 'pages_tracked',
+                    parameters: {
+                        'page_name': 'External Link Page',
+                     },
+                  );
               String url = change.url!;
 
               Uri uri = Uri.parse(url);
@@ -176,22 +185,34 @@ class AppWebController extends GetxController {
 
               Uri uria = Uri.parse(change.url.toString());
            
-            if(uria.pathSegments.length > 2 
-            ) {
+            if(uria.pathSegments.length > 2) {
               
             toogleBackButton(true);
             
             } else if((uria.path).contains("videohighlights") || 
             (uria.path).contains("highlights") ||
             (uria.path).contains("podcast")) {
-              toogleBackButton(true);
+              if ((uria.path).contains("podcast")) {
+                  String? subtopicId = uri.queryParameters['subtopicid'];
+                  print("subtopicId ::: $subtopicId");
+                  debugPrint("subtopicId :: $subtopicId");
+                  log("subtopicId ::: $subtopicId");
+
+                  // Navigate to the PodcastPage with subtopicId
+                  if (subtopicId != null) {
+                    Get.to(() => PodcastPage(subtopicId: subtopicId, title: _lastPageLink));
+                    controller.value.loadRequest(Uri.parse(_lastPageLink));
+                    return;
+                  }else{
+                    toogleBackButton(true);
+                  }
+                }else{
+                  toogleBackButton(true);
+                } 
+              
             } 
             
             else{
-
-
-
-
               analytics.logEvent(
               name: 'pages_tracked',
               parameters: {
@@ -202,7 +223,10 @@ class AppWebController extends GetxController {
               String scriptContent = await loadScript();
               if(change.url!.contains("/show/") || 
               change.url!.contains("spotify.com") ||
-              (change.url!).contains("/embed/")){}else{
+              (change.url!).contains("/embed/")){
+
+
+              }else{
 
               controller.value.runJavaScript(scriptContent);
               }
@@ -222,12 +246,20 @@ class AppWebController extends GetxController {
       ..loadRequest(
         Uri.parse(bottomBarItems.isNotEmpty
             ? getLink(bottomBarItems[0].tooltip.toString())
-            : navController.activeSubtopics.isNotEmpty
-                ? '${AppConstants.baseUrl}/news/${navController.activeSubtopics[0].name!.toLowerCase().replaceAll(' ', '_')}_'
-                : '${AppConstants.baseUrl}'),
+            : _getBaseUrl()),
       );
     update();
   }
+
+  String _getBaseUrl() {
+  if (Platform.isAndroid) {
+    return AppConstants.androidBaseUrl;
+  } else if (Platform.isIOS) {
+    return AppConstants.iosBaseUrl;
+  } else {
+    return AppConstants.baseUrl;
+  }
+}
   
   
 
