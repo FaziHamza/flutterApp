@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 import 'dart:io';
 
@@ -31,13 +30,12 @@ class AppWebController extends GetxController {
   bool _isShowBackButton = false;
   bool get isShowBackButton => _isShowBackButton;
 
-
   toggleLastLink(String link) {
     _lastPageLink = link;
     update();
   }
 
-  toogleBackButton(bool value){
+  toogleBackButton(bool value) {
     _isShowBackButton = value;
     update();
   }
@@ -102,7 +100,7 @@ class AppWebController extends GetxController {
 
     if (controller.value.platform is AndroidWebViewController) {
       AndroidWebViewController.enableDebugging(true);
-      
+
       (controller.value.platform as AndroidWebViewController)
           .setMediaPlaybackRequiresUserGesture(true);
     }
@@ -127,7 +125,6 @@ class AppWebController extends GetxController {
             controller.value.runJavaScript(scriptContent);
           },
           onPageFinished: (String url) async {
-            
             debugPrint('Page finished loading: $url');
             String scriptContent = await loadScript();
             controller.value.runJavaScript(scriptContent);
@@ -136,7 +133,7 @@ class AppWebController extends GetxController {
             print('this is on url navigation request :: $request');
             String scriptContent = await loadScript();
             controller.value.runJavaScript(scriptContent);
-            return NavigationDecision.navigate;
+            return NavigationDecision.prevent;
           },
           onWebResourceError: (error) {
             print('this is error: ${error.description}');
@@ -146,18 +143,18 @@ class AppWebController extends GetxController {
             // Uri changeUrl = Uri.parse(change.url!);
             String url = change.url!;
 
-              Uri uri = Uri.parse(url);
-              print("this is uri of the link ::: $uri");
-              debugPrint("hello world this is uri link :: $uri");
-              log("hello world this is log of uri ::: $uri");
+            Uri uri = Uri.parse(url);
+            print("this is uri of the link ::: $uri");
+            debugPrint("hello world this is uri link :: $uri");
+            log("hello world this is log of uri ::: $uri");
 
-              if (change.url!.contains('isExternal')) {
-                    analytics.logEvent(
-                    name: 'pages_tracked',
-                    parameters: {
-                        'page_name': 'External Link Page',
-                     },
-                  );
+            if (change.url!.contains('isExternal')) {
+              analytics.logEvent(
+                name: 'pages_tracked',
+                parameters: {
+                  'page_name': 'External Link Page',
+                },
+              );
               String url = change.url!;
 
               Uri uri = Uri.parse(url);
@@ -179,20 +176,17 @@ class AppWebController extends GetxController {
                     url: articleLink,
                     logImage: logo,
                   ));
-              controller.value.loadRequest(Uri.parse(_lastPageLink));
+              // controller.value.loadRequest(Uri.parse(_lastPageLink));
               return;
             } else {
-
               Uri uria = Uri.parse(change.url.toString());
-           
-            if(uria.pathSegments.length > 2) {
-              
-            toogleBackButton(true);
-            
-            } else if((uria.path).contains("videohighlights") || 
-            (uria.path).contains("highlights") ||
-            (uria.path).contains("podcast")) {
-              if ((uria.path).contains("podcast")) {
+
+              if (uria.pathSegments.length > 2) {
+                toogleBackButton(true);
+              } else if ((uria.path).contains("videohighlights") ||
+                  (uria.path).contains("highlights") ||
+                  (uria.path).contains("podcast")) {
+                if ((uria.path).contains("podcast")) {
                   String? subtopicId = uri.queryParameters['subtopicid'];
                   print("subtopicId ::: $subtopicId");
                   debugPrint("subtopicId :: $subtopicId");
@@ -200,41 +194,33 @@ class AppWebController extends GetxController {
 
                   // Navigate to the PodcastPage with subtopicId
                   if (subtopicId != null) {
-                    Get.to(() => PodcastPage(subtopicId: subtopicId, title: _lastPageLink));
-                    controller.value.loadRequest(Uri.parse(_lastPageLink));
+                    Get.to(() => PodcastPage(
+                        subtopicId: subtopicId, title: _lastPageLink));
+                    // controller.value.loadRequest(Uri.parse(_lastPageLink));
                     return;
-                  }else{
+                  } else {
                     toogleBackButton(true);
                   }
-                }else{
+                } else {
                   toogleBackButton(true);
-                } 
-              
-            } 
-            
-            else{
-              analytics.logEvent(
-              name: 'pages_tracked',
-              parameters: {
-                'page_name': 'Home Page',
-                },
-              );
-              toggleLastLink(change.url!);
-              String scriptContent = await loadScript();
-              if(change.url!.contains("/show/") || 
-              change.url!.contains("spotify.com") ||
-              (change.url!).contains("/embed/")){
-
-
-              }else{
-
-              controller.value.runJavaScript(scriptContent);
+                }
+              } else {
+                analytics.logEvent(
+                  name: 'pages_tracked',
+                  parameters: {
+                    'page_name': 'Home Page',
+                  },
+                );
+                toggleLastLink(change.url!);
+                String scriptContent = await loadScript();
+                if (change.url!.contains("/show/") ||
+                    change.url!.contains("spotify.com") ||
+                    (change.url!).contains("/embed/")) {
+                } else {
+                  controller.value.runJavaScript(scriptContent);
+                }
               }
             }
-            
-
-
-             }
           },
           onHttpAuthRequest: (HttpAuthRequest request) async {
             print('this is on url request :: $request');
@@ -252,16 +238,14 @@ class AppWebController extends GetxController {
   }
 
   String _getBaseUrl() {
-  if (Platform.isAndroid) {
-    return AppConstants.androidBaseUrl;
-  } else if (Platform.isIOS) {
-    return AppConstants.iosBaseUrl;
-  } else {
-    return AppConstants.baseUrl;
+    if (Platform.isAndroid) {
+      return AppConstants.androidBaseUrl;
+    } else if (Platform.isIOS) {
+      return AppConstants.iosBaseUrl;
+    } else {
+      return AppConstants.baseUrl;
+    }
   }
-}
-  
-  
 
   String getLink(String item) {
     String link = item;
