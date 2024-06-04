@@ -1,3 +1,4 @@
+import 'package:facebook_app_events/facebook_app_events.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:news/controllers/app_controller.dart';
 import 'package:news/firebase_api/firebase_api.dart';
+import 'package:news/helper/ad_helper.dart';
 import 'package:news/pages/home_page.dart';
 import 'package:news/services/notification_service.dart';
 import 'package:news/utils/app_color_swatch.dart';
@@ -34,6 +36,9 @@ getToken() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(AppController());
+  FacebookAppEvents().setAutoLogAppEventsEnabled(true);
+  // FacebookAppEvents().setAppId("YOUR_APP_ID");
+  // AdHelper.init();
   final ApiResponseController apiResponseController =
       Get.put(ApiResponseController());
   //Firebase
@@ -41,9 +46,7 @@ void main() async {
 
   FirebaseApi().initNotification();
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-    analytics.setAnalyticsCollectionEnabled(true);
-
-
+  analytics.setAnalyticsCollectionEnabled(true);
 
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   // getToken();
@@ -74,7 +77,6 @@ class _MyAppState extends State<MyApp> {
   void onDispose() {
     Hive.close();
   }
-
 
   @override
   void initState() {

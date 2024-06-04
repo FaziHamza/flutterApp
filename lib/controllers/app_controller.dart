@@ -24,7 +24,9 @@ class AppController extends GetxController {
           size: 10.0,
           color: Colors.white54,
         ),
-        const SizedBox(width: 5,),
+        const SizedBox(
+          width: 5,
+        ),
         Expanded(
           child: Text(
             '${DateTime.now().year} www.sportblitznews.se | All Rights Reserved.',

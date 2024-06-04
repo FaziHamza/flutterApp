@@ -18,7 +18,7 @@ import '../utils/subtopic_navitem_controller.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.isFirstTime = true});
   final bool isFirstTime;
-  
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -53,16 +53,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
   }
 
-  
   String _getBaseUrl() {
-  if (Platform.isAndroid) {
-    return AppConstants.androidBaseUrl;
-  } else if (Platform.isIOS) {
-    return AppConstants.iosBaseUrl;
-  } else {
-    return AppConstants.baseUrl;
+    if (Platform.isAndroid) {
+      return AppConstants.androidBaseUrl;
+    } else if (Platform.isIOS) {
+      return AppConstants.iosBaseUrl;
+    } else {
+      return AppConstants.baseUrl;
+    }
   }
-}
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -72,7 +71,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         print("App resumed......");
         final webAppController = Get.find<AppWebController>();
         String lastLink = webAppController.lastPageLink;
-        if(lastLink == ''){
+        if (lastLink == '') {
           lastLink = _getBaseUrl();
         }
         AppWebController.to.controller.value.loadRequest(Uri.parse(lastLink));
@@ -89,113 +88,113 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          key: AppWebController.to.homeScaffoldKey,
-          appBar: AppBar(
-            backgroundColor: AppColorSwatch.appBarColor,
-            
-            leading: GetBuilder<AppWebController>(
-                  builder: (appWebController) {
-                    if(appWebController.isShowBackButton == false) {
-                      return IconButton(onPressed: (){
-                        appWebController.homeScaffoldKey.currentState!.openDrawer();
-                      }, icon: const Icon(Icons.menu));
-                      // AppDrawer().getAppDrawer();
-                    }
-                    return IconButton(
-                        onPressed: () {
-                          // Get.back();
-                          appWebController.toogleBackButton(false);
-                          
-                           appWebController.controller.value
-                          .loadRequest(Uri.parse('${appWebController.lastPageLink}'));
-                          
-                          // final SubtopicNavController navController = Get.find();
-                          // navController.toggleSelectedNavItem(0);
-                          // Get.offAll(
-                          //   () => HomePage(
-                          //     isFirstTime: true,
-                          //   ),
-                          // );
-                        },
-                        icon: const Icon(Icons.arrow_back));
-                  }
-                ),
-            title: Image.asset(
-              'assets/image/logo.png',
-              height: 36.0,
-            ),
-            centerTitle: true,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: SvgPicture.asset(
-                  'assets/image/sweden.svg',
-                  height: 36.0,
-                  width: 36.0,
-                ),
-              ),
-            ],
-          ),
-          drawer:AppDrawer().getAppDrawer(),
-          
-          //  GetBuilder<AppWebController>(
-          //    builder: (appWebController) {
-          //     if(appWebController.isShowBackButton.value == true){
-          //       return SizedBox() ;
-          //     }
-          //      return AppDrawer().getAppDrawer();
-          //    }
-          //  ),
-          body: Center(
-            child: WillPopScope(
-              onWillPop: () async {
-                bool canGoBack =
-                    await AppWebController.to.controller.value.canGoBack();
-                if (canGoBack) {
-                  AppWebController.to.controller.value.goBack();
-                  return false; // Prevent app from exiting
-                } else {
-                  return true; // Allow app to exit
-                }
+      key: AppWebController.to.homeScaffoldKey,
+
+      appBar: AppBar(
+        backgroundColor: AppColorSwatch.appBarColor,
+        leading: GetBuilder<AppWebController>(builder: (appWebController) {
+          if (appWebController.isShowBackButton == false) {
+            return IconButton(
+                onPressed: () {
+                  appWebController.homeScaffoldKey.currentState!.openDrawer();
+                },
+                icon: const Icon(Icons.menu));
+            // AppDrawer().getAppDrawer();
+          }
+          return IconButton(
+              onPressed: () {
+                // Get.back();
+                appWebController.toogleBackButton(false);
+
+                appWebController.controller.value
+                    .loadRequest(Uri.parse('${appWebController.lastPageLink}'));
+
+                // final SubtopicNavController navController = Get.find();
+                // navController.toggleSelectedNavItem(0);
+                // Get.offAll(
+                //   () => HomePage(
+                //     isFirstTime: true,
+                //   ),
+                // );
               },
-             child: GetBuilder<SubtopicNavController>(builder: (navController) {
-               // var items = navController.getNavbarItems(); // Corrected variable name to plural
-                // if (items.isEmpty) {
-                //   final appWebContr = AppWebController.to.controller;
-                //     appWebContr.toggleLastLink(_getBaseUrl()); 
-                //     appWebContr.controller.value.loadRequest(Uri.parse(_getBaseUrl()));
-                //     return WebViewWidget(controller: appWebContr.controller.value);
-                // }
-                    return WebViewWidget(controller: AppWebController.to.controller.value);
-              }),
+              icon: const Icon(Icons.arrow_back));
+        }),
+        title: Image.asset(
+          'assets/image/logo.png',
+          height: 36.0,
+        ),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: SvgPicture.asset(
+              'assets/image/sweden.svg',
+              height: 36.0,
+              width: 36.0,
             ),
           ),
-          bottomNavigationBar: const BottomNavbarSection(),
-        
-          // Obx(() {
-          //   var items = navController.getNavbarItems();
-          //   if (items.isEmpty) {
-          //     return const SizedBox.shrink();
-          //   }
-          //   return Container(
-          //     decoration: BoxDecoration(
-          //       color: AppColorSwatch.customBlack[50],
-          //     ),
-          //     height: 56.0,
-          //     child: SingleChildScrollView(
-          //       scrollDirection: Axis.horizontal,
-          //       child: Row(
-          //         children: items
-          //             .map((item) =>
-          //                 BottomNavigationBarItemWidget(item, items.indexOf(item)))
-          //             .toList(),
-          //       ),
-          //     ),
-          //   );
-          // }), // No navbar if no active subtopics
-        );
-      }
-   
+        ],
+      ),
+      drawer: AppDrawer().getAppDrawer(),
+
+      //  GetBuilder<AppWebController>(
+      //    builder: (appWebController) {
+      //     if(appWebController.isShowBackButton.value == true){
+      //       return SizedBox() ;
+      //     }
+      //      return AppDrawer().getAppDrawer();
+      //    }
+      //  ),
+      body: Center(
+        child: WillPopScope(
+          onWillPop: () async {
+            bool canGoBack =
+                await AppWebController.to.controller.value.canGoBack();
+            if (canGoBack) {
+              AppWebController.to.controller.value.goBack();
+              return false; // Prevent app from exiting
+            } else {
+              return true; // Allow app to exit
+            }
+          },
+          child: GetBuilder<SubtopicNavController>(builder: (navController) {
+            // var items = navController.getNavbarItems(); // Corrected variable name to plural
+            // if (items.isEmpty) {
+            //   final appWebContr = AppWebController.to.controller;
+            //     appWebContr.toggleLastLink(_getBaseUrl());
+            //     appWebContr.controller.value.loadRequest(Uri.parse(_getBaseUrl()));
+            //     return WebViewWidget(controller: appWebContr.controller.value);
+            // }
+            return WebViewWidget(
+                controller: AppWebController.to.controller.value);
+          }),
+        ),
+      ),
+      bottomNavigationBar: const BottomNavbarSection(),
+
+      // Obx(() {
+      //   var items = navController.getNavbarItems();
+      //   if (items.isEmpty) {
+      //     return const SizedBox.shrink();
+      //   }
+      //   return Container(
+      //     decoration: BoxDecoration(
+      //       color: AppColorSwatch.customBlack[50],
+      //     ),
+      //     height: 56.0,
+      //     child: SingleChildScrollView(
+      //       scrollDirection: Axis.horizontal,
+      //       child: Row(
+      //         children: items
+      //             .map((item) =>
+      //                 BottomNavigationBarItemWidget(item, items.indexOf(item)))
+      //             .toList(),
+      //       ),
+      //     ),
+      //   );
+      // }), // No navbar if no active subtopics
+    );
+  }
 }
 
 // old code
