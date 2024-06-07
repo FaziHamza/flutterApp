@@ -91,7 +91,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       key: AppWebController.to.homeScaffoldKey,
 
       appBar: AppBar(
-        backgroundColor: AppColorSwatch.appBarColor,
+        // backgroundColor: AppColorSwatch.appBarColor,
+
+        backgroundColor: Color.fromARGB(255, 57, 67, 78),
         leading: GetBuilder<AppWebController>(builder: (appWebController) {
           if (appWebController.isShowBackButton == false) {
             return IconButton(

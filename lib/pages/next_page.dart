@@ -94,17 +94,18 @@ class _NextPageState extends State<NextPage> {
 
           onNavigationRequest: (request) async {
             if (GetPlatform.isAndroid) {
-              if (widget.oldUrl != widget.url && oldUrl != "") {
-                Get.to(
-                  () => NextPage(
-                      title: widget.title,
-                      url: request.url,
-                      logImage: widget.logImage),
-                  preventDuplicates: false,
-                );
-                return NavigationDecision.prevent;
-              }
-              return NavigationDecision.navigate;
+              // if (widget.oldUrl != widget.url && oldUrl != "") {
+              // }
+              Get.to(
+                () => NextPage(
+                    title: widget.title,
+                    oldUrl: widget.url,
+                    url: request.url,
+                    logImage: widget.logImage),
+                preventDuplicates: false,
+              );
+              return NavigationDecision.prevent;
+              // return NavigationDecision.navigate;
             } else if (GetPlatform.isIOS) {
               await Future.delayed(
                 const Duration(milliseconds: 500),
@@ -159,7 +160,8 @@ class _NextPageState extends State<NextPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: AppColorSwatch.appBarColor,
+        backgroundColor: Color.fromARGB(255, 57, 67, 78),
+        // backgroundColor: AppColorSwatch.appBarColor,
         title: Image.asset(
           'assets/image/logo.png',
           height: 36.0,
@@ -183,7 +185,8 @@ class _NextPageState extends State<NextPage> {
           : WebViewWidget(controller: controller),
       // bottomNavigationBar: ,
       bottomNavigationBar: Container(
-        color: AppColorSwatch.appBarColor,
+        // color: AppColorSwatch.appBarColor,
+        color: Color.fromARGB(255, 57, 67, 78),
         child: ((widget.title == '' && widget.logImage == '') ||
                 (widget.title == 'null' && widget.logImage == 'null'))
             ? BottomNavbarSection(onClick: (valu) {
