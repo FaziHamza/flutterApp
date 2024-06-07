@@ -1,7 +1,8 @@
-
+import 'package:facebook_app_events/facebook_app_events.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart'; 
+import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../utils/app_color_swatch.dart';
@@ -11,11 +12,14 @@ class NextPage extends StatefulWidget {
   final String title;
   final String logImage;
   final String url;
-  const NextPage(
-      {super.key,
-      required this.title,
-      required this.url,
-      required this.logImage});
+  final String? oldUrl;
+  const NextPage({
+    super.key,
+    required this.title,
+    required this.url,
+    required this.logImage,
+    this.oldUrl = "",
+  });
 
   @override
   State<NextPage> createState() => _NextPageState();
@@ -25,6 +29,7 @@ class _NextPageState extends State<NextPage> {
   late final WebViewController controller;
 
   String imageLink = '';
+  String oldUrl = '';
 
   setImageLink() {
     print('this is image Logo ::${widget.logImage}');
@@ -37,17 +42,31 @@ class _NextPageState extends State<NextPage> {
   }
 
   bool isLoading = false;
-  // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
     super.initState();
+    oldUrl = widget.oldUrl.toString();
     // analytics.logEvent(
     //   name: 'pages_tracked',
     //   parameters: {
     //     'page_name': 'External Link Page',
     //   },
     // );
+    analytics.logEvent(
+      name: 'pages_tracked',
+      parameters: {
+        'page_name': 'External Page',
+      },
+    );
+    FacebookAppEvents().logEvent(
+      name: "Home Screen",
+      parameters: {
+        "page_name": "External Page",
+      },
+    );
+    FacebookAppEvents().logAdImpression(adType: "External Page Impression");
     setImageLink();
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -67,12 +86,51 @@ class _NextPageState extends State<NextPage> {
               isLoading = false;
             });
           },
-          
-          onNavigationRequest: (request) {
-             Get.to(() => 
-             NextPage(title: widget.title, url: request.url, logImage: widget.logImage),
-             preventDuplicates: false,);
-            return NavigationDecision.prevent;
+
+          // onUrlChange: (change) {
+          //   print("this is next page change url :: ${change.url}");
+
+          // },
+
+          onNavigationRequest: (request) async {
+            if (GetPlatform.isAndroid) {
+              // if (widget.oldUrl != widget.url && oldUrl != "") {
+              // }
+              Get.to(
+                () => NextPage(
+                    title: widget.title,
+                    oldUrl: widget.url,
+                    url: request.url,
+                    logImage: widget.logImage),
+                preventDuplicates: false,
+              );
+              return NavigationDecision.prevent;
+              // return NavigationDecision.navigate;
+            } else if (GetPlatform.isIOS) {
+              await Future.delayed(
+                const Duration(milliseconds: 500),
+              );
+
+              if (widget.oldUrl != widget.url && oldUrl != "") {
+                Get.to(
+                  () => NextPage(
+                      title: widget.title,
+                      oldUrl: "",
+                      // widget.url,
+                      url: request.url.toString(),
+                      logImage: widget.logImage),
+                  preventDuplicates: false,
+                  // widget.oldUrl == widget.url ? true : false,
+                );
+                return NavigationDecision.prevent;
+              } else {
+                oldUrl = widget.url;
+
+                return NavigationDecision.navigate;
+              }
+            }
+            return NavigationDecision.navigate;
+            // return;
           },
           onWebResourceError: (WebResourceError error) {},
           // onNavigationRequest: (NavigationRequest request) {
@@ -102,7 +160,8 @@ class _NextPageState extends State<NextPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: AppColorSwatch.appBarColor,
+        backgroundColor: Color.fromARGB(255, 57, 67, 78),
+        // backgroundColor: AppColorSwatch.appBarColor,
         title: Image.asset(
           'assets/image/logo.png',
           height: 36.0,
@@ -126,7 +185,8 @@ class _NextPageState extends State<NextPage> {
           : WebViewWidget(controller: controller),
       // bottomNavigationBar: ,
       bottomNavigationBar: Container(
-        color: AppColorSwatch.appBarColor,
+        // color: AppColorSwatch.appBarColor,
+        color: Color.fromARGB(255, 57, 67, 78),
         child: ((widget.title == '' && widget.logImage == '') ||
                 (widget.title == 'null' && widget.logImage == 'null'))
             ? BottomNavbarSection(onClick: (valu) {

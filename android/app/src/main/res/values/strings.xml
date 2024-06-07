@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="default_notification_channel_id">sportblitz_news_notification</string>
-    <string name="facebook_app_id">362197586779556</string>
-  <string name="facebook_client_token">f175a58f25080f319504551f8dd73cbe</string>
+    <string name="facebook_app_id">1191680802013162</string>
+  <string name="facebook_client_token">946b560553a389a2554bee962f900c0b</string>
 </resources>

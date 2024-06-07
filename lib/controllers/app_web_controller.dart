@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:facebook_app_events/facebook_app_events.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -130,18 +131,25 @@ class AppWebController extends GetxController {
             controller.value.runJavaScript(scriptContent);
           },
           onNavigationRequest: (NavigationRequest request) async {
-            print('this is on url navigation request :: $request');
+            print('this is on url navigation request :: ${request.url}');
             String scriptContent = await loadScript();
             controller.value.runJavaScript(scriptContent);
-            return NavigationDecision.prevent;
+            // if (request.url.contains("isExternal")) {
+            //   return NavigationDecision.prevent;
+            // }
+
+            return NavigationDecision.navigate;
           },
           onWebResourceError: (error) {
             print('this is error: ${error.description}');
             controller.value.loadRequest(Uri.parse(error.url!));
           },
           onUrlChange: (UrlChange change) async {
+            if (change.url == null) {
+              return;
+            }
             // Uri changeUrl = Uri.parse(change.url!);
-            String url = change.url!;
+            String url = change.url.toString();
 
             Uri uri = Uri.parse(url);
             print("this is uri of the link ::: $uri");
@@ -153,6 +161,12 @@ class AppWebController extends GetxController {
                 name: 'pages_tracked',
                 parameters: {
                   'page_name': 'External Link Page',
+                },
+              );
+              FacebookAppEvents().logEvent(
+                name: "Home Screen",
+                parameters: {
+                  "page_name": "External Link Page",
                 },
               );
               String url = change.url!;
@@ -171,12 +185,21 @@ class AppWebController extends GetxController {
 
               String logo = queryParameters['Logo'] ?? '';
               String text = queryParameters['Text'] ?? ''; // 'hv71'
+
+              // AdHelper.showInterstitialAd(() {
+              //   Get.to(() => NextPage(
+              //         title: text,
+              //         url: articleLink,
+              //         logImage: logo,
+              //       ));
+              // });
               Get.to(() => NextPage(
                     title: text,
                     url: articleLink,
                     logImage: logo,
                   ));
-              // controller.value.loadRequest(Uri.parse(_lastPageLink));
+
+              controller.value.loadRequest(Uri.parse(_lastPageLink));
               return;
             } else {
               Uri uria = Uri.parse(change.url.toString());
@@ -196,7 +219,7 @@ class AppWebController extends GetxController {
                   if (subtopicId != null) {
                     Get.to(() => PodcastPage(
                         subtopicId: subtopicId, title: _lastPageLink));
-                    // controller.value.loadRequest(Uri.parse(_lastPageLink));
+                    controller.value.loadRequest(Uri.parse(_lastPageLink));
                     return;
                   } else {
                     toogleBackButton(true);
@@ -211,6 +234,13 @@ class AppWebController extends GetxController {
                     'page_name': 'Home Page',
                   },
                 );
+                FacebookAppEvents().logEvent(
+                  name: "Home Screen",
+                  parameters: {
+                    "page_name": "Home Page",
+                  },
+                );
+
                 toggleLastLink(change.url!);
                 String scriptContent = await loadScript();
                 if (change.url!.contains("/show/") ||

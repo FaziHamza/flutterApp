@@ -6,7 +6,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class PodcastPage extends StatefulWidget {
   final String subtopicId;
   final String title;
-  PodcastPage({required this.subtopicId, required this.title });
+  PodcastPage({required this.subtopicId, required this.title});
 
   @override
   _PodcastPageState createState() => _PodcastPageState();
@@ -41,6 +41,7 @@ class _PodcastPageState extends State<PodcastPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 57, 67, 78),
         title: Text('Podcasts'),
       ),
       body: isLoading

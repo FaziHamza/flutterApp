@@ -58,17 +58,18 @@ class AppDrawer {
 
     // bool isShowSaveButton = subtopicNavController.isShowSaveButton;
 
-    return SizedBox(
-      width: Get.width,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 56.0),
-        child: Drawer(
-          backgroundColor: AppColorSwatch.appBarColor,
-          // backgroundColor: Color.fromARGB(255, 60, 59, 59),
-          child: Column(
-            children: [
-              DrawerHeader(
-                child: Column(
+    return SafeArea(
+      child: SizedBox(
+        width: Get.width,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 56.0),
+          child: Drawer(
+            backgroundColor: AppColorSwatch.appBarColor,
+            // backgroundColor: Color.fromARGB(255, 60, 59, 59),
+            child: Column(
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,63 +80,78 @@ class AppDrawer {
                           height: 60,
                         ),
                         // if(storage.read("isFirstTime") )
-                        GetBuilder<SubtopicNavController>(
-                            builder: (subTopNavController) {
-                          return
-                              // subTopNavController.isShowSaveButton
-                              //     ?
-                              InkWell(
-                            onTap: () {
-                              showSnackBar();
-                            },
-                            child: const Text(
-                              'KLAR',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppColorSwatch.appChipColor,
-                              ),
+                        Row(
+                          children: [
+                            GetBuilder<SubtopicNavController>(
+                                builder: (subTopNavController) {
+                              return
+                                  // subTopNavController.isShowSaveButton
+                                  //     ?
+                                  InkWell(
+                                onTap: () {
+                                  showSnackBar();
+                                },
+                                child: const Text(
+                                  'KLAR',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    // color: AppColorSwatch.customWhite,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              );
+                              // : const SizedBox();
+                            }),
+                            const SizedBox(
+                              width: 8,
                             ),
-                          );
-                          // : const SizedBox();
-                        })
+                          ],
+                        )
                       ],
                     ),
-                    const Spacer(),
+                    // const Spacer(),
                     Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
+                      padding: const EdgeInsets.only(top: 7.0, bottom: 3),
                       child: AppController.to.copyRight(),
                     ),
-                    const Spacer(),
+
+                    Divider(
+                      color: Colors.grey.shade200,
+                      height: 4,
+                    ),
+                    // const Spacer(),
                   ],
                 ),
-              ),
-              Flexible(
-                child: FutureBuilder(
-                  builder: (context, AsyncSnapshot<ApiResponse> responseSnap) {
-                    if (responseSnap.connectionState != ConnectionState.none &&
-                        responseSnap.hasData) {
-                      ApiResponse apiResponse = responseSnap.data!;
-                      return ListView.separated(
-                        itemCount: apiResponse.menuItems!.length,
-                        itemBuilder: (context, i) {
-                          List<MenuItem> items = apiResponse.menuItems!;
-                          return DrawerItem(
-                            menuItem: items[i],
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return const Divider(
-                            height: 2,
-                          );
-                        },
-                      );
-                    }
-                    return const CircularProgressIndicator();
-                  },
-                  future: apiResponseController.fetchTopics(),
+                Flexible(
+                  child: FutureBuilder(
+                    builder:
+                        (context, AsyncSnapshot<ApiResponse> responseSnap) {
+                      if (responseSnap.connectionState !=
+                              ConnectionState.none &&
+                          responseSnap.hasData) {
+                        ApiResponse apiResponse = responseSnap.data!;
+                        return ListView.separated(
+                          itemCount: apiResponse.menuItems!.length,
+                          itemBuilder: (context, i) {
+                            List<MenuItem> items = apiResponse.menuItems!;
+                            return DrawerItem(
+                              menuItem: items[i],
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Divider(
+                              height: 2,
+                            );
+                          },
+                        );
+                      }
+                      return const CircularProgressIndicator();
+                    },
+                    future: apiResponseController.fetchTopics(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
