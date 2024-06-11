@@ -1,4 +1,4 @@
-import 'package:facebook_app_events/facebook_app_events.dart';
+// import 'package:facebook_app_events/facebook_app_events.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -60,13 +60,13 @@ class _NextPageState extends State<NextPage> {
         'page_name': 'External Page',
       },
     );
-    FacebookAppEvents().logEvent(
-      name: "Home Screen",
-      parameters: {
-        "page_name": "External Page",
-      },
-    );
-    FacebookAppEvents().logAdImpression(adType: "External Page Impression");
+    // FacebookAppEvents().logEvent(
+    //   name: "Home Screen",
+    //   parameters: {
+    //     "page_name": "External Page",
+    //   },
+    // );
+    // FacebookAppEvents().logAdImpression(adType: "External Page Impression");
     setImageLink();
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)

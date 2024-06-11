@@ -1,4 +1,4 @@
-import 'package:facebook_app_events/facebook_app_events.dart';
+// import 'package:facebook_app_events/facebook_app_events.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -36,7 +36,7 @@ getToken() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(AppController());
-  FacebookAppEvents().setAutoLogAppEventsEnabled(true);
+  // FacebookAppEvents().setAutoLogAppEventsEnabled(true);
   // FacebookAppEvents().setAppId("YOUR_APP_ID");
   // AdHelper.init();
   final ApiResponseController apiResponseController =

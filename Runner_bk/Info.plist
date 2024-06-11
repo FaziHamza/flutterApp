@@ -50,5 +50,22 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+
+
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+  <key>CFBundleURLSchemes</key>
+  <array>
+    <string>fb1191680802013162</string>
+  </array>
+  </dict>
+</array>
+<key>FacebookAppID</key>
+<string>1191680802013162</string>
+<key>FacebookClientToken</key>
+<string>946b560553a389a2554bee962f900c0b</string>
+<key>FacebookDisplayName</key>
+<string>sportblitzNews</string>
 </dict>
 </plist>

@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:facebook_app_events/facebook_app_events.dart';
+// import 'package:facebook_app_events/facebook_app_events.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -163,12 +163,12 @@ class AppWebController extends GetxController {
                   'page_name': 'External Link Page',
                 },
               );
-              FacebookAppEvents().logEvent(
-                name: "Home Screen",
-                parameters: {
-                  "page_name": "External Link Page",
-                },
-              );
+              // FacebookAppEvents().logEvent(
+              //   name: "Home Screen",
+              //   parameters: {
+              //     "page_name": "External Link Page",
+              //   },
+              // );
               String url = change.url!;
 
               Uri uri = Uri.parse(url);
@@ -234,12 +234,12 @@ class AppWebController extends GetxController {
                     'page_name': 'Home Page',
                   },
                 );
-                FacebookAppEvents().logEvent(
-                  name: "Home Screen",
-                  parameters: {
-                    "page_name": "Home Page",
-                  },
-                );
+                // FacebookAppEvents().logEvent(
+                //   name: "Home Screen",
+                //   parameters: {
+                //     "page_name": "Home Page",
+                //   },
+                // );
 
                 toggleLastLink(change.url!);
                 String scriptContent = await loadScript();
