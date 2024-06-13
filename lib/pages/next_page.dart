@@ -1,4 +1,6 @@
 // import 'package:facebook_app_events/facebook_app_events.dart';
+import 'dart:developer';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -33,6 +35,7 @@ class _NextPageState extends State<NextPage> {
 
   setImageLink() {
     print('this is image Logo ::${widget.logImage}');
+    print('this is loading url :: ${widget.url}');
     if (widget.logImage[widget.logImage.length - 1] == '/') {
       imageLink = widget.logImage.substring(0, widget.logImage.length - 1);
     }
@@ -107,27 +110,59 @@ class _NextPageState extends State<NextPage> {
               return NavigationDecision.prevent;
               // return NavigationDecision.navigate;
             } else if (GetPlatform.isIOS) {
-              await Future.delayed(
-                const Duration(milliseconds: 500),
-              );
-
-              if (widget.oldUrl != widget.url && oldUrl != "") {
-                Get.to(
-                  () => NextPage(
-                      title: widget.title,
-                      oldUrl: "",
-                      // widget.url,
-                      url: request.url.toString(),
-                      logImage: widget.logImage),
-                  preventDuplicates: false,
-                  // widget.oldUrl == widget.url ? true : false,
+              print('request url ==== ${request.url}');
+              if (request.url.contains('fotbolldirekt.se/') ||
+                      request.url.contains('https://online.equipe.com/') ||
+                      request.url.contains('https://tdb.ridsport.se/') ||
+                      request.url.contains('https://ridsport.se/') ||
+                      request.url.contains('https://www.scorebat.com/') ||
+                      request.url.contains('https://fotbolldirekt.se/') ||
+                      request.url.contains('https://www.fotbollskanalen.se/')
+                  // ||
+                  // request.url.contains('')
+                  // ||
+                  // request.url.contains('ads.pubmatic') ||
+                  // request.url.contains('googleads') ||
+                  // request.url.contains('about:blank') ||
+                  // request.url.contains('ssum-sec.') ||
+                  // request.url.contains('google.com') ||
+                  // request.url.contains('gum.criteo') ||
+                  // request.url.contains('ce.lijit') ||
+                  // request.url.contains('blank') ||
+                  // request.url.contains('embed.viaplay') ||
+                  // request.url.contains('ssbsync.smartadserver') ||
+                  // request.url.contains('tpc.googlesyndication') ||
+                  // request.url.contains('eb2.3lift') ||
+                  // request.url.contains('eus.rubiconproject') ||
+                  // request.url.contains('app.readpeak') ||
+                  // request.url.contains('js-sec') ||
+                  // request.url.contains('secure-assets')
+                  ) {
+                log('this request condition is true :: ${request.url}');
+                await Future.delayed(
+                  const Duration(milliseconds: 500),
                 );
-                return NavigationDecision.prevent;
-              } else {
-                oldUrl = widget.url;
 
-                return NavigationDecision.navigate;
+                if (widget.oldUrl != widget.url && oldUrl != "") {
+                  Get.to(
+                    () => NextPage(
+                        title: widget.title,
+                        oldUrl: "",
+                        // widget.url,
+                        url: request.url.toString(),
+                        logImage: widget.logImage),
+                    preventDuplicates: false,
+                    // widget.oldUrl == widget.url ? true : false,
+                  );
+                  return NavigationDecision.prevent;
+                } else {
+                  oldUrl = widget.url;
+
+                  return NavigationDecision.navigate;
+                }
               }
+            } else {
+              return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
             // return;
