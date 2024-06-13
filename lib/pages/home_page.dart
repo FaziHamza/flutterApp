@@ -168,7 +168,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             //     return WebViewWidget(controller: appWebContr.controller.value);
             // }
             return WebViewWidget(
-                controller: AppWebController.to.controller.value);
+                controller: AppWebController.to.controller.value
+            );
           }),
         ),
       ),

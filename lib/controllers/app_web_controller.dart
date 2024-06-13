@@ -156,6 +156,7 @@ class AppWebController extends GetxController {
             debugPrint("hello world this is uri link :: $uri");
             log("hello world this is log of uri ::: $uri");
 
+
             if (change.url!.contains('isExternal')) {
               analytics.logEvent(
                 name: 'pages_tracked',
