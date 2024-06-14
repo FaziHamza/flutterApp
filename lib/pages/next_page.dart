@@ -1,4 +1,6 @@
 // import 'package:facebook_app_events/facebook_app_events.dart';
+import 'dart:developer';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -33,6 +35,7 @@ class _NextPageState extends State<NextPage> {
 
   setImageLink() {
     print('this is image Logo ::${widget.logImage}');
+    print('this is loading url :: ${widget.url}');
     if (widget.logImage[widget.logImage.length - 1] == '/') {
       imageLink = widget.logImage.substring(0, widget.logImage.length - 1);
     }
@@ -97,7 +100,7 @@ class _NextPageState extends State<NextPage> {
               // if (widget.oldUrl != widget.url && oldUrl != "") {
               // }
               Get.to(
-                () => NextPage(
+                    () => NextPage(
                     title: widget.title,
                     oldUrl: widget.url,
                     url: request.url,
@@ -107,27 +110,65 @@ class _NextPageState extends State<NextPage> {
               return NavigationDecision.prevent;
               // return NavigationDecision.navigate;
             } else if (GetPlatform.isIOS) {
-              await Future.delayed(
-                const Duration(milliseconds: 500),
-              );
-
-              if (widget.oldUrl != widget.url && oldUrl != "") {
-                Get.to(
-                  () => NextPage(
-                      title: widget.title,
-                      oldUrl: "",
-                      // widget.url,
-                      url: request.url.toString(),
-                      logImage: widget.logImage),
-                  preventDuplicates: false,
-                  // widget.oldUrl == widget.url ? true : false,
+              print('request url ==== ${request.url}');
+              if (
+              request.url.contains('fotbolldirekt.se/') ||
+                  request.url.contains('https://online.equipe.com/') ||
+                  // request.url.contains('https://tdb.ridsport.se/') ||
+                  request.url.contains('https://ridsport.se/') ||
+                  request.url.contains('https://www.scorebat.com/') ||
+                  request.url.contains('https://fotbolldirekt.se/') ||
+                  request.url.contains('https://online-uploads.equipeassets.com/') ||
+                  request.url.contains('https://www.fotbollskanalen.se/')
+              // ||
+              // request.url.contains('')
+              // ||
+              // request.url.contains('ads.pubmatic') ||
+              // request.url.contains('googleads') ||
+              // request.url.contains('about:blank') ||
+              // request.url.contains('ssum-sec.') ||
+              // request.url.contains('google.com') ||
+              // request.url.contains('gum.criteo') ||
+              // request.url.contains('ce.lijit') ||
+              // request.url.contains('blank') ||
+              // request.url.contains('embed.viaplay') ||
+              // request.url.contains('ssbsync.smartadserver') ||
+              // request.url.contains('tpc.googlesyndication') ||
+              // request.url.contains('eb2.3lift') ||
+              // request.url.contains('eus.rubiconproject') ||
+              // request.url.contains('app.readpeak') ||
+              // request.url.contains('js-sec') ||
+              // request.url.contains('secure-assets')
+              ) {
+                log('this request condition is true :: ${request.url}');
+                await Future.delayed(
+                  const Duration(milliseconds: 500),
                 );
-                return NavigationDecision.prevent;
-              } else {
-                oldUrl = widget.url;
 
-                return NavigationDecision.navigate;
+                if (widget.oldUrl != widget.url && oldUrl != "") {
+                  Get.to(
+                        () => NextPage(
+                        title: widget.title,
+                        oldUrl: "",
+                        // widget.url,
+                        url: request.url.toString(),
+                        logImage: widget.logImage),
+                    preventDuplicates: false,
+                    // widget.oldUrl == widget.url ? true : false,
+                  );
+                  return NavigationDecision.prevent;
+                } else {
+                  oldUrl = widget.url;
+
+                  return NavigationDecision.navigate;
+                }
               }
+            } else {
+              Get.to(() =>
+                  NextPage(title: widget.title, url: request.url, logImage: widget.logImage),
+                preventDuplicates: false,);
+              return NavigationDecision.prevent;
+              return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
             // return;
@@ -180,67 +221,67 @@ class _NextPageState extends State<NextPage> {
       ),
       body: isLoading
           ? const Center(
-              child: CircularProgressIndicator(),
-            )
+        child: CircularProgressIndicator(),
+      )
           : WebViewWidget(controller: controller),
       // bottomNavigationBar: ,
       bottomNavigationBar: Container(
         // color: AppColorSwatch.appBarColor,
         color: Color.fromARGB(255, 57, 67, 78),
         child: ((widget.title == '' && widget.logImage == '') ||
-                (widget.title == 'null' && widget.logImage == 'null'))
+            (widget.title == 'null' && widget.logImage == 'null'))
             ? BottomNavbarSection(onClick: (valu) {
-                print("this is the value of on click on next screen:_ $valu");
-                if (valu) {
-                  Navigator.pop(context);
-                }
-              })
+          print("this is the value of on click on next screen:_ $valu");
+          if (valu) {
+            Navigator.pop(context);
+          }
+        })
             : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.rectangle,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(32.0)),
-                          border: Border.all(color: Colors.white)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            // item.icon,
-                            if (widget.logImage != 'null' &&
-                                widget.logImage != '')
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Image.network(
-                                  imageLink,
-                                  height: 30,
-                                  width: 30,
-                                ),
-                              ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              (widget.title == '' || widget.title == 'null')
-                                  ? '--'
-                                  : widget.title,
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.rectangle,
+                    borderRadius:
+                    const BorderRadius.all(Radius.circular(32.0)),
+                    border: Border.all(color: Colors.white)),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      // item.icon,
+                      if (widget.logImage != 'null' &&
+                          widget.logImage != '')
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.network(
+                            imageLink,
+                            height: 30,
+                            width: 30,
+                          ),
+                        ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        (widget.title == '' || widget.title == 'null')
+                            ? '--'
+                            : widget.title,
+                        style: const TextStyle(
+                          color: Colors.black,
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
+            ),
+          ],
+        ),
       ),
       // BottomNavbarSection()
     );

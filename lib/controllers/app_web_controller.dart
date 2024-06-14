@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 
 // import 'package:facebook_app_events/facebook_app_events.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -137,6 +136,9 @@ class AppWebController extends GetxController {
             // if (request.url.contains("isExternal")) {
             //   return NavigationDecision.prevent;
             // }
+            // if (GetPlatform.isIOS) {
+            //   return NavigationDecision.prevent;
+            // }
 
             return NavigationDecision.navigate;
           },
@@ -186,6 +188,10 @@ class AppWebController extends GetxController {
 
               String logo = queryParameters['Logo'] ?? '';
               String text = queryParameters['Text'] ?? ''; // 'hv71'
+
+              if (articleLink.endsWith('//')) {
+                articleLink = articleLink.substring(0, articleLink.length - 1);
+              }
 
               // AdHelper.showInterstitialAd(() {
               //   Get.to(() => NextPage(
@@ -269,9 +275,9 @@ class AppWebController extends GetxController {
   }
 
   String _getBaseUrl() {
-    if (Platform.isAndroid) {
+    if (GetPlatform.isAndroid) {
       return AppConstants.androidBaseUrl;
-    } else if (Platform.isIOS) {
+    } else if (GetPlatform.isIOS) {
       return AppConstants.iosBaseUrl;
     } else {
       return AppConstants.baseUrl;
