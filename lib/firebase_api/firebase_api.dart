@@ -3,13 +3,10 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
+import 'package:news/pages/next_page.dart';
 
-Future<void> handleBackgroundMessage(RemoteMessage? message) async {
-  if (message == null) return;
-
-  print(message.notification?.title);
-  print(message.notification?.body);
-}
+import '../pages/home_page.dart';
 
 class FirebaseApi {
   final _firebaseMessaging = FirebaseMessaging.instance;
@@ -22,8 +19,33 @@ class FirebaseApi {
     if (message == null) return;
 
     print(message.notification?.title);
+    if(message.data['deeplink']!=null)
+    {
+      Get.off(() => HomePage(isFirstTime: true,link:message.data['deeplink'],));
+    }
   }
-
+  void showFlutterNotification(RemoteMessage message) {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+    if (notification != null && android != null && !kIsWeb) {
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        payload: jsonEncode(message.toMap()),
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            channelDescription: channel.description,
+            // TODO add a proper drawable resource to android, for now using
+            //      one that already exists in example app.
+            icon: '@drawable/logo',
+          ),
+        ),
+      );
+    }
+  }
   Future<void> initLocalNotification() async {
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -53,6 +75,22 @@ class FirebaseApi {
     );
   }
 
+  initPushNotification() {
+    _firebaseMessaging.getInitialMessage().then(handleMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
+    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+     FirebaseMessaging.onMessage.listen(showFlutterNotification);
+  }
+
+  initNotification() async {
+    await _firebaseMessaging.requestPermission();
+    final fcmToken = await _firebaseMessaging.getToken();
+    print('token :: $fcmToken');
+    await setupFlutterNotifications();
+    initLocalNotification();
+    initPushNotification();
+  }
+
   Future<void> setupFlutterNotifications() async {
     if (isFlutterLocalNotificationsInitialized) {
       return;
@@ -61,7 +99,7 @@ class FirebaseApi {
       'high_importance_channel', // id
       'High Importance Notifications', // title
       description:
-          'This channel is used for important notifications.', // description
+      'This channel is used for important notifications.', // description
       importance: Importance.high,
     );
 
@@ -73,7 +111,7 @@ class FirebaseApi {
     /// default FCM channel to enable heads up notifications.
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     /// Update the iOS foreground notification presentation options to allow
@@ -86,43 +124,21 @@ class FirebaseApi {
     );
     isFlutterLocalNotificationsInitialized = true;
   }
+}
 
-  initPushNotification() {
-    _firebaseMessaging.getInitialMessage().then(handleMessage);
-    FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
-    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
-    FirebaseMessaging.onMessage.listen(showFlutterNotification);
-  }
+Future<void> handleBackgroundMessage(RemoteMessage? message) async {
+  if (message == null) return;
 
-  void showFlutterNotification(RemoteMessage message) {
-    RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
-    if (notification != null && android != null && !kIsWeb) {
-      flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        payload: jsonEncode(message.toMap()),
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            channelDescription: channel.description,
-            // TODO add a proper drawable resource to android, for now using
-            //      one that already exists in example app.
-            icon: '@drawable/logo',
-          ),
-        ),
-      );
-    }
-  }
+  print(message.notification?.title);
+  print(message.notification?.body);
+  // if(message.data['screen']!=null)
+  //   {
+  //     print("hjkhkjhjk");
+  //     // Get.to(() => NextPage(
+  //     //   title: "Text",
+  //     //   url: "https://www.sportblitznews.se/news/dressyr_/18cd3649-f47b-4941-6fd6-08dc892026a2",
+  //     //   logImage: "logo",
+  //     // ));
+  //   }
 
-  initNotification() async {
-    await _firebaseMessaging.requestPermission();
-    final fcmToken = await _firebaseMessaging.getToken();
-    print('token :: $fcmToken');
-    await setupFlutterNotifications();
-    initLocalNotification();
-    initPushNotification();
-  }
 }

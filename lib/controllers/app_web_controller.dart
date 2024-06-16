@@ -86,7 +86,7 @@ class AppWebController extends GetxController {
   List<BottomNavigationBarItem> bottomBarItems = [];
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-  void initializeController() {
+  void initializeController({String link=""}) {
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams(
@@ -267,7 +267,7 @@ class AppWebController extends GetxController {
         ),
       )
       ..loadRequest(
-        Uri.parse(bottomBarItems.isNotEmpty
+        Uri.parse(link!=""?link:bottomBarItems.isNotEmpty
             ? getLink(bottomBarItems[0].tooltip.toString())
             : _getBaseUrl()),
       );

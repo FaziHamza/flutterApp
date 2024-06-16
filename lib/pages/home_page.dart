@@ -16,8 +16,9 @@ import '../utils/drawer_controller.dart';
 import '../utils/subtopic_navitem_controller.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, this.isFirstTime = true});
+   HomePage({super.key, this.isFirstTime = true,this.link=""});
   final bool isFirstTime;
+  String? link;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -41,10 +42,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     //     'page_name': 'Home Page',
     //   },
     // );
-    if (widget.isFirstTime) {
-      AppWebController.to.initializeController();
-    }
-    WidgetsBinding.instance.addObserver(this);
+
+    WidgetsBinding.instance
+        .addPostFrameCallback((_)
+    {
+      if (widget.isFirstTime) {
+        AppWebController.to.initializeController(link: widget.link??"");
+      }
+      WidgetsBinding.instance.addObserver(this);
+    });
   }
 
   @override

@@ -30,7 +30,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 getToken() async {
   String? token = await FirebaseMessaging.instance.getToken();
-  print("Token ; $token");
+  print("Token ;\n $token    \nand");
 }
 
 void main() async {
@@ -58,7 +58,7 @@ void main() async {
   Hive.registerAdapter(SubtopicAdapter());
   await Hive.openBox('navbarBox');
   await Hive.openBox('settings');
-
+  getToken();
   runApp(MyApp(apiResponseController: apiResponseController));
 }
 
