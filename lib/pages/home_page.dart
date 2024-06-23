@@ -43,13 +43,22 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     //   },
     // );
 
+
     WidgetsBinding.instance
-        .addPostFrameCallback((_)
+        .addPostFrameCallback((_)async
     {
+      print("ENTER HOME  ${AppWebController.to.url_link.value}");
+
       if (widget.isFirstTime) {
-        AppWebController.to.initializeController(link: widget.link??"");
+        AppWebController.to.initializeController(link:widget.link??"");
       }
       WidgetsBinding.instance.addObserver(this);
+    });
+    Future.delayed(Duration(seconds: 2)).then((_)
+    {
+      setState(() {
+
+      });
     });
   }
 

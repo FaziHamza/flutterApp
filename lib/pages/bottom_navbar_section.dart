@@ -63,14 +63,14 @@ class BottomNavbarSection extends StatelessWidget {
                 children: items
                     .map(
                       (item) => BottomNavigationBarItemWidget(
-                        item,
-                        items.indexOf(item),
+                    item,
+                    items.indexOf(item),
                         (val) {
-                          onClick!(val);
-                          print("this is the value of on click:: $val");
-                        },
-                      ),
-                    )
+                      onClick!(val);
+                      print("this is the value of on click:: $val");
+                    },
+                  ),
+                )
                     .toList(),
               ),
             ),
