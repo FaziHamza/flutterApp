@@ -76,9 +76,11 @@ class SubtopicNavController extends GetxController {
     return activeSubtopics.map((subtopic) {
       return BottomNavigationBarItem(
         // You can customize this icon
-        label: activeSubtopics[navItemPosition.value] == subtopic
-            ? subtopic.name
-            : '',
+        label: 
+        //activeSubtopics[navItemPosition.value] == subtopic
+         //   ? subtopic.name
+         //   : ''
+         subtopic.name,
         icon: AppController.to.isSvg(subtopic.logo!)
             ? SvgPicture.network(
                 subtopic.logo!,
@@ -91,6 +93,8 @@ class SubtopicNavController extends GetxController {
                 width: 32.0,
               ),
         tooltip: '${subtopic.name!.toLowerCase().replaceAll(' ', '_')}_',
+        key: Key(subtopic.keyword.toString()),
+        backgroundColor: activeSubtopics[navItemPosition.value] == subtopic ? Colors.blue : Colors.white
       );
     }).toList();
   }

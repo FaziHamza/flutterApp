@@ -9,6 +9,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:news/controllers/app_controller.dart';
 import 'package:news/firebase_api/firebase_api.dart';
 import 'package:news/helper/ad_helper.dart';
+import 'package:news/models/News.dart';
 import 'package:news/pages/home_page.dart';
 import 'package:news/services/notification_service.dart';
 import 'package:news/test.dart';
@@ -150,6 +151,8 @@ class MyhomePage extends StatefulWidget {
 }
 
 class _MyhomePageState extends State<MyhomePage> {
+
+
   @override
   void initState() {
     // TODO: implement initState

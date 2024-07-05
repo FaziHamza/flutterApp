@@ -7,7 +7,9 @@ import '../utils/subtopic_navitem_controller.dart';
 import 'bottom_navbar_item.dart';
 
 class BottomNavbarSection extends StatelessWidget {
-  final ValueChanged<bool>? onClick;
+  final ValueChanged<BottomNavigationBarItem>? onClick;
+ // const BottomNavbarSection({super.key, this.onClick});
+
   const BottomNavbarSection({super.key, this.onClick});
 
   // final SubtopicNavController navController =
@@ -19,40 +21,37 @@ class BottomNavbarSection extends StatelessWidget {
       var items = navController.getNavbarItems();
       if (items.isEmpty) {
         return Container(
-          height: 56,
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          height: 90,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             color: AppColorSwatch.customBlack[20],
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(15),
-              topLeft: Radius.circular(15),
+           borderRadius: const BorderRadius.all( Radius.circular(15)
+             // topRight: Radius.circular(15),
+             // topLeft: Radius.circular(15),
             ),
           ),
           child: const SizedBox.shrink(),
         );
       }
       return Container(
-        height: 56,
+        height: 100,
         width: Get.width,
-        decoration: const BoxDecoration(
-            // color: Colors.white,
-            ),
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 28),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: const BoxDecoration(
             color: Color.fromARGB(255, 57, 67, 78),
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(35),
-              topLeft: Radius.circular(35),
+            borderRadius: BorderRadius.all( Radius.circular(15)
+            //  topRight: Radius.circular(15),
+            //  topLeft: Radius.circular(15),
             ),
           ),
-          height: 56.0,
+          height: 100.0,
           width: double.infinity,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 0),
             decoration: const BoxDecoration(
-              // color: AppColorSwatch.customBlack[80],
-              // color: Colors.black,
               color: Color.fromARGB(255, 57, 67, 78),
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(5), topRight: Radius.circular(5)),
@@ -61,17 +60,13 @@ class BottomNavbarSection extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: items
-                    .map(
-                      (item) => BottomNavigationBarItemWidget(
-                    item,
-                    items.indexOf(item),
-                        (val) {
-                      onClick!(val);
+                    .map((item) => NewBottomNavigationBarItemWidget(
+                    item,items.indexOf(item),(val) {
+                      onClick!(item);
                       print("this is the value of on click:: $val");
                     },
                   ),
-                )
-                    .toList(),
+                ).toList(),
               ),
             ),
           ),

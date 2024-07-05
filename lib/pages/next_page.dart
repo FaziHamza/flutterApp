@@ -232,9 +232,9 @@ class _NextPageState extends State<NextPage> {
             (widget.title == 'null' && widget.logImage == 'null'))
             ? BottomNavbarSection(onClick: (valu) {
           print("this is the value of on click on next screen:_ $valu");
-          if (valu) {
+         // if (valu) {
             Navigator.pop(context);
-          }
+        //  }
         })
             : Row(
           mainAxisAlignment: MainAxisAlignment.center,

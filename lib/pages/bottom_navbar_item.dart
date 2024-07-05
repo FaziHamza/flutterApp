@@ -18,36 +18,23 @@ class BottomNavigationBarItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(3.0),
       child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
+        decoration: const BoxDecoration(
+          //  color: Colors.white,
             shape: BoxShape.rectangle,
-            borderRadius: const BorderRadius.all(Radius.circular(32.0)),
-            border: Border.all(color: Colors.white)),
+          //  borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+          //  border: Border.all(color: Colors.white)
+          ),
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.all(3.0),
           child: InkWell(
             onTap: () {
               navController.toggleSelectedNavItem(navItemPosition,);
               navController.toggleSaveButton(false);
-              String link = item.tooltip!;
-              print(
-                  'this is link before the cut :: ${AppConstants.baseUrl}/news/${link}');
-              // int lenghtOfString = link.length;
-              if (link[link.length - 1] == '_') {
-                link = link.substring(0, link.length - 1);
-              }
-
-              // Future.delayed(Duration(seconds: 1), () {
-              // });
-              AppWebController.to.toogleBackButton(false);
-              AppWebController.to.controller.value.loadRequest(
-                  Uri.parse('${AppConstants.baseUrl}/news/${link}'));
-
               isClicked!(true);
             },
-            child: Row(
+            child: Column(
               children: <Widget>[
                 item.icon,
                 Text(
@@ -59,6 +46,62 @@ class BottomNavigationBarItemWidget extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class NewBottomNavigationBarItemWidget extends StatelessWidget {
+  final SubtopicNavController navController = Get.find();
+  final BottomNavigationBarItem item;
+  final int navItemPosition;
+  final ValueChanged<bool>? isClicked;
+
+  NewBottomNavigationBarItemWidget(this.item, this.navItemPosition, this.isClicked, {Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(3.0),
+      child: InkWell(
+        onTap: () {
+          navController.toggleSelectedNavItem(navItemPosition);
+          navController.toggleSaveButton(false);
+          isClicked!(true);
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // Circular icon
+            CircleAvatar(
+              radius: 24.0, // Adjust the radius as needed
+              backgroundColor: item.backgroundColor,
+              child: CircleAvatar(
+                radius: 20.0, // Adjust the inner radius as needed
+                backgroundColor: item.backgroundColor,
+                child: item.icon,
+              ),
+            ),
+            const SizedBox(height: 5.0), // Space between icon and text
+            // Text with rounded background
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+              decoration: BoxDecoration(
+                color: item.backgroundColor,
+                borderRadius: BorderRadius.circular(20.0), // Adjust the radius as needed
+              ),
+              child: Text(
+                item.label ?? '',
+                style: TextStyle(
+                  color: item.backgroundColor == Colors.white ? Colors.black : Colors.white,
+                  fontSize: 9.0, // Adjust the font size as needed
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
