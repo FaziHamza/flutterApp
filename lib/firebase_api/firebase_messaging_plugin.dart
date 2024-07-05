@@ -40,6 +40,7 @@ Future<void>setupInteractedMessage()async{
 }
 void _handleMessage(RemoteMessage message)async
 {
+  print("DATA DATA");
   //To show notification
   await showNotification(message);
 }

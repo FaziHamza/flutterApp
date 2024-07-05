@@ -163,7 +163,6 @@ class _MyhomePageState extends State<MyhomePage> {
           AppWebController.to.controller.value.loadRequest(
               Uri.parse(message.data["deeplink"]));
         });
-
       }
       await setupInteractedMessage();
     });
