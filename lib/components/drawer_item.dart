@@ -34,7 +34,8 @@ class _DrawerItemState extends State<DrawerItem> {
       },
       child: Container(
           decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 57, 67, 78),
+            color: Color(0xFF262626),
+            borderRadius: BorderRadius.all( Radius.circular(8))
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,27 +58,19 @@ class _DrawerItemState extends State<DrawerItem> {
                 title: Text(
                   widget.menuItem.name!,
                   style: const TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15.0
                   ),
                 ),
                 trailing: Icon(
-                  _isExpanded ? Icons.arrow_circle_up : Icons.arrow_circle_down,
+                  _isExpanded ? Icons.arrow_drop_up_rounded : Icons.arrow_drop_down_rounded,
                 ),
-                // IconButton(
-                //   onPressed: () {
-                //     setState(() {
-                //       _isExpanded = !_isExpanded;
-                //     });
-                //   },
-                //   icon: Icon(
-                //     _isExpanded ? Icons.arrow_circle_up : Icons.arrow_circle_down,
-                //   ),
-                // ),
               ),
               if (_isExpanded)
                 Container(
-                  decoration: BoxDecoration(
-                    color: AppColorSwatch.appBarColor,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF262626),
+                    borderRadius: BorderRadius.all( Radius.circular(8))
                   ),
                   child: Column(
                     children: widget.menuItem.topics!.expand((topic) {
@@ -88,33 +81,25 @@ class _DrawerItemState extends State<DrawerItem> {
                         child: Row(
                           children: [
                             Chip(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 4),
+                              padding: const EdgeInsets.symmetric( horizontal: 15, vertical: 4),
                               label: Text(
-                                topic.highlights2 ?? '                ',
-                                style: const TextStyle(fontSize: 12.0),
+                                topic.highlights2 ?? '                ',style: const TextStyle(fontSize: 12.0),
                               ),
-                              color: const MaterialStatePropertyAll(
-                                  AppColorSwatch.customWhite),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    10), // Adjust the radius as needed
-                              ),
+                              color: const WidgetStatePropertyAll(  const Color.fromRGBO(79, 79, 80, 1)),
+                              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20)),
+                              side: BorderSide.none,
+                              backgroundColor:  const Color.fromRGBO(79, 79, 80, 1),
                             ),
                             const Spacer(),
                             Chip(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 4),
+                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
                               label: const Text(
-                                'Favoriter',
-                                style: TextStyle(fontSize: 12.0),
+                                'Favoriter ♥️',style: TextStyle(fontSize: 12.0),
                               ),
-                              color: const MaterialStatePropertyAll(
-                                  AppColorSwatch.customWhite),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    10), // Adjust the radius as needed
-                              ),
+                              color: const WidgetStatePropertyAll(const Color.fromRGBO(79, 79, 80, 1)),
+                              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20)),
+                              side: BorderSide.none,
+                              backgroundColor:  const Color.fromRGBO(79, 79, 80, 1),
                             ),
                           ],
                         ),
@@ -122,16 +107,19 @@ class _DrawerItemState extends State<DrawerItem> {
 
                       //list tile
                       widgets.addAll(topic.subtopics!.map((subtopic) {
-                        savedSubtopics.forEach((savedSubtopic) {
+                        for (var savedSubtopic in savedSubtopics) {
                           if (savedSubtopic.subTopicId == subtopic.subTopicId) {
                             subtopic.isSwitchedOn.value = true;
                           }
-                        });
-                        return ListTile(
+                        }
+                        return Column(
+                          children: [
+                            const Divider( height: 4, color: AppColorSwatch.appDrawBgCOlor),
+                            ListTile(
                           leading: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
                             child: CircleAvatar(
-                              backgroundColor: Colors.white24,
+                              backgroundColor: Colors.white,
                               radius: 16.0,
                               child: AppController.to.isSvg(subtopic.logo!)
                                   ? SvgPicture.network(
@@ -148,9 +136,7 @@ class _DrawerItemState extends State<DrawerItem> {
                           ),
                           title: Text(
                             subtopic.name!,
-                            style: const TextStyle(
-                              fontSize: 14.0,
-                            ),
+                            style: const TextStyle( fontSize: 15.0),
                           ),
                           trailing: Transform.scale(
                             scaleX: 0.7,
@@ -160,15 +146,18 @@ class _DrawerItemState extends State<DrawerItem> {
                                 value: subtopic.isSwitchedOn.value,
                                 onChanged: (bool value) {
                                   subtopic.isSwitchedOn.value = value;
-                                  subtopicNavController.toggleSubtopic(
-                                      subtopic, value);
+                                  subtopicNavController.toggleSubtopic(subtopic, value);
                                 },
+                                activeTrackColor: const Color(0xFF365880),
+                                inactiveTrackColor: const Color(0xFFA7A7A7),
                               ),
                             ),
                           ),
+                        )
+                          ],
                         );
-                      }));
-
+                      })
+                      );
                       return widgets;
                     }).toList(),
                   ),
@@ -176,9 +165,5 @@ class _DrawerItemState extends State<DrawerItem> {
             ],
           )),
     );
-    // ExpansionTile(
-    //   backgroundColor: Colors.black87,
-
-    // );
   }
 }

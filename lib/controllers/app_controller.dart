@@ -16,28 +16,13 @@ class AppController extends GetxController {
   }
 
   Widget copyRight() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Icon(
-          Icons.copyright_rounded,
-          size: 10.0,
-          color: Colors.white54,
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Expanded(
-          child: Text(
-            '${DateTime.now().year} www.sportblitznews.se | All Rights Reserved.',
-            // textAlign: TextAlign.center,
+    return Text(
+            '©${DateTime.now().year} www.sportblitznews.se | All Rights Reserved.',
             style: const TextStyle(
               fontSize: 10.0,
               color: Colors.white54,
             ),
-          ),
-        ),
-      ],
-    );
+            textAlign: TextAlign.center,
+          );
   }
 }

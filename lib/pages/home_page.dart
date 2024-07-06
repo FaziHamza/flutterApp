@@ -129,37 +129,38 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       key: AppWebController.to.homeScaffoldKey,
-      appBar: AppBar(
+      appBar:  AppBar(
         backgroundColor: const Color.fromARGB(255, 57, 67, 78),
-        leading: GetBuilder<AppWebController>(builder: (appWebController) {
-          if (appWebController.isShowBackButton == false) {
-            return IconButton(
-                onPressed: () {
-                  appWebController.homeScaffoldKey.currentState!.openDrawer();
-                },
-                icon: const Icon(Icons.menu));
-          }
-          return IconButton(
-              onPressed: () {
-                appWebController.toogleBackButton(false);
-                appWebController.controller.value
-                    .loadRequest(Uri.parse('${appWebController.lastPageLink}'));
-              },
-              icon: const Icon(Icons.arrow_back));
-        }),
-        title: Image.asset(
-          'assets/image/logo.png',
-          height: 36.0,
+        leading: Container(
+          padding: const EdgeInsets.only(left :8.0), // Adjust the padding if necessary
+          child: Image.asset(
+            'assets/image/black_sport_news.png',
+            height: 36.0,
+            width: 200.0,
+           // fit: BoxFit.contain, // Ensures the image fits within the given height and width
+          ),
         ),
-        centerTitle: true,
+        centerTitle: false,
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: SvgPicture.asset(
-              'assets/image/sweden.svg',
-              height: 36.0,
-              width: 36.0,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 0),
+            child: GetBuilder<AppWebController>(builder: (appWebController) {
+              if (!appWebController.isShowBackButton) {
+                return IconButton(
+                  onPressed: () {
+                    appWebController.homeScaffoldKey.currentState!.openDrawer();
+                  },
+                  icon: const Icon(Icons.menu),
+                );
+              }
+              return IconButton(
+                onPressed: () {
+                  appWebController.toogleBackButton(false);
+                  appWebController.controller.value.loadRequest(Uri.parse(appWebController.lastPageLink));
+                },
+                icon: const Icon(Icons.arrow_back),
+              );
+            }),
           ),
         ],
       ),

@@ -56,92 +56,48 @@ class AppDrawer {
     storage.writeIfNull("isFirstTime", true);
     storage.writeIfNull("showNotification", true);
 
-    // bool isShowSaveButton = subtopicNavController.isShowSaveButton;
-
     return SafeArea(
       child: SizedBox(
         width: Get.width,
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 56.0),
+          padding: const EdgeInsets.only(bottom: 80.0,left: 20.0, right: 20.0, top: 60.0),
           child: Drawer(
-            backgroundColor: AppColorSwatch.appBarColor,
-            // backgroundColor: Color.fromARGB(255, 60, 59, 59),
+            backgroundColor: AppColorSwatch.appDrawBgCOlor,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Padding(padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
+                Row(
                   children: [
+                    const Spacer(),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset(
-                          'assets/image/logo.png',
-                          width: 120,
-                          height: 60,
-                        ),
-                        // if(storage.read("isFirstTime") )
-                        Row(
                           children: [
                             GetBuilder<SubtopicNavController>(
                                 builder: (subTopNavController) {
-                              return
-                                  // subTopNavController.isShowSaveButton
-                                  //     ?
-                                  InkWell(
+                              return InkWell(
                                 onTap: () {
                                   showSnackBar();
                                 },
-                                child: const Text(
-                                  'KLAR',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    // color: AppColorSwatch.customWhite,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                child: const Icon(Icons.close),
                               );
-                              // : const SizedBox();
-                            }),
-                            const SizedBox(
-                              width: 8,
-                            ),
+                            })
                           ],
                         )
-                      ],
-                    ),
-                    // const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 7.0, bottom: 3),
-                      child: AppController.to.copyRight(),
-                    ),
-
-                    Divider(
-                      color: Colors.grey.shade200,
-                      height: 4,
-                    ),
-                    // const Spacer(),
                   ],
                 ),
                 Flexible(
                   child: FutureBuilder(
-                    builder:
-                        (context, AsyncSnapshot<ApiResponse> responseSnap) {
-                      if (responseSnap.connectionState !=
-                              ConnectionState.none &&
-                          responseSnap.hasData) {
+                    builder:(context, AsyncSnapshot<ApiResponse> responseSnap) {
+                      if (responseSnap.connectionState != ConnectionState.none && responseSnap.hasData) {
                         ApiResponse apiResponse = responseSnap.data!;
                         return ListView.separated(
                           itemCount: apiResponse.menuItems!.length,
                           itemBuilder: (context, i) {
                             List<MenuItem> items = apiResponse.menuItems!;
-                            return DrawerItem(
-                              menuItem: items[i],
-                            );
+                            return DrawerItem(menuItem: items[i]);
                           },
                           separatorBuilder: (BuildContext context, int index) {
-                            return const Divider(
-                              height: 2,
-                            );
+                            return const Divider( height: 4, color: AppColorSwatch.appDrawBgCOlor,);
                           },
                         );
                       }
@@ -150,7 +106,59 @@ class AppDrawer {
                     future: apiResponseController.fetchTopics(),
                   ),
                 ),
-              ],
+                const Spacer(),
+                Column(
+                  //mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                          'assets/image/black_sport_news.png',
+                          width: 120,
+                          height: 60,
+                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 0),
+                      child: AppController.to.copyRight(),
+                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,                  
+                    //   children: [
+                    //     Image.asset(
+                    //       'assets/image/logo.png',
+                    //       width: 120,
+                    //       height: 60,
+                    //     ),
+                        // Row(
+                        //   children: [
+                        //     GetBuilder<SubtopicNavController>(
+                        //         builder: (subTopNavController) {
+                        //       return InkWell(
+                        //         onTap: () {
+                        //           showSnackBar();
+                        //         },
+                        //         child: const Text('KLAR', style: TextStyle(
+                        //             fontSize: 18,
+                        //             color: Colors.white,
+                        //           ),
+                        //         ),
+                        //       );
+                        //     }),
+                        //     const SizedBox(width: 8),
+                        //   ],
+                        // )
+                    //   ],
+                    // ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 7.0, bottom: 10),
+                    //   child: AppController.to.copyRight(),
+                    // ),
+                    // Divider(
+                    //   color: Colors.grey.shade200,
+                    //   height: 4,
+                    // ),
+                  ],
+                )
+              ],            
+            ),
             ),
           ),
         ),

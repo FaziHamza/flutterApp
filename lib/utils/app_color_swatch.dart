@@ -38,6 +38,8 @@ class AppColorSwatch {
 
   static const Color appChipColor = Color(0xFFFF7A00);
 
+  static const Color appDrawBgCOlor = Color.fromRGBO(46, 46, 46, 1);
+
 // Define other custom colors if needed
 // static const MaterialColor customAccentColor = MaterialColor(...);
 }
