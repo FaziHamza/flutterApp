@@ -85,7 +85,7 @@ class _DrawerItemState extends State<DrawerItem> {
                               label: Text(
                                 topic.highlights2 ?? '                ',style: const TextStyle(fontSize: 12.0),
                               ),
-                              color: const WidgetStatePropertyAll(  const Color.fromRGBO(79, 79, 80, 1)),
+                              color: const MaterialStatePropertyAll(  const Color.fromRGBO(79, 79, 80, 1)),
                               shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20)),
                               side: BorderSide.none,
                               backgroundColor:  const Color.fromRGBO(79, 79, 80, 1),
@@ -96,7 +96,7 @@ class _DrawerItemState extends State<DrawerItem> {
                               label: const Text(
                                 'Favoriter ♥️',style: TextStyle(fontSize: 12.0),
                               ),
-                              color: const WidgetStatePropertyAll(const Color.fromRGBO(79, 79, 80, 1)),
+                              color: const MaterialStatePropertyAll(const Color.fromRGBO(79, 79, 80, 1)),
                               shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20)),
                               side: BorderSide.none,
                               backgroundColor:  const Color.fromRGBO(79, 79, 80, 1),

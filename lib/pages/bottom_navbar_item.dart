@@ -92,6 +92,7 @@ class NewBottomNavigationBarItemWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 color: item.backgroundColor,
                 borderRadius: BorderRadius.circular(20.0), // Adjust the radius as needed
+                border: Border.all(color: Colors.white, width: 1.0)
               ),
               child: Text(
                 item.label ?? '',

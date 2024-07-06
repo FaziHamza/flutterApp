@@ -60,105 +60,141 @@ class AppDrawer {
       child: SizedBox(
         width: Get.width,
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 80.0,left: 20.0, right: 20.0, top: 60.0),
+          padding: const EdgeInsets.only(
+              bottom: 80.0, left: 20.0, right: 20.0, top: 60.0),
           child: Drawer(
             backgroundColor: AppColorSwatch.appDrawBgCOlor,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: Padding(padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const Spacer(),
-                    Row(
-                          children: [
-                            GetBuilder<SubtopicNavController>(
-                                builder: (subTopNavController) {
-                              return InkWell(
-                                onTap: () {
-                                  showSnackBar();
-                                },
-                                child: const Icon(Icons.close),
-                              );
-                            })
-                          ],
-                        )
-                  ],
-                ),
-                Flexible(
-                  child: FutureBuilder(
-                    builder:(context, AsyncSnapshot<ApiResponse> responseSnap) {
-                      if (responseSnap.connectionState != ConnectionState.none && responseSnap.hasData) {
-                        ApiResponse apiResponse = responseSnap.data!;
-                        return ListView.separated(
-                          itemCount: apiResponse.menuItems!.length,
-                          itemBuilder: (context, i) {
-                            List<MenuItem> items = apiResponse.menuItems!;
-                            return DrawerItem(menuItem: items[i]);
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const Divider( height: 4, color: AppColorSwatch.appDrawBgCOlor,);
-                          },
-                        );
-                      }
-                      return const CircularProgressIndicator();
-                    },
-                    future: apiResponseController.fetchTopics(),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const Spacer(),
+                      Row(
+                        children: [
+                          GetBuilder<SubtopicNavController>(
+                              builder: (subTopNavController) {
+                            return InkWell(
+                              onTap: () {
+                                showSnackBar();
+                              },
+                              child: const Icon(
+                                Icons.close,
+                                color: Color(0xFF666666),
+                              ),
+                            );
+                          })
+                        ],
+                      )
+                    ],
                   ),
-                ),
-                const Spacer(),
-                Column(
-                  //mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                          'assets/image/black_sport_news.png',
-                          width: 120,
-                          height: 60,
-                        ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5, bottom: 0),
-                      child: AppController.to.copyRight(),
+                  const Padding(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.info_rounded,
+                            size: 10.0,
+                            color: Color(0xFFFFFFFF),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'Expand a heading and switch on subheadings to subscribe.',
+                            style: TextStyle(
+                              fontSize: 10.0,
+                              color: Color(0xFFFFFFFF),
+                            ),
+                          )
+                        ],
+                      )),
+                  Flexible(
+                    child: FutureBuilder(
+                      builder:
+                          (context, AsyncSnapshot<ApiResponse> responseSnap) {
+                        if (responseSnap.connectionState !=
+                                ConnectionState.none &&
+                            responseSnap.hasData) {
+                          ApiResponse apiResponse = responseSnap.data!;
+                          return ListView.separated(
+                            itemCount: apiResponse.menuItems!.length,
+                            itemBuilder: (context, i) {
+                              List<MenuItem> items = apiResponse.menuItems!;
+                              return DrawerItem(menuItem: items[i]);
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const Divider(
+                                height: 4,
+                                color: AppColorSwatch.appDrawBgCOlor,
+                              );
+                            },
+                          );
+                        }
+                        return const CircularProgressIndicator();
+                      },
+                      future: apiResponseController.fetchTopics(),
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,                  
-                    //   children: [
-                    //     Image.asset(
-                    //       'assets/image/logo.png',
-                    //       width: 120,
-                    //       height: 60,
-                    //     ),
-                        // Row(
-                        //   children: [
-                        //     GetBuilder<SubtopicNavController>(
-                        //         builder: (subTopNavController) {
-                        //       return InkWell(
-                        //         onTap: () {
-                        //           showSnackBar();
-                        //         },
-                        //         child: const Text('KLAR', style: TextStyle(
-                        //             fontSize: 18,
-                        //             color: Colors.white,
-                        //           ),
-                        //         ),
-                        //       );
-                        //     }),
-                        //     const SizedBox(width: 8),
-                        //   ],
-                        // )
-                    //   ],
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(top: 7.0, bottom: 10),
-                    //   child: AppController.to.copyRight(),
-                    // ),
-                    // Divider(
-                    //   color: Colors.grey.shade200,
-                    //   height: 4,
-                    // ),
-                  ],
-                )
-              ],            
-            ),
+                  ),
+                  //const Spacer(),
+                  Column(
+                    //mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15, bottom: 3),
+                        child: AppController.to.copyRight(),
+                      ),
+                      Image.asset(
+                        'assets/image/black_sport_news.png',
+                        width: 120,
+                        // height: 60,
+                      ),
+
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Image.asset(
+                      //       'assets/image/logo.png',
+                      //       width: 120,
+                      //       height: 60,
+                      //     ),
+                      // Row(
+                      //   children: [
+                      //     GetBuilder<SubtopicNavController>(
+                      //         builder: (subTopNavController) {
+                      //       return InkWell(
+                      //         onTap: () {
+                      //           showSnackBar();
+                      //         },
+                      //         child: const Text('KLAR', style: TextStyle(
+                      //             fontSize: 18,
+                      //             color: Colors.white,
+                      //           ),
+                      //         ),
+                      //       );
+                      //     }),
+                      //     const SizedBox(width: 8),
+                      //   ],
+                      // )
+                      //   ],
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 7.0, bottom: 10),
+                      //   child: AppController.to.copyRight(),
+                      // ),
+                      // Divider(
+                      //   color: Colors.grey.shade200,
+                      //   height: 4,
+                      // ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

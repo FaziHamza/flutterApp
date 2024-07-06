@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:news/models/News.dart';
 import 'package:news/pages/next_page.dart';
 
@@ -40,7 +39,7 @@ class NewsFirstCard extends StatelessWidget {
               children: [
                 Chip(
                   label: Text(groupName,style: const TextStyle(
-                        fontSize: 13,
+                        fontSize: 12,
                         fontWeight: FontWeight.normal,
                         color: Color.fromARGB(255, 243, 243, 243)
                     )),
@@ -56,34 +55,38 @@ class NewsFirstCard extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                fontSize: 19,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
               maxLines: 2,
             ),
              const SizedBox(height: 3),
-            Text(
+            if(details != "null")Text(
               details,
               style:  const TextStyle(
-                fontSize: 13,
+                fontSize: 12,
               ),
               maxLines: 2,
             ),
              const SizedBox(height: 3),
             Row(
               children: [
-                 Chip(
-                  label: Text(timeAgo(postTime),style: const TextStyle(
-                        fontSize: 9,
-                        fontWeight: FontWeight.normal,
-                        color: Color.fromARGB(255, 243, 243, 243)
-                    )),
-                    backgroundColor:  const Color.fromRGBO(79, 79, 80, 1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                 Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 4.0),
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(79, 79, 80, 1),
+                    borderRadius: BorderRadius.circular(
+                        20.0), // Adjust the radius as needed
+                    //border: Border.all(color: Colors.white, width: 1.0)
+                  ),
+                  child: Text(
+                    timeAgo(postTime),
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 243, 243, 243),
+                      fontSize: 9.0, // Adjust the font size as needed
                     ),
-                    side: BorderSide.none,
-                    padding: const EdgeInsets.all(1),
+                  ),
                 ),
                 const Spacer(),
                 Image.asset(
@@ -145,19 +148,34 @@ class NewsOtherCard extends StatelessWidget {
              const SizedBox(height: 3),
             Row(
               children: [
-                 Chip(
-                  label: Text(timeAgo(postTime),style: const TextStyle(
-                        fontSize: 9,
-                        fontWeight: FontWeight.normal,
-                        color: Color.fromARGB(255, 243, 243, 243)
-                    )),
-                    backgroundColor:  const Color.fromRGBO(79, 79, 80, 1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    side: BorderSide.none,
-                    padding: const EdgeInsets.all(0),
+                Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(79, 79, 80, 1),
+                borderRadius: BorderRadius.circular(20.0), // Adjust the radius as needed
+                //border: Border.all(color: Colors.white, width: 1.0)
+              ),
+              child: Text(
+                timeAgo(postTime),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 243, 243, 243),
+                  fontSize: 9.0, // Adjust the font size as needed
                 ),
+              ),
+            ),
+                //  Chip(
+                //   label: Text(timeAgo(postTime),style: const TextStyle(
+                //         fontSize: 9,
+                //         fontWeight: FontWeight.normal,
+                //         color: Color.fromARGB(255, 243, 243, 243)
+                //     )),
+                //     backgroundColor:  const Color.fromRGBO(79, 79, 80, 1),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(20),
+                //     ),
+                //     side: BorderSide.none,
+                //     padding: const EdgeInsets.all(0),
+                // ),
                 const Spacer(),
                 Image.asset(
                   mId.length > 7 ? 'assets/image/sporspot_news.png' : 'assets/image/afpnews.png',
@@ -208,8 +226,6 @@ class RoundedImage extends StatelessWidget {
     );
   }
 }
-
-
 
 
 class NewsList extends StatelessWidget {
