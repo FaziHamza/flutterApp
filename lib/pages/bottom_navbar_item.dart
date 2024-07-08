@@ -75,14 +75,20 @@ class NewBottomNavigationBarItemWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // Circular icon
-            CircleAvatar(
-              radius: 24.0, // Adjust the radius as needed
-              backgroundColor: item.backgroundColor,
+            // Circular icon with border
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 1.0),
+              ),
               child: CircleAvatar(
-                radius: 20.0, // Adjust the inner radius as needed
+                radius: 24.0, // Adjust the radius as needed
                 backgroundColor: item.backgroundColor,
-                child: item.icon,
+                child: CircleAvatar(
+                  radius: 20.0, // Adjust the inner radius as needed
+                  backgroundColor: item.backgroundColor,
+                  child: item.icon,
+                ),
               ),
             ),
             const SizedBox(height: 5.0), // Space between icon and text
@@ -92,7 +98,7 @@ class NewBottomNavigationBarItemWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 color: item.backgroundColor,
                 borderRadius: BorderRadius.circular(20.0), // Adjust the radius as needed
-                border: Border.all(color: Colors.white, width: 1.0)
+                border: Border.all(color: Colors.white, width: 1.0),
               ),
               child: Text(
                 item.label ?? '',

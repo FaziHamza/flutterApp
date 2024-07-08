@@ -47,6 +47,7 @@ dependencies:
   flutter_local_notifications: ^17.1.0
   # flutter_html: ^2.1.2 
   firebase_analytics:
+  flutter_html: ^3.0.0-beta.2
 #  app_tracking_transparency: ^2.0.5
   # easy_audience_network: ^0.0.6
 #  facebook_app_events: ^0.19.2

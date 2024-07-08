@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     return Scaffold(
       key: AppWebController.to.homeScaffoldKey,
       appBar:  AppBar(
-        backgroundColor: const Color.fromARGB(255, 57, 67, 78),
+        backgroundColor: const Color(0xff262626),
         leading: Container(
           padding: const EdgeInsets.only(left :8.0), // Adjust the padding if necessary
           child: Image.asset(
@@ -145,21 +145,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 0),
             child: GetBuilder<AppWebController>(builder: (appWebController) {
-              if (!appWebController.isShowBackButton) {
+            //  if (!appWebController.isShowBackButton) {
                 return IconButton(
                   onPressed: () {
                     appWebController.homeScaffoldKey.currentState!.openDrawer();
                   },
                   icon: const Icon(Icons.menu),
                 );
-              }
-              return IconButton(
-                onPressed: () {
-                  appWebController.toogleBackButton(false);
-                  appWebController.controller.value.loadRequest(Uri.parse(appWebController.lastPageLink));
-                },
-                icon: const Icon(Icons.arrow_back),
-              );
+           //   }
+              // return IconButton(
+              //   onPressed: () {
+              //     appWebController.toogleBackButton(false);
+              //     appWebController.controller.value.loadRequest(Uri.parse(appWebController.lastPageLink));
+              //   },
+              //   icon: const Icon(Icons.arrow_back),
+              // );
             }),
           ),
         ],
