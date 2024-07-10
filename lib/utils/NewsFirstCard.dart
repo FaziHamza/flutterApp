@@ -666,16 +666,18 @@ class NewsList extends StatelessWidget {
           // MySiteList row
          if(mMySiteList.isNotEmpty && mHilightsList.isNotEmpty && mNewsList.length > 1){
             return _buildMySiteListRow();
-          }else if(mPodCastList.isNotEmpty){
+          }else if(mPodCastList.isNotEmpty && mHilightsList.isNotEmpty && mNewsList.length > 1){
             return _buildPodCastListRow();
           } else{
             return _buildTodayListRow();
           }
         }  else if (index == 4) {
           // PodCastList row
-          if(mPodCastList.isNotEmpty && mMySiteList.isNotEmpty){
+          if(mPodCastList.isNotEmpty && mMySiteList.isNotEmpty && mHilightsList.isNotEmpty && mNewsList.length > 1){
             return _buildPodCastListRow();
-          }
+          }else {
+            return _buildTodayListRow();
+         }
         } else if (index == 5){
             return _buildTodayListRow();
         }
@@ -990,14 +992,14 @@ Widget _buildTodayListRow() {
       ),
       Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
-                    margin: EdgeInsets.only(bottom: 10.0),
+                    margin: const EdgeInsets.only(bottom: 10.0),
                     decoration: BoxDecoration(
                       color: const Color.fromRGBO(79, 79, 80, 1),
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Load More',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color.fromARGB(255, 243, 243, 243),
                         fontSize: 9.0,
                       ),
