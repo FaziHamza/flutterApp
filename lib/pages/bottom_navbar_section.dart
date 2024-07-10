@@ -39,7 +39,7 @@ class BottomNavbarSection extends StatelessWidget {
         padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
         decoration: const BoxDecoration(),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+         // padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: const BoxDecoration(
             color: Color(0xff262626),
             borderRadius: BorderRadius.all( Radius.circular(15)
@@ -50,11 +50,10 @@ class BottomNavbarSection extends StatelessWidget {
           height: 100.0,
           width: double.infinity,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 0),
+            padding: const EdgeInsets.symmetric(horizontal: 6),
             decoration: const BoxDecoration(
               color: Color(0xff262626),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+              borderRadius: BorderRadius.all( Radius.circular(15)),
             ),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,

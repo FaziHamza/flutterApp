@@ -7,6 +7,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:news/components/app_drawer.dart';
 import 'package:news/controllers/app_web_controller.dart';
 import 'package:news/models/News.dart';
+import 'package:news/models/my_pod_cast_response.dart';
+import 'package:news/models/my_sites_reponse.dart';
+import 'package:news/models/my_video_hiegh_response.dart';
 import 'package:news/pages/bottom_navbar_section.dart';
 import 'package:news/pages/next_page.dart';
 import 'package:news/utils/ExpenseCard.dart';
@@ -36,6 +39,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final storage = GetStorage();
 
   List<News> mNewsList = [];
+  List<MySite> mMySiteList = [];
+  List<PodCast> mPodCastList = [];
+  List<Hilights> mHilightsList = [];
+
   bool isLoading = true;
    String mCurrentKey = "";
 
@@ -54,7 +61,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         String mKey = extractValue(first.key!.toString());
         print('Clicked: $mKey');
         if(mCurrentKey != mKey){
-            loadNewsData(mKey);
+            loadNewsData(mKey, first.tooltip!);
           }
         }
       WidgetsBinding.instance.addObserver(this);
@@ -82,17 +89,34 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     }
   }
 
-  Future<void> loadNewsData(String mKeyword) async {
+  Future<void> loadNewsData(String mKeyword,String subtopicId) async {
     mCurrentKey = mKeyword;
     setState(() {
       isLoading = true;
       mNewsList = [];
+      mMySiteList = [];
+      mHilightsList = [];
+      mPodCastList = [];
     });
   try {
-    final response = await apiResponseController.fetchNews(keyword: mKeyword, lang: "sv", sport: "");
+    final responseNews = await apiResponseController.fetchNews(keyword: mKeyword, lang: "sv", sport: "");
     setState(() {
+      mNewsList = responseNews.news;
+    });
+    final responseSites = await apiResponseController.fetchMySites(subtopicId: subtopicId);
+    setState(() {
+      mMySiteList = responseSites.data;
+    });
+    final responseHigh = await apiResponseController.fetchMyHilights(subtopicId: subtopicId);
+    setState(() {
+      mHilightsList = responseHigh.news;
+    });
+    final responsePod= await apiResponseController.fetchMyPodCast(subtopicId: subtopicId);
+    setState(() {
+      mPodCastList = responsePod.data;
+    });
+     setState(() {
       isLoading = false;
-      mNewsList = response.news;
     });
   } catch (e) {
     setState(() {
@@ -125,88 +149,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     }
   }
 
-//  @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       key: AppWebController.to.homeScaffoldKey,
-//       appBar:  AppBar(
-//         backgroundColor: const Color(0xff262626),
-//         leading: Container(
-//           padding: const EdgeInsets.only(left :8.0), // Adjust the padding if necessary
-//           child: Image.asset(
-//             'assets/image/black_sport_news.png',
-//             height: 36.0,
-//             width: 200.0,
-//            // fit: BoxFit.contain, // Ensures the image fits within the given height and width
-//           ),
-//         ),
-//         centerTitle: false,
-//         actions: [
-//           Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 0),
-//             child: GetBuilder<AppWebController>(builder: (appWebController) {
-//             //  if (!appWebController.isShowBackButton) {
-//                 return IconButton(
-//                   onPressed: () {
-//                     appWebController.homeScaffoldKey.currentState!.openDrawer();
-//                   },
-//                   icon: const Icon(Icons.menu),
-//                 );
-//            //   }
-//               // return IconButton(
-//               //   onPressed: () {
-//               //     appWebController.toogleBackButton(false);
-//               //     appWebController.controller.value.loadRequest(Uri.parse(appWebController.lastPageLink));
-//               //   },
-//               //   icon: const Icon(Icons.arrow_back),
-//               // );
-//             }),
-//           ),
-//         ],
-//       ),
-//       drawer: AppDrawer().getAppDrawer(),
-//       body: Center(
-//         child: isLoading
-//           ? const CircularProgressIndicator()
-//           : NewsList(mNewsList: mNewsList)
-//           // ListView.builder(
-//           //   itemCount: mNewsList.length,
-//           //   itemBuilder: (context, index) {
-//           //       final item = mNewsList[index];
-//           //       return GestureDetector(
-//           //         onTap: (){
-//           //           String artical = item.articleLink.toString();
-//           //           if(artical != "null" && artical.isNotEmpty){
-//           //               Get.to(() => NextPage(
-//           //                 title: item.title.toString(),
-//           //                 url: item.articleLink.toString(),
-//           //                 logImage: item.generalistProfile.toString(),
-//           //               ));
-//           //           }  
-//           //         },
-//           //         child:  NewsFirstCard(
-//           //           imageUrl: item.medias![1].href.toString(),
-//           //           title: item.title.toString(),
-//           //           details: item.content.toString(),
-//           //           groupName: item.generalistName.toString(),
-//           //           postTime: item.published != null ? DateTime.now() : item.published!,
-//           //         ),
-//           //       );
-//           //   },
-//           // )
-//       ),
-//      bottomNavigationBar: BottomNavbarSection(
-//       onClick: (value) {
-//         String mKey = extractValue(value.key!.toString());
-//         print('Clicked: $mKey');
-        
-//         if(mCurrentKey != mKey){
-//             loadNewsData(mKey);
-//           }
-//         },
-//       ),
-//     );
-//   }
 
   @override
   Widget build(BuildContext context) {
@@ -223,10 +165,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
-                  'assets/image/top_bar.png',
+                  'assets/image/black_sport_news.png',
                 //  height: 36.0,
-                  width: 124.0,
-                   fit: BoxFit.fill, // Ensures the image fits within the given height and width
+                 // width: 124.0,
+                 //  fit: BoxFit.fill, // Ensures the image fits within the given height and width
                 ),
                 GetBuilder<AppWebController>(builder: (appWebController) {
                   return IconButton(
@@ -243,7 +185,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             child: Center(
               child: isLoading
                   ? const CircularProgressIndicator()
-                  : NewsList(mNewsList: mNewsList),
+                  : NewsList(mNewsList: mNewsList, mHilightsList: mHilightsList,mMySiteList: mMySiteList,mPodCastList: mPodCastList,
+                  todayHighLights: const [
+                    'How Man Utd \'laughing stock\' Rangnick restored reputation with Austria...',
+                    'England frustrated in Slovenia draw but still top group',
+                    'Draw opens up - England\'s path through the knockouts'
+                  ],)
             ),
           ),
         ],
@@ -253,9 +200,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         onClick: (value) {
           String mKey = extractValue(value.key!.toString());
           print('Clicked: $mKey');
-          
           if (mCurrentKey != mKey) {
-            loadNewsData(mKey);
+            loadNewsData(mKey, value.tooltip!);
           }
         },
       ),

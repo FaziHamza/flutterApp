@@ -92,7 +92,7 @@ class SubtopicNavController extends GetxController {
                 height: 32.0,
                 width: 32.0,
               ),
-        tooltip: '${subtopic.name!.toLowerCase().replaceAll(' ', '_')}_',
+        tooltip: subtopic.subTopicId,
         key: Key(subtopic.keyword.toString()),
         backgroundColor: activeSubtopics[navItemPosition.value] == subtopic ? const Color(0xff365880) : Colors.white
       );

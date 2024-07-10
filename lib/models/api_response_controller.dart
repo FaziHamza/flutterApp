@@ -5,6 +5,9 @@ import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:news/models/News.dart';
 import 'package:news/models/api_response.dart';
+import 'package:news/models/my_pod_cast_response.dart';
+import 'package:news/models/my_sites_reponse.dart';
+import 'package:news/models/my_video_hiegh_response.dart';
 
 class ApiResponseController extends GetxController {
   Future<ApiResponse> fetchTopics() async {
@@ -29,5 +32,47 @@ class ApiResponseController extends GetxController {
       throw Exception('Failed to load news');
     }
   }
+
+
+  Future<ApiMySiteResponse> fetchMySites({ required String subtopicId}) async {
+    var uri = Uri.parse('https://sportspotadmin.dev/api/ExternalLink/GetExternalLinkBySubtopicId?subtopicId=$subtopicId');
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+       print('fetchMySites: ${response.body}');
+      ApiMySiteResponse apiResponse = ApiMySiteResponse.fromJson(jsonDecode(response.body));
+      return apiResponse;
+    } else {
+      throw Exception('Failed to load news');
+    }
+  }
+
+  
+
+  Future<ApiPodCastResponse> fetchMyPodCast({ required String subtopicId}) async {
+    var uri = Uri.parse('https://sportspotadmin.dev//api/VideoPodcast/GetVideoPodcastBySubtopicIdonly?subtopicId=$subtopicId');
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+       print('fetchMyPodCast: ${response.body}');
+      ApiPodCastResponse apiResponse = ApiPodCastResponse.fromJson(jsonDecode(response.body));
+      return apiResponse;
+    } else {
+      throw Exception('Failed to load news');
+    }
+  }
+
+  
+
+  Future<ApiHilightsResponse> fetchMyHilights({ required String subtopicId}) async {
+    var uri = Uri.parse('https://sportspotadmin.dev//api/VideoHighlight/GetVideoHighlightBySubtopicIdonly?subtopicId=$subtopicId');
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+       print('fetchMyHilights: ${response.body}');
+      ApiHilightsResponse apiResponse = ApiHilightsResponse.fromJson(jsonDecode(response.body));
+      return apiResponse;
+    } else {
+      throw Exception('Failed to load news');
+    }
+  }
+
 
 }
