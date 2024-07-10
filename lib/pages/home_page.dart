@@ -125,82 +125,136 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     }
   }
 
- @override
+//  @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       key: AppWebController.to.homeScaffoldKey,
+//       appBar:  AppBar(
+//         backgroundColor: const Color(0xff262626),
+//         leading: Container(
+//           padding: const EdgeInsets.only(left :8.0), // Adjust the padding if necessary
+//           child: Image.asset(
+//             'assets/image/black_sport_news.png',
+//             height: 36.0,
+//             width: 200.0,
+//            // fit: BoxFit.contain, // Ensures the image fits within the given height and width
+//           ),
+//         ),
+//         centerTitle: false,
+//         actions: [
+//           Padding(
+//             padding: const EdgeInsets.symmetric(horizontal: 0),
+//             child: GetBuilder<AppWebController>(builder: (appWebController) {
+//             //  if (!appWebController.isShowBackButton) {
+//                 return IconButton(
+//                   onPressed: () {
+//                     appWebController.homeScaffoldKey.currentState!.openDrawer();
+//                   },
+//                   icon: const Icon(Icons.menu),
+//                 );
+//            //   }
+//               // return IconButton(
+//               //   onPressed: () {
+//               //     appWebController.toogleBackButton(false);
+//               //     appWebController.controller.value.loadRequest(Uri.parse(appWebController.lastPageLink));
+//               //   },
+//               //   icon: const Icon(Icons.arrow_back),
+//               // );
+//             }),
+//           ),
+//         ],
+//       ),
+//       drawer: AppDrawer().getAppDrawer(),
+//       body: Center(
+//         child: isLoading
+//           ? const CircularProgressIndicator()
+//           : NewsList(mNewsList: mNewsList)
+//           // ListView.builder(
+//           //   itemCount: mNewsList.length,
+//           //   itemBuilder: (context, index) {
+//           //       final item = mNewsList[index];
+//           //       return GestureDetector(
+//           //         onTap: (){
+//           //           String artical = item.articleLink.toString();
+//           //           if(artical != "null" && artical.isNotEmpty){
+//           //               Get.to(() => NextPage(
+//           //                 title: item.title.toString(),
+//           //                 url: item.articleLink.toString(),
+//           //                 logImage: item.generalistProfile.toString(),
+//           //               ));
+//           //           }  
+//           //         },
+//           //         child:  NewsFirstCard(
+//           //           imageUrl: item.medias![1].href.toString(),
+//           //           title: item.title.toString(),
+//           //           details: item.content.toString(),
+//           //           groupName: item.generalistName.toString(),
+//           //           postTime: item.published != null ? DateTime.now() : item.published!,
+//           //         ),
+//           //       );
+//           //   },
+//           // )
+//       ),
+//      bottomNavigationBar: BottomNavbarSection(
+//       onClick: (value) {
+//         String mKey = extractValue(value.key!.toString());
+//         print('Clicked: $mKey');
+        
+//         if(mCurrentKey != mKey){
+//             loadNewsData(mKey);
+//           }
+//         },
+//       ),
+//     );
+//   }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: AppWebController.to.homeScaffoldKey,
-      appBar:  AppBar(
-        backgroundColor: const Color(0xff262626),
-        leading: Container(
-          padding: const EdgeInsets.only(left :8.0), // Adjust the padding if necessary
-          child: Image.asset(
-            'assets/image/black_sport_news.png',
-            height: 36.0,
-            width: 200.0,
-           // fit: BoxFit.contain, // Ensures the image fits within the given height and width
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 10),
+            color: const Color(0xff262626),
+            alignment:Alignment.bottomCenter,
+            height: 85.0, // Height of your custom app bar
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(
+                  'assets/image/top_bar.png',
+                //  height: 36.0,
+                  width: 124.0,
+                   fit: BoxFit.fill, // Ensures the image fits within the given height and width
+                ),
+                GetBuilder<AppWebController>(builder: (appWebController) {
+                  return IconButton(
+                    onPressed: () {
+                      appWebController.homeScaffoldKey.currentState!.openDrawer();
+                    },
+                    icon: const Icon(Icons.menu, color: Colors.white),
+                  );
+                }),
+              ],
+            ),
           ),
-        ),
-        centerTitle: false,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0),
-            child: GetBuilder<AppWebController>(builder: (appWebController) {
-            //  if (!appWebController.isShowBackButton) {
-                return IconButton(
-                  onPressed: () {
-                    appWebController.homeScaffoldKey.currentState!.openDrawer();
-                  },
-                  icon: const Icon(Icons.menu),
-                );
-           //   }
-              // return IconButton(
-              //   onPressed: () {
-              //     appWebController.toogleBackButton(false);
-              //     appWebController.controller.value.loadRequest(Uri.parse(appWebController.lastPageLink));
-              //   },
-              //   icon: const Icon(Icons.arrow_back),
-              // );
-            }),
+          Expanded(
+            child: Center(
+              child: isLoading
+                  ? const CircularProgressIndicator()
+                  : NewsList(mNewsList: mNewsList),
+            ),
           ),
         ],
       ),
       drawer: AppDrawer().getAppDrawer(),
-      body: Center(
-        child: isLoading
-          ? const CircularProgressIndicator()
-          : NewsList(mNewsList: mNewsList)
-          // ListView.builder(
-          //   itemCount: mNewsList.length,
-          //   itemBuilder: (context, index) {
-          //       final item = mNewsList[index];
-          //       return GestureDetector(
-          //         onTap: (){
-          //           String artical = item.articleLink.toString();
-          //           if(artical != "null" && artical.isNotEmpty){
-          //               Get.to(() => NextPage(
-          //                 title: item.title.toString(),
-          //                 url: item.articleLink.toString(),
-          //                 logImage: item.generalistProfile.toString(),
-          //               ));
-          //           }  
-          //         },
-          //         child:  NewsFirstCard(
-          //           imageUrl: item.medias![1].href.toString(),
-          //           title: item.title.toString(),
-          //           details: item.content.toString(),
-          //           groupName: item.generalistName.toString(),
-          //           postTime: item.published != null ? DateTime.now() : item.published!,
-          //         ),
-          //       );
-          //   },
-          // )
-      ),
-     bottomNavigationBar: BottomNavbarSection(
-      onClick: (value) {
-        String mKey = extractValue(value.key!.toString());
-        print('Clicked: $mKey');
-        
-        if(mCurrentKey != mKey){
+      bottomNavigationBar: BottomNavbarSection(
+        onClick: (value) {
+          String mKey = extractValue(value.key!.toString());
+          print('Clicked: $mKey');
+          
+          if (mCurrentKey != mKey) {
             loadNewsData(mKey);
           }
         },

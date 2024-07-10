@@ -135,10 +135,10 @@ class NewsOtherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 160, // Adjust the width as per your design requirements
+      width: 125, // Adjust the width as per your design requirements
       child: Card(
         elevation: 4,
-        margin: const EdgeInsets.only(left: 5, top: 0, bottom: 5),
+        margin: const EdgeInsets.only(left: 0, top: 0, bottom: 5),
          color: const Color(0xff262626),
         child: Padding(
           padding: const EdgeInsets.all(4.0),
@@ -441,7 +441,7 @@ class NewsList extends StatelessWidget {
               (i) {
                 final item = mNewsList[i + 1];
                 return Padding(
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(2),
                   child: GestureDetector(
                     onTap: () {
                       String article = item.articleLink.toString();
@@ -495,7 +495,7 @@ class NewsList extends StatelessWidget {
               (i) {
                 final item = mNewsList[startIndex + i];
                 return Padding(
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(2),
                   child: GestureDetector(
                     onTap: () {
                       String article = item.articleLink.toString();
