@@ -77,24 +77,31 @@ class NewBottomNavigationBarItemWidget extends StatelessWidget {
           children: <Widget>[
             // Circular icon with border
             Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 1.0),
-              ),
-              child: CircleAvatar(
-                radius: 24.0, // Adjust the radius as needed
-                backgroundColor: item.backgroundColor,
-                child: CircleAvatar(
-                  radius: 20.0, // Adjust the inner radius as needed
-                  backgroundColor: item.backgroundColor,
-                  child: item.icon,
-                ),
-              ),
+      height: 60,
+      width: 60,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.white, width: 1.0),
+      ),
+      child: CircleAvatar(
+        backgroundColor: item.backgroundColor,
+        child: ClipOval(
+          child: SizedBox(
+            height: 50,
+            width: 50,
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: item.icon,
             ),
-            const SizedBox(height: 5.0), // Space between icon and text
+          ),
+        ),
+      ),
+    ),
+            const SizedBox(height: 3.0), // Space between icon and text
             // Text with rounded background
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+              width: 60,
+              padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
               decoration: BoxDecoration(
                 color: item.backgroundColor,
                 borderRadius: BorderRadius.circular(20.0), // Adjust the radius as needed
@@ -102,9 +109,12 @@ class NewBottomNavigationBarItemWidget extends StatelessWidget {
               ),
               child: Text(
                 item.label ?? '',
+                maxLines: 1,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: item.backgroundColor == Colors.white ? Colors.black : Colors.white,
                   fontSize: 9.0, // Adjust the font size as needed
+                  
                 ),
               ),
             ),
