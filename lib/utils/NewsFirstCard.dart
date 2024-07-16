@@ -20,6 +20,8 @@ class NewsFirstCard extends StatelessWidget {
   final String details;
   final String mId;
   final DateTime postTime;
+   final bool isExternal;
+  final String endIcon;
 
   const NewsFirstCard({
     required this.imageUrl,
@@ -28,6 +30,8 @@ class NewsFirstCard extends StatelessWidget {
     required this.details,
     required this.postTime,
     required this.mId,
+     this.isExternal = false,
+    this.endIcon = '',
     super.key, 
   });
 
@@ -105,11 +109,16 @@ class NewsFirstCard extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                Image.asset(
-                  mId.length > 7 ? 'assets/image/sporspot_news.png' : 'assets/image/afpnews.png',
-                //  width: 24,
-                  height: 24,
-                ),
+                if(isExternal && endIcon.isNotEmpty) Image.network(
+                    endIcon,
+                    height: 22,
+                    width: 38,
+                  ),
+                   if(!isExternal || endIcon.isEmail) Image.asset(
+                    mId.length > 7 ? 'assets/image/sporspot_news.png' : 'assets/image/afpnews.png',
+                    height: 22,
+                    width: 38,
+                  ),
               ],
             ),
           ],
@@ -127,6 +136,8 @@ class NewsOtherCard extends StatelessWidget {
   final String details;
   final String mId;
   final DateTime postTime;
+  final bool isExternal;
+  final String endIcon;
 
   const NewsOtherCard({
     required this.imageUrl,
@@ -135,6 +146,8 @@ class NewsOtherCard extends StatelessWidget {
     required this.details,
     required this.postTime,
     required this.mId,
+    this.isExternal = false,
+    this.endIcon = '',
     super.key, // Ensure key is properly typed
   });
 
@@ -181,7 +194,12 @@ class NewsOtherCard extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Image.asset(
+                  if(isExternal && endIcon.isNotEmpty) Image.network(
+                    endIcon,
+                    height: 22,
+                    width: 38,
+                  ),
+                   if(!isExternal || endIcon.isEmail) Image.asset(
                     mId.length > 7 ? 'assets/image/sporspot_news.png' : 'assets/image/afpnews.png',
                     height: 22,
                     width: 38,
@@ -288,7 +306,7 @@ class NewsHighCard extends StatelessWidget {
 class WebViewDialog extends StatelessWidget {
   final String embededCode;
 
-  const WebViewDialog({required this.embededCode});
+  const WebViewDialog({super.key, required this.embededCode});
 
   @override
   Widget build(BuildContext context) {
@@ -319,7 +337,7 @@ class WebViewDialog extends StatelessWidget {
                       )
                     ],
                   ),
-                  Container(
+                  SizedBox(
                         width: double.maxFinite,
                           height: 400,
                           child: WebViewWidget(
@@ -365,12 +383,12 @@ class MySiteCard extends StatelessWidget {
 
   const MySiteCard({
     required this.imageUrl,
-    Key? key, // Ensure key is properly typed
-  }) : super(key: key);
+    super.key, // Ensure key is properly typed
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 65, // Adjust the width as per your design requirements
       child: Card(
         elevation: 4,
@@ -430,7 +448,7 @@ class RoundedImage extends StatelessWidget {
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
         child: Stack(
           children: [
             Image.network(
@@ -446,10 +464,10 @@ class RoundedImage extends StatelessWidget {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      Color(0xff262626),
-                      Color(0xff262626).withOpacity(0.7),
-                      Color(0xff262626).withOpacity(0.4),
-                      Color(0xff262626).withOpacity(0.1), 
+                      const Color(0xff262626),
+                      const Color(0xff262626).withOpacity(0.7),
+                      const Color(0xff262626).withOpacity(0.4),
+                      const Color(0xff262626).withOpacity(0.1), 
                       Colors.transparent,
                       Colors.transparent,
                       Colors.transparent,
@@ -474,11 +492,11 @@ class RoundedSmallImage extends StatelessWidget {
   final Color mColor;
 
   const RoundedSmallImage({
-    Key? key,
+    super.key,
     required this.imageUrl,
     required this.mHeight,
     required this.mColor, 
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -489,7 +507,7 @@ class RoundedSmallImage extends StatelessWidget {
         color: mColor 
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
         child: Stack(
           children: [
             Image.network(
@@ -516,14 +534,14 @@ class NewsList extends StatelessWidget {
   final String mHeader;
 
   const NewsList({
-    Key? key,
+    super.key,
     required this.mNewsList,
     required this.mHilightsList,
     required this.mMySiteList,
     required this.mPodCastList,
     required this.todayHighLights,
     required this.mHeader
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -605,7 +623,7 @@ class NewsList extends StatelessWidget {
   Widget _buildFirstRow() {
     final item = mNewsList.isNotEmpty ? mNewsList[0] : null;
     if (item == null) {
-      return SizedBox(); // Return an empty container or placeholder if list is empty
+      return const SizedBox(); // Return an empty container or placeholder if list is empty
     }
 
     return GestureDetector(
@@ -626,6 +644,8 @@ class NewsList extends StatelessWidget {
         groupName: item.generalistName.toString(),
         postTime: item.published ?? DateTime.now(),
         mId: item.id.toString(),
+        endIcon: item.creatorImg ?? '',
+        isExternal: item.isExternal == true,
       ),
     );
   }
@@ -634,8 +654,8 @@ class NewsList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
           child: Text(
             "Mer nyheter",
             style: TextStyle(
@@ -657,13 +677,15 @@ class NewsList extends StatelessWidget {
                   padding: const EdgeInsets.all(2),
                   child: GestureDetector(
                     onTap: () {
-                      //String article = (item.isExternal == true)? item.articleLink.toString(): getArticalLink(mHeader, "");
-                      String article = item.articleLink.toString();
+                      String article = (item.isExternal == true)? item.articleLink.toString(): getArticalLink(mHeader, item.id.toString());
+                      //String article = item.articleLink.toString();
+                      print("article: $article");
                       if (article != "null" && article.isNotEmpty) {
                         Get.to(() => NextPage(
                           title: item.title.toString(),
-                          url: item.articleLink.toString(),
+                          url: article,
                           logImage: item.generalistProfile.toString(),
+                          hideBar: item.isExternal == false,
                         ));
                       }
                     },
@@ -674,6 +696,8 @@ class NewsList extends StatelessWidget {
                       groupName: item.generalistName.toString(),
                       postTime: item.published ?? DateTime.now(),
                       mId: item.id.toString(),
+                      endIcon: item.creatorImg ?? '',
+                      isExternal: item.isExternal == true,
                     ),
                   ),
                 );
@@ -689,9 +713,9 @@ class NewsList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
-          child: const Text(
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+          child: Text(
             "Highlights",
             style: TextStyle(
               fontSize: 16,
@@ -701,7 +725,7 @@ class NewsList extends StatelessWidget {
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-           padding: EdgeInsets.only(left: 5),
+           padding: const EdgeInsets.only(left: 5),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
@@ -736,8 +760,8 @@ class NewsList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
           child: Text(
             "My Sites",
             style: TextStyle(
@@ -748,7 +772,7 @@ class NewsList extends StatelessWidget {
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-           padding: EdgeInsets.only(left: 5),
+           padding: const EdgeInsets.only(left: 5),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
@@ -785,8 +809,8 @@ class NewsList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
           child: Text(
             "Podcasts",
             style: TextStyle(
@@ -797,7 +821,7 @@ class NewsList extends StatelessWidget {
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.only(left: 5),
+          padding: const EdgeInsets.only(left: 5),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
@@ -912,9 +936,7 @@ Widget _buildTodayListRow() {
 
   String getArticalLink(String item, String name) {
     String link = item;
-    if (link[link.length - 1] == '_') {
-      link = link.substring(0, link.length - 1);
-    }
+  
     return 'https://sportblitznews.se/news/$link/$name';
   }
 

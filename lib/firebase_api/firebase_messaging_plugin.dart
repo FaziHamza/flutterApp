@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:news/pages/next_page.dart';
 
 import '../controllers/app_web_controller.dart';
 import '../firebase_options.dart';
@@ -15,11 +18,13 @@ void _handleOpenedMassage(RemoteMessage message)
 {
   if(message.data!=null)
     {
-      Future.delayed(Duration(seconds: 2)).then((_)
+      Future.delayed(Duration(seconds: 1)).then((_)
       {
-        AppWebController.to.controller.value.loadRequest(
-            Uri.parse(message.data['deeplink']));
+        // AppWebController.to.controller.value.loadRequest(
+        //     Uri.parse(message.data['deeplink']));
+             Get.off(()=> NextPage(title: '',logImage: '',url: message.data['deeplink'], hideBar: true));
       });
+      
     }
 }
 void _onRenewToken(String token)

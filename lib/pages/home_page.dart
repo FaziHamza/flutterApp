@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Future<void> loadNewsData(String mKeyword,String subtopicId) async {
     mCurrentKey = mKeyword;
-    mHeader = subtopicId;
+    mHeader = mKeyword;
     setState(() {
       apiResponseController.cancelRequest();
       isLoading = true;
@@ -138,12 +138,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         print("App resumed......");
-        final webAppController = Get.find<AppWebController>();
-        String lastLink = webAppController.lastPageLink;
-        if (lastLink == '') {
-          lastLink = _getBaseUrl();
-        }
-        AppWebController.to.controller.value.loadRequest(Uri.parse(lastLink));
+        // final webAppController = Get.find<AppWebController>();
+        // String lastLink = webAppController.lastPageLink;
+        // if (lastLink == '') {
+        //   lastLink = _getBaseUrl();
+        // }
+        // AppWebController.to.controller.value.loadRequest(Uri.parse(lastLink));
         break;
       case AppLifecycleState.inactive:
       case AppLifecycleState.detached:

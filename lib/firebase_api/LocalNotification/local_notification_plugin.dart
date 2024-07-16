@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:news/main.dart';
+import 'package:news/pages/next_page.dart';
 import 'package:news/test.dart';
 
 import '../../controllers/app_web_controller.dart';
@@ -39,10 +40,12 @@ if(notificationResponse.payload!=null)
   {
     final data=jsonDecode(notificationResponse.payload!);
    // Get.put(AppWebController()).url_link.value="https://www.sportblitznews.se/news/notify/34HM9FK";
-   Future.delayed(Duration(seconds: 2)).then((_)
+   Future.delayed(Duration(seconds: 1)).then((_)
    {
-     AppWebController.to.controller.value.loadRequest(
-         Uri.parse(data['deeplink']));
+    //  AppWebController.to.controller.value.loadRequest(
+    //      Uri.parse(data['deeplink']));
+          print("Nitification link: ${data['deeplink']}");
+         Get.off(()=> NextPage(title: '',logImage: '',url: data['deeplink'], hideBar: true,));
    });
 
     // AppWebController.to.controller.value.loadRequest(
