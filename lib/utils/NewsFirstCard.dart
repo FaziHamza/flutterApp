@@ -7,7 +7,10 @@ import 'package:news/models/my_pod_cast_response.dart';
 import 'package:news/models/my_sites_reponse.dart';
 import 'package:news/models/my_video_hiegh_response.dart';
 import 'package:news/pages/next_page.dart';
+import 'package:news/pages/potcast_page.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:news/controllers/app_controller.dart';
 
 
 class NewsFirstCard extends StatelessWidget {
@@ -35,20 +38,20 @@ class NewsFirstCard extends StatelessWidget {
       margin: const EdgeInsets.all(5),
       color: const Color(0xff262626),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RoundedImage(imageUrl:imageUrl, mHeight: 200),
          //   const SizedBox(height: 3),
-            if(groupName != "null" && groupName != "" && groupName.isNotEmpty) Container(
+            Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
                     decoration: BoxDecoration(
                       color: const Color(0xff365880),
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: Text(
-                      groupName,
+                      groupName != "null" && groupName != "" && groupName.isNotEmpty ? groupName : "Nyheter",
                       style: const TextStyle(
                         color: Color.fromARGB(255, 243, 243, 243),
                         fontSize: 12.0,
@@ -95,7 +98,7 @@ class NewsFirstCard extends StatelessWidget {
                   ),
                   child: Text(
                     timeAgo(postTime),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color.fromARGB(255, 243, 243, 243),
                       fontSize: 9.0, // Adjust the font size as needed
                     ),
@@ -132,8 +135,8 @@ class NewsOtherCard extends StatelessWidget {
     required this.details,
     required this.postTime,
     required this.mId,
-    Key? key, // Ensure key is properly typed
-  }) : super(key: key);
+    super.key, // Ensure key is properly typed
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -150,13 +153,15 @@ class NewsOtherCard extends StatelessWidget {
             children: [
               RoundedSmallImage(imageUrl: imageUrl, mHeight: 100, mColor: Colors.transparent),
               const SizedBox(height: 3),
-              Text(
-                title,
-                style: const TextStyle(
+              SizedBox(
+               height: 40,
+               child:  Text(
+                title,style: const TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),
                 maxLines: 3,
+              ) 
               ),
               const SizedBox(height: 3),
               Row(
@@ -192,6 +197,168 @@ class NewsOtherCard extends StatelessWidget {
 }
 
 
+class NewsHighCard extends StatelessWidget {
+  final String imageUrl;
+  final String groupName;
+  final String title;
+  final String details;
+  final String mId;
+  final DateTime postTime;
+
+  const NewsHighCard({
+    required this.imageUrl,
+    required this.groupName,
+    required this.title,
+    required this.details,
+    required this.postTime,
+    required this.mId,
+    super.key, // Ensure key is properly typed
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 125, // Adjust the width as per your design requirements
+      child: Card(
+        elevation: 4,
+        margin: const EdgeInsets.only(left: 0, top: 0, bottom: 5),
+         color: const Color(0xff262626),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+               Stack(
+                alignment: Alignment.center,
+                children: [
+                RoundedSmallImage(imageUrl: imageUrl, mHeight: 100, mColor: Colors.transparent),
+                Positioned(
+                  child: Icon(
+                    Icons.play_circle_filled,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+              ]),
+              const SizedBox(height: 3),
+              SizedBox(
+               height: 40,
+               child:  Text(
+                title,style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 3,
+              ) 
+              ),
+              const SizedBox(height: 3),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(79, 79, 80, 1),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Text(
+                      timeAgo(postTime),
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 243, 243, 243),
+                        fontSize: 9.0,
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  Image.asset(
+                    mId.length > 7 ? 'assets/image/sporspot_news.png' : 'assets/image/afpnews.png',
+                    height: 22,
+                    width: 38,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class WebViewDialog extends StatelessWidget {
+  final String embededCode;
+
+  const WebViewDialog({required this.embededCode});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      contentPadding: EdgeInsets.zero,
+      insetPadding: const EdgeInsets.all(10),
+      content: SizedBox(
+        width: double.maxFinite,
+        height: 500,
+        child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const Spacer(),
+                      Row(
+                        children: [
+                          GestureDetector(
+                           onTap: () {
+                              Navigator.of(context).pop();
+                             },
+                          child: const Icon(
+                                Icons.close, color: Color(0xFF666666),
+                              ),
+                          )   
+                        ],
+                      )
+                    ],
+                  ),
+                  Container(
+                        width: double.maxFinite,
+                          height: 400,
+                          child: WebViewWidget(
+                            controller: WebViewController()
+                              ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                              ..loadHtmlString(embededCode),
+                          ),
+                        ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15, bottom: 3),
+                        child: AppController.to.copyRight(),
+                      ),
+                      Image.asset(
+                        'assets/image/black_sport_news.png',
+                        width: 120,
+                        height: 20,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+      )
+
+    );
+  }
+}
+
+void showWebViewDialog(BuildContext context, String url) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return WebViewDialog(embededCode: url);
+    },
+  );
+}
+
 class MySiteCard extends StatelessWidget {
   final String imageUrl;
 
@@ -222,8 +389,6 @@ class MySiteCard extends StatelessWidget {
     );
   }
 }
-
-
 
 
 String timeAgo(DateTime publishedDate) {
@@ -341,276 +506,6 @@ class RoundedSmallImage extends StatelessWidget {
   }
 }
 
-
-
-// class NewsList extends StatelessWidget {
-//   final List<News> mNewsList;
-
-//   const NewsList({super.key, required this.mNewsList});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//       padding: const EdgeInsets.all(5),
-//       itemCount: (mNewsList.length / 2).ceil() + 1,
-//       itemBuilder: (context, index) {
-//         if (index == 0) {
-//           // First row with one item
-//           final item = mNewsList[0];
-//           return GestureDetector(
-//             onTap: () {
-//               String article = item.articleLink.toString();
-//               if (article != "null" && article.isNotEmpty) {
-//                 Get.to(() => NextPage(
-//                       title: item.title.toString(),
-//                       url: item.articleLink.toString(),
-//                       logImage: item.generalistProfile.toString(),
-//                     ));
-//               }
-//             },
-//             child: NewsFirstCard(
-//               imageUrl: item.medias![1].href.toString(),
-//               title: item.title.toString(),
-//               details: item.content.toString(),
-//               groupName: item.generalistName.toString(),
-//               postTime: item.published ?? DateTime.now(),
-//               mId: item.id.toString()
-//             ),
-//           );
-//         } else {
-//           // Subsequent rows with two items
-//           final int itemIndex1 = (index - 1) * 2 + 1;
-//           final int itemIndex2 = itemIndex1 + 1;
-//           return Row(
-//             children: [
-//               Expanded(
-//                 child: itemIndex1 < mNewsList.length
-//                     ? GestureDetector(
-//                         onTap: () {
-//                           String article = mNewsList[itemIndex1].articleLink.toString();
-//                           if (article != "null" && article.isNotEmpty) {
-//                             Get.to(() => NextPage(
-//                                   title: mNewsList[itemIndex1].title.toString(),
-//                                   url: mNewsList[itemIndex1].articleLink.toString(),
-//                                   logImage: mNewsList[itemIndex1].generalistProfile.toString(),
-//                                 ));
-//                           }
-//                         },
-//                         child: NewsOtherCard(
-//                           imageUrl: mNewsList[itemIndex1].medias![1].href.toString(),
-//                           title: mNewsList[itemIndex1].title.toString(),
-//                           details: mNewsList[itemIndex1].content.toString(),
-//                           groupName: mNewsList[itemIndex1].generalistName.toString(),
-//                           postTime: mNewsList[itemIndex1].published ?? DateTime.now(),
-//                           mId:  mNewsList[itemIndex1].id.toString(),
-//                         ),
-//                       )
-//                     : Container(), // Empty container if no more items
-//               ),
-//               Expanded(
-//                 child: itemIndex2 < mNewsList.length
-//                     ? GestureDetector(
-//                         onTap: () {
-//                           String article = mNewsList[itemIndex2].articleLink.toString();
-//                           if (article != "null" && article.isNotEmpty) {
-//                             Get.to(() => NextPage(
-//                                   title: mNewsList[itemIndex2].title.toString(),
-//                                   url: mNewsList[itemIndex2].articleLink.toString(),
-//                                   logImage: mNewsList[itemIndex2].generalistProfile.toString(),
-//                                 ));
-//                           }
-//                         },
-//                         child: NewsOtherCard(
-//                           imageUrl: mNewsList[itemIndex2].medias![1].href.toString(),
-//                           title: mNewsList[itemIndex2].title.toString(),
-//                           details: mNewsList[itemIndex2].content.toString(),
-//                           groupName: mNewsList[itemIndex2].generalistName.toString(),
-//                           postTime: mNewsList[itemIndex2].published ?? DateTime.now(),
-//                           mId:  mNewsList[itemIndex1].id.toString(),
-//                         ),
-//                       )
-//                     : Container(), // Empty container if no more items
-//               ),
-//             ],
-//           );
-//         }
-//       },
-//     );
-//   }
-// }
-
-
-// class NewsList extends StatelessWidget {
-//   final List<News> mNewsList;
-
-//   const NewsList({Key? key, required this.mNewsList}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//       padding: const EdgeInsets.all(5),
-//       itemCount: _calculateItemCount(),
-//       itemBuilder: (context, index) {
-//         if (index == 0) {
-//           // First row with one item
-//           return _buildFirstRow();
-//         } else if (index == 1) {
-//           // Second row (Recent) with next 4 items in horizontal scroll
-//           return _buildSecondRow("Recent");
-//         } else {
-//           // Subsequent rows (Highlights) with remaining items in horizontal scroll
-//           return _buildSubsequentRow(index, "Highlights");
-//         }
-//       },
-//     );
-//   }
-
-//   int _calculateItemCount() {
-//     if (mNewsList.length == 1) {
-//       return 1;
-//     } else if (mNewsList.length > 1 && mNewsList.length < 6) {
-//       return 2;
-//     } else {
-//       return 3;
-//     }
-//   }
-
-//   Widget _buildFirstRow() {
-//     final item = mNewsList.isNotEmpty ? mNewsList[0] : null;
-//     if (item == null) {
-//       return SizedBox(); // Return an empty container or placeholder if list is empty
-//     }
-
-//     return GestureDetector(
-//       onTap: () {
-//         String article = item.articleLink.toString();
-//         if (article != "null" && article.isNotEmpty) {
-//           Get.to(() => NextPage(
-//                 title: item.title.toString(),
-//                 url: item.articleLink.toString(),
-//                 logImage: item.generalistProfile.toString(),
-//               ));
-//         }
-//       },
-//       child: NewsFirstCard(
-//         imageUrl: item.medias![1].href.toString(),
-//         title: item.title.toString(),
-//         details: item.content.toString(),
-//         groupName: item.generalistName.toString(),
-//         postTime: item.published ?? DateTime.now(),
-//         mId: item.id.toString(),
-//       ),
-//     );
-//   }
-
-//   Widget _buildSecondRow(String title) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
-//           child: Text(
-//             title,
-//             style: TextStyle(
-//               fontSize: 16,
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//         ),
-//         SingleChildScrollView(
-//           scrollDirection: Axis.horizontal,
-//           child: Row(
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//             children: List.generate(
-//               min(4, mNewsList.length - 1),
-//               (i) {
-//                 final item = mNewsList[i + 1];
-//                 return Padding(
-//                   padding: const EdgeInsets.all(2),
-//                   child: GestureDetector(
-//                     onTap: () {
-//                       String article = item.articleLink.toString();
-//                       if (article != "null" && article.isNotEmpty) {
-//                         Get.to(() => NextPage(
-//                               title: item.title.toString(),
-//                               url: item.articleLink.toString(),
-//                               logImage: item.generalistProfile.toString(),
-//                             ));
-//                       }
-//                     },
-//                     child: NewsOtherCard(
-//                       imageUrl: item.medias![1].href.toString(),
-//                       title: item.title.toString(),
-//                       details: item.content.toString(),
-//                       groupName: item.generalistName.toString(),
-//                       postTime: item.published ?? DateTime.now(),
-//                       mId: item.id.toString(),
-//                     ),
-//                   ),
-//                 );
-//               },
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-
-//   Widget _buildSubsequentRow(int index, String title) {
-//     final startIndex = (index - 1) * 5 + 1;
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
-//           child: Text(
-//             title,
-//             style: TextStyle(
-//               fontSize: 16,
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//         ),
-//         SingleChildScrollView(
-//           scrollDirection: Axis.horizontal,
-//           child: Row(
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//             children: List.generate(
-//               min(5, mNewsList.length - startIndex),
-//               (i) {
-//                 final item = mNewsList[startIndex + i];
-//                 return Padding(
-//                   padding: const EdgeInsets.all(2),
-//                   child: GestureDetector(
-//                     onTap: () {
-//                       String article = item.articleLink.toString();
-//                       if (article != "null" && article.isNotEmpty) {
-//                         Get.to(() => NextPage(
-//                               title: item.title.toString(),
-//                               url: item.articleLink.toString(),
-//                               logImage: item.generalistProfile.toString(),
-//                             ));
-//                       }
-//                     },
-//                     child: NewsOtherCard(
-//                       imageUrl: item.medias![1].href.toString(),
-//                       title: item.title.toString(),
-//                       details: item.content.toString(),
-//                       groupName: item.generalistName.toString(),
-//                       postTime: item.published ?? DateTime.now(),
-//                       mId: item.id.toString(),
-//                     ),
-//                   ),
-//                 );
-//               },
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 // Main NewsList Widget
 class NewsList extends StatelessWidget {
   final List<News> mNewsList;
@@ -618,6 +513,7 @@ class NewsList extends StatelessWidget {
   final List<MySite> mMySiteList;
   final List<PodCast> mPodCastList;
   final List<String> todayHighLights;
+  final String mHeader;
 
   const NewsList({
     Key? key,
@@ -625,7 +521,8 @@ class NewsList extends StatelessWidget {
     required this.mHilightsList,
     required this.mMySiteList,
     required this.mPodCastList,
-    required this.todayHighLights
+    required this.todayHighLights,
+    required this.mHeader
   }) : super(key: key);
 
   @override
@@ -642,7 +539,7 @@ class NewsList extends StatelessWidget {
           if(mNewsList.length>1){
             return _buildSecondRow();
           } else if(mHilightsList.isNotEmpty){
-            return _buildHighlightsRow();
+            return _buildHighlightsRow(context);
           }else if(mMySiteList.isNotEmpty){
             return _buildMySiteListRow();
           }else if(mPodCastList.isNotEmpty){
@@ -654,7 +551,7 @@ class NewsList extends StatelessWidget {
         } else if (index == 2) {
           // Highlights row after Recent row
          if(mHilightsList.isNotEmpty && mNewsList.length>1){
-            return _buildHighlightsRow();
+            return _buildHighlightsRow(context);
           }else if(mMySiteList.isNotEmpty){
             return _buildMySiteListRow();
           }else if(mPodCastList.isNotEmpty){
@@ -740,7 +637,7 @@ class NewsList extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
           child: Text(
-            "Recent",
+            "Mer nyheter",
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -760,6 +657,7 @@ class NewsList extends StatelessWidget {
                   padding: const EdgeInsets.all(2),
                   child: GestureDetector(
                     onTap: () {
+                      //String article = (item.isExternal == true)? item.articleLink.toString(): getArticalLink(mHeader, "");
                       String article = item.articleLink.toString();
                       if (article != "null" && article.isNotEmpty) {
                         Get.to(() => NextPage(
@@ -787,13 +685,13 @@ class NewsList extends StatelessWidget {
     );
   }
 
-  Widget _buildHighlightsRow() {
+  Widget _buildHighlightsRow(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
-          child: Text(
+          child: const Text(
             "Highlights",
             style: TextStyle(
               fontSize: 16,
@@ -814,9 +712,9 @@ class NewsList extends StatelessWidget {
                   padding: const EdgeInsets.all(2),
                   child: GestureDetector(
                     onTap: () {
-                      
+                      showWebViewDialog(context, item.embededCode!);
                     },
-                    child: NewsOtherCard(
+                    child: NewsHighCard(
                       imageUrl:'https://sportspotadmin.dev/${item.thumbnail}' ,
                       title: item.text.toString(),
                       details: "null",
@@ -910,7 +808,10 @@ class NewsList extends StatelessWidget {
                   padding: const EdgeInsets.all(2),
                   child: GestureDetector(
                     onTap: () {
-                      // Handle onTap for Podcast list item
+                      String subTopicId = item.subTopicId.toString();
+                      if (subTopicId != "null" && subTopicId.isNotEmpty) {
+                        Get.to(() => PodcastPage(subtopicId: subTopicId,title: "Pod Cast"));
+                      }
                     },
                     child: MySiteCard(
                      imageUrl: 'https://sportspotadmin.dev/${item.thumbnail}',
@@ -990,24 +891,34 @@ Widget _buildTodayListRow() {
           ),
         ),
       ),
-      Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
-                    margin: const EdgeInsets.only(bottom: 10.0),
-                    decoration: BoxDecoration(
-                      color: const Color.fromRGBO(79, 79, 80, 1),
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: const Text(
-                      'Load More',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 243, 243, 243),
-                        fontSize: 9.0,
-                      ),
-                    ),
-                  )
+      // Container(
+      //               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
+      //               margin: const EdgeInsets.only(bottom: 10.0),
+      //               decoration: BoxDecoration(
+      //                 color: const Color.fromRGBO(79, 79, 80, 1),
+      //                 borderRadius: BorderRadius.circular(20.0),
+      //               ),
+      //               child: const Text(
+      //                 'Load More',
+      //                 style: TextStyle(
+      //                   color: Color.fromARGB(255, 243, 243, 243),
+      //                   fontSize: 9.0,
+      //                 ),
+      //               ),
+      //             )
     ],
   );
 }
 
+  String getArticalLink(String item, String name) {
+    String link = item;
+    if (link[link.length - 1] == '_') {
+      link = link.substring(0, link.length - 1);
+    }
+    return 'https://sportblitznews.se/news/$link/$name';
+  }
+
 
 }
+
+

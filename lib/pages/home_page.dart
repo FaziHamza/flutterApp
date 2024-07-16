@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   bool isLoading = true;
    String mCurrentKey = "";
+   String mHeader = "";
 
   @override
   void initState() {
@@ -77,6 +78,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   void dispose() {
     super.dispose();
     WidgetsBinding.instance.removeObserver(this);
+    apiResponseController.cancelRequest();
   }
 
   String _getBaseUrl() {
@@ -91,7 +93,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Future<void> loadNewsData(String mKeyword,String subtopicId) async {
     mCurrentKey = mKeyword;
+    mHeader = subtopicId;
     setState(() {
+      apiResponseController.cancelRequest();
       isLoading = true;
       mNewsList = [];
       mMySiteList = [];
@@ -102,21 +106,22 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     final responseNews = await apiResponseController.fetchNews(keyword: mKeyword, lang: "sv", sport: "");
     setState(() {
       mNewsList = responseNews.news;
+        isLoading = false;
     });
     final responseSites = await apiResponseController.fetchMySites(subtopicId: subtopicId);
     setState(() {
       mMySiteList = responseSites.data;
+        //isLoading = false;
     });
     final responseHigh = await apiResponseController.fetchMyHilights(subtopicId: subtopicId);
     setState(() {
       mHilightsList = responseHigh.news;
+        //isLoading = false;
     });
     final responsePod= await apiResponseController.fetchMyPodCast(subtopicId: subtopicId);
     setState(() {
       mPodCastList = responsePod.data;
-    });
-     setState(() {
-      isLoading = false;
+       // isLoading = false;
     });
   } catch (e) {
     setState(() {
@@ -190,16 +195,20 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     'How Man Utd \'laughing stock\' Rangnick restored reputation with Austria...',
                     'England frustrated in Slovenia draw but still top group',
                     'Draw opens up - England\'s path through the knockouts'
-                  ],)
+                  ], mHeader: mHeader)
             ),
           ),
         ],
       ),
-      drawer: AppDrawer().getAppDrawer(),
+      drawer: AppDrawer().getAppDrawer((value) {
+        String mKey = value.keyword!.toString();
+          if (mCurrentKey != mKey) {
+            loadNewsData(mKey, value.subTopicId!);
+          }
+      },),
       bottomNavigationBar: BottomNavbarSection(
         onClick: (value) {
           String mKey = extractValue(value.key!.toString());
-          print('Clicked: $mKey');
           if (mCurrentKey != mKey) {
             loadNewsData(mKey, value.tooltip!);
           }

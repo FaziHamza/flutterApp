@@ -9,7 +9,13 @@ import 'package:news/models/my_pod_cast_response.dart';
 import 'package:news/models/my_sites_reponse.dart';
 import 'package:news/models/my_video_hiegh_response.dart';
 
+import 'package:dio/dio.dart';
+
+
 class ApiResponseController extends GetxController {
+  Dio _dio = Dio();
+  CancelToken? _cancelToken;
+
   Future<ApiResponse> fetchTopics() async {
     var response = await http.get(Uri.parse(
         'https://sportspotadmin.dev//api/Topic/GetTopicWithSubTopicv1?regionId=fc72efe0-7ba9-49bf-95a5-08dbd95a31db'));
@@ -22,10 +28,11 @@ class ApiResponseController extends GetxController {
   Future<ApiNewsResponse> fetchNews({
     required String keyword,required String lang,required String sport,
   }) async {
+     _cancelToken = CancelToken();
     var uri = Uri.parse('https://sportblitznews.se/V4/api/news/getNewsByTeam?keyword=$keyword&lang=$lang&sport=$sport');
     var response = await http.get(uri);
     if (response.statusCode == 200) {
-       print('fetchNews: ${response.body}');
+  //     print('${uri.path}: ${response.body}');
       ApiNewsResponse apiResponse = ApiNewsResponse.fromJson(jsonDecode(response.body));
       return apiResponse;
     } else {
@@ -35,10 +42,11 @@ class ApiResponseController extends GetxController {
 
 
   Future<ApiMySiteResponse> fetchMySites({ required String subtopicId}) async {
+     _cancelToken = CancelToken();
     var uri = Uri.parse('https://sportspotadmin.dev/api/ExternalLink/GetExternalLinkBySubtopicId?subtopicId=$subtopicId');
     var response = await http.get(uri);
     if (response.statusCode == 200) {
-       print('fetchMySites: ${response.body}');
+//       print('${uri.path}: ${response.body}');
       ApiMySiteResponse apiResponse = ApiMySiteResponse.fromJson(jsonDecode(response.body));
       return apiResponse;
     } else {
@@ -49,10 +57,11 @@ class ApiResponseController extends GetxController {
   
 
   Future<ApiPodCastResponse> fetchMyPodCast({ required String subtopicId}) async {
+     _cancelToken = CancelToken();
     var uri = Uri.parse('https://sportspotadmin.dev//api/VideoPodcast/GetVideoPodcastBySubtopicIdonly?subtopicId=$subtopicId');
     var response = await http.get(uri);
     if (response.statusCode == 200) {
-       print('fetchMyPodCast: ${response.body}');
+       //print('${uri.path}: ${response.body}');
       ApiPodCastResponse apiResponse = ApiPodCastResponse.fromJson(jsonDecode(response.body));
       return apiResponse;
     } else {
@@ -63,15 +72,20 @@ class ApiResponseController extends GetxController {
   
 
   Future<ApiHilightsResponse> fetchMyHilights({ required String subtopicId}) async {
+     _cancelToken = CancelToken();
     var uri = Uri.parse('https://sportspotadmin.dev//api/VideoHighlight/GetVideoHighlightBySubtopicIdonly?subtopicId=$subtopicId');
     var response = await http.get(uri);
     if (response.statusCode == 200) {
-       print('fetchMyHilights: ${response.body}');
+       //print('${uri.path}: ${response.body}');
       ApiHilightsResponse apiResponse = ApiHilightsResponse.fromJson(jsonDecode(response.body));
       return apiResponse;
     } else {
       throw Exception('Failed to load news');
     }
+  }
+
+   void cancelRequest() {
+    _cancelToken?.cancel("User navigated to another menu");
   }
 
 

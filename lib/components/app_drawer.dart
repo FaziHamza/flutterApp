@@ -10,11 +10,15 @@ import '../controllers/app_controller.dart';
 import '../controllers/app_web_controller.dart';
 import '../models/api_response.dart';
 import '../utils/app_color_swatch.dart';
+import '../models/subtopic.dart';
 
 class AppDrawer {
-  Widget getAppDrawer() {
+
+
+  Widget getAppDrawer(ValueChanged<Subtopic>? onClick) {
     SubtopicNavController subtopicNavController = Get.find();
     ApiResponseController apiResponseController = Get.find();
+   
     // List<Subtopic> savedSubtopics = PreferenceService().loadNavbarItems();
 
     showSnackBar() {
@@ -125,7 +129,7 @@ class AppDrawer {
                             itemCount: apiResponse.menuItems!.length,
                             itemBuilder: (context, i) {
                               List<MenuItem> items = apiResponse.menuItems!;
-                              return DrawerItem(menuItem: items[i]);
+                              return DrawerItem(menuItem: items[i], onClick:onClick);
                             },
                             separatorBuilder:
                                 (BuildContext context, int index) {
@@ -154,43 +158,6 @@ class AppDrawer {
                         width: 120,
                         // height: 60,
                       ),
-
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Image.asset(
-                      //       'assets/image/logo.png',
-                      //       width: 120,
-                      //       height: 60,
-                      //     ),
-                      // Row(
-                      //   children: [
-                      //     GetBuilder<SubtopicNavController>(
-                      //         builder: (subTopNavController) {
-                      //       return InkWell(
-                      //         onTap: () {
-                      //           showSnackBar();
-                      //         },
-                      //         child: const Text('KLAR', style: TextStyle(
-                      //             fontSize: 18,
-                      //             color: Colors.white,
-                      //           ),
-                      //         ),
-                      //       );
-                      //     }),
-                      //     const SizedBox(width: 8),
-                      //   ],
-                      // )
-                      //   ],
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(top: 7.0, bottom: 10),
-                      //   child: AppController.to.copyRight(),
-                      // ),
-                      // Divider(
-                      //   color: Colors.grey.shade200,
-                      //   height: 4,
-                      // ),
                     ],
                   )
                 ],

@@ -12,7 +12,8 @@ import '../utils/subtopic_navitem_controller.dart';
 
 class DrawerItem extends StatefulWidget {
   final MenuItem menuItem;
-  const DrawerItem({super.key, required this.menuItem});
+  final ValueChanged<Subtopic>? onClick;
+  const DrawerItem({super.key, required this.menuItem, this.onClick});
 
   @override
   State<DrawerItem> createState() => _DrawerItemState();
@@ -147,6 +148,9 @@ class _DrawerItemState extends State<DrawerItem> {
                                 onChanged: (bool value) {
                                   subtopic.isSwitchedOn.value = value;
                                   subtopicNavController.toggleSubtopic(subtopic, value);
+                                  if(value){
+                                    widget.onClick!(subtopic);
+                                  }
                                 },
                                 activeTrackColor: const Color(0xFF365880),
                                 inactiveTrackColor: const Color(0xFFA7A7A7),
