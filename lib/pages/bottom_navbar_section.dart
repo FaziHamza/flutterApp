@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:news/models/subtopic.dart';
 
 import '../utils/app_color_swatch.dart';
 import '../utils/subtopic_navitem_controller.dart';
@@ -8,9 +9,10 @@ import 'bottom_navbar_item.dart';
 
 class BottomNavbarSection extends StatelessWidget {
   final ValueChanged<BottomNavigationBarItem>? onClick;
+  List<Subtopic> savedSubtopics = [];
  // const BottomNavbarSection({super.key, this.onClick});
 
-  const BottomNavbarSection({super.key, this.onClick});
+  BottomNavbarSection({super.key, required this.savedSubtopics, this.onClick});
 
   // final SubtopicNavController navController =
   //   Get.put(SubtopicNavController(), permanent: true);
@@ -18,7 +20,7 @@ class BottomNavbarSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SubtopicNavController>(builder: (navController) {
-      var items = navController.getNavbarItems();
+      var items = navController.getNavbarItems(savedSubtopics);
       if (items.isEmpty) {
         return Container(
           height: 90,

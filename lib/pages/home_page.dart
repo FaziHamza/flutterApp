@@ -10,8 +10,10 @@ import 'package:news/models/News.dart';
 import 'package:news/models/my_pod_cast_response.dart';
 import 'package:news/models/my_sites_reponse.dart';
 import 'package:news/models/my_video_hiegh_response.dart';
+import 'package:news/models/subtopic.dart';
 import 'package:news/pages/bottom_navbar_section.dart';
 import 'package:news/pages/next_page.dart';
+import 'package:news/services/preference_service.dart';
 import 'package:news/utils/ExpenseCard.dart';
 import 'package:news/utils/NewsFirstCard.dart';
 import 'package:news/utils/app_constants.dart';
@@ -42,6 +44,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   List<MySite> mMySiteList = [];
   List<PodCast> mPodCastList = [];
   List<Hilights> mHilightsList = [];
+  List<Subtopic> savedSubtopics = [];
 
   bool isLoading = true;
    String mCurrentKey = "";
@@ -69,8 +72,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     });
     Future.delayed(Duration(seconds: 2)).then((_)
     {
-      setState(() {
-      });
+      loadMenuItem();
     });
   }
 
@@ -90,6 +92,42 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       return AppConstants.baseUrl;
     }
   }
+
+Future<void> loadMenuItem() async {
+  print("Update Menu");
+  final response = await apiResponseController.fetchTopics();
+  List<Subtopic> savedSubtopics = PreferenceService().loadNavbarItems();
+
+  void updateSubtopic(Subtopic subTopic) {
+    PreferenceService().removeSubtopic(subTopic);
+    PreferenceService().saveSubtopic(subTopic);
+  }
+
+  bool isSubtopicUpdated(Subtopic savedSubtopic) {
+    for (var item in response.menuItems ?? []) {
+      for (var topic in item.topics ?? []) {
+        for (var subTopic in topic.subtopics ?? []) {
+          if (savedSubtopic.subTopicId == subTopic.subTopicId) {
+            updateSubtopic(subTopic);
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  for (var savedSubtopic in savedSubtopics) {
+    if (!isSubtopicUpdated(savedSubtopic)) {
+      PreferenceService().removeSubtopic(savedSubtopic);
+    }
+  }
+
+  setState(() {
+      savedSubtopics = PreferenceService().loadNavbarItems();
+    });
+}
+
 
   Future<void> loadNewsData(String mKeyword,String subtopicId) async {
     mCurrentKey = mKeyword;
@@ -207,6 +245,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           }
       },),
       bottomNavigationBar: BottomNavbarSection(
+        savedSubtopics:savedSubtopics,
         onClick: (value) {
           String mKey = extractValue(value.key!.toString());
           if (mCurrentKey != mKey) {

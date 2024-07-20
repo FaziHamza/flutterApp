@@ -121,8 +121,6 @@ class _DrawerItemState extends State<DrawerItem> {
                         for (var savedSubtopic in savedSubtopics) {
                           if (savedSubtopic.subTopicId == subtopic.subTopicId) {
                             subtopic.isSwitchedOn.value = true;
-                            PreferenceService().removeSubtopic(subtopic);
-                            PreferenceService().saveSubtopic(subtopic);
                           }
                         }
                         return Column(

@@ -164,7 +164,7 @@ class _NextPageState extends State<NextPage> {
             alignment: Alignment.bottomCenter,
             height: 85.0,
             padding:
-                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -176,7 +176,7 @@ class _NextPageState extends State<NextPage> {
                   },
                 ),
                 Image.asset(
-                  'assets/image/logo.png',
+                  'assets/image/black_sport_news.png',
                   height: 36.0,
                 ),
                 SvgPicture.asset(
@@ -276,7 +276,7 @@ class _NextPageState extends State<NextPage> {
               color: const Color(0xff262626),
               // Slight transparency
               padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
               height: 85.0,
               alignment: Alignment.bottomCenter,
               child: Row(
@@ -290,7 +290,7 @@ class _NextPageState extends State<NextPage> {
                     },
                   ),
                   Image.asset(
-                    'assets/image/logo.png',
+                    'assets/image/black_sport_news.png',
                     height: 36.0,
                   ),
                   SvgPicture.asset(

@@ -71,8 +71,8 @@ class SubtopicNavController extends GetxController {
   }
 
   // Method to build the bottom navigation bar items
-  List<BottomNavigationBarItem> getNavbarItems() {
-    activeSubtopics.value = PreferenceService().loadNavbarItems();
+  List<BottomNavigationBarItem> getNavbarItems(List<Subtopic> savedSubtopics) {
+    activeSubtopics.value = savedSubtopics.isNotEmpty ? savedSubtopics : PreferenceService().loadNavbarItems();
     return activeSubtopics.map((subtopic) {
       return BottomNavigationBarItem(
         // You can customize this icon
