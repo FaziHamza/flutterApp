@@ -47,26 +47,23 @@ class NewsFirstCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RoundedImage(imageUrl: imageUrl, mHeight: 200),
+            RoundedImage(imageUrl:imageUrl, mHeight: 200),
             const SizedBox(height: 5),
             Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0, vertical: 5.0),
-              decoration: BoxDecoration(
-                color: const Color(0xff365880),
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: Text(
-                groupName != "null" && groupName != "" && groupName.isNotEmpty
-                    ? groupName
-                    : "Nyheter",
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 243, 243, 243),
-                  fontSize: 12.0,
-                ),
-              ),
-            ),
-            const SizedBox(height: 3),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff365880),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Text(
+                      groupName != "null" && groupName != "" && groupName.isNotEmpty ? groupName : "Nyheter",
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 243, 243, 243),
+                        fontSize: 12.0,
+                      ),
+                    ),
+                  ),
+             const SizedBox(height: 3),
             Text(
               title,
               style: const TextStyle(
@@ -92,7 +89,7 @@ class NewsFirstCard extends StatelessWidget {
                 ),
               },
             ),
-            if(details != "null") const SizedBox(height: 5),
+            if(details != "null") const SizedBox(height: 6),
             Row(
               children: [
                 Container(
@@ -183,7 +180,7 @@ class NewsOtherCard extends StatelessWidget {
                     maxLines: 3,
                   )
               ),
-              const SizedBox(height: 3),
+              const SizedBox(height: 5),
               Row(
                 children: [
                   Container(
