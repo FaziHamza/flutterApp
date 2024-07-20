@@ -47,7 +47,7 @@ class NewsFirstCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RoundedImage(imageUrl:imageUrl, mHeight: 200),
-         //   const SizedBox(height: 3),
+            const SizedBox(height: 5),
             Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
                     decoration: BoxDecoration(
@@ -88,12 +88,12 @@ class NewsFirstCard extends StatelessWidget {
                 ),
               },
             ),
-            if(details != "null") const SizedBox(height: 3),
+            if(details != "null") const SizedBox(height: 5),
             Row(
               children: [
                  Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 6.0),
+                      horizontal: 10.0, vertical: 4.0),
                   decoration: BoxDecoration(
                     color: const Color.fromRGBO(79, 79, 80, 1),
                     borderRadius: BorderRadius.circular(
@@ -160,7 +160,7 @@ class NewsOtherCard extends StatelessWidget {
         margin: const EdgeInsets.only(left: 0, top: 0, bottom: 5),
          color: const Color(0xff262626),
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.all(6.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -34,7 +34,7 @@ class BottomNavbarSection extends StatelessWidget {
         );
       }
       return Container(
-        height: 100,
+        height: 110,
         width: Get.width,
         padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
         decoration: const BoxDecoration(),
@@ -47,10 +47,10 @@ class BottomNavbarSection extends StatelessWidget {
             //  topLeft: Radius.circular(15),
             ),
           ),
-          height: 100.0,
+          height: 110.0,
           width: double.infinity,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
             decoration: const BoxDecoration(
               color: Color(0xff262626),
               borderRadius: BorderRadius.all( Radius.circular(15)),
