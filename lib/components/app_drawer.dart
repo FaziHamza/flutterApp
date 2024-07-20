@@ -13,50 +13,20 @@ import '../utils/app_color_swatch.dart';
 import '../models/subtopic.dart';
 
 class AppDrawer {
-
-
-  Widget getAppDrawer(ValueChanged<Subtopic>? onClick) {
-    SubtopicNavController subtopicNavController = Get.find();
+  Widget getAppDrawer(BuildContext context, ValueChanged<Subtopic>? onClick) {
     ApiResponseController apiResponseController = Get.find();
-   
+
+    final storage = GetStorage();
     // List<Subtopic> savedSubtopics = PreferenceService().loadNavbarItems();
 
     showSnackBar() {
-      final storage = GetStorage();
       if (storage.read("showNotification") == true) {
-        Get.snackbar(
-          'Loading',
-          "Saving. Please wait...",
-          colorText: Colors.white,
-          backgroundColor: AppColorSwatch.appChipColor,
-          snackPosition: SnackPosition.BOTTOM,
-          showProgressIndicator: true,
-        );
         storage.write("showNotification", false);
         storage.write("isFirstTime", false);
       }
-      // static AppWebController get to => Get.put(AppWebController());
-
-      final appWebController = Get.find<AppWebController>();
-      appWebController.homeScaffoldKey.currentState!.closeDrawer();
-      // subtopicNavController.
-      subtopicNavController.toggleSaveButton(false);
-      var items = subtopicNavController.getNavbarItems();
-      // var subTopicId = items[0].subTopicId;
-      subtopicNavController.toggleSelectedNavItem(0);
-      String link = items[0].tooltip!;
-      print(
-          'this is link before the cut :: ${AppConstants.baseUrl}/news/${link}');
-      // int lenghtOfString = link.length;
-      if (link[link.length - 1] == '_') {
-        link = link.substring(0, link.length - 1);
-      }
-
-      AppWebController.to.controller.value
-          .loadRequest(Uri.parse('${AppConstants.baseUrl}/news/${link}'));
+      Navigator.pop(context);
     }
 
-    final storage = GetStorage();
     storage.writeIfNull("isFirstTime", true);
     storage.writeIfNull("showNotification", true);
 
@@ -129,7 +99,8 @@ class AppDrawer {
                             itemCount: apiResponse.menuItems!.length,
                             itemBuilder: (context, i) {
                               List<MenuItem> items = apiResponse.menuItems!;
-                              return DrawerItem(menuItem: items[i], onClick:onClick);
+                              return DrawerItem(
+                                  menuItem: items[i], onClick: onClick);
                             },
                             separatorBuilder:
                                 (BuildContext context, int index) {

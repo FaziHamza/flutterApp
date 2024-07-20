@@ -200,7 +200,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           ),
         ],
       ),
-      drawer: AppDrawer().getAppDrawer((value) {
+      drawer: AppDrawer().getAppDrawer(context, (value) {
         String mKey = value.keyword!.toString();
           if (mCurrentKey != mKey) {
             loadNewsData(mKey, value.subTopicId!);

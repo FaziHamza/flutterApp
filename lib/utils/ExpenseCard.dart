@@ -24,7 +24,8 @@ class NewaCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 image: DecorationImage(
-                  image:  NetworkImage(news.medias![1].href.toString()), // Replace with your image asset
+                  image: NetworkImage(news.medias![1].href.toString()),
+                  // Replace with your image asset
                   fit: BoxFit.cover,
                 ),
               ),
@@ -50,7 +51,8 @@ class NewaCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    news.generalistName.toString(), // Assuming this is a static text for news
+                    news.generalistName.toString(),
+                    // Assuming this is a static text for news
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -68,7 +70,8 @@ class NewaCard extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Description: ${news.content}', // Display news description or content
+                    'Description: ${news.content}',
+                    // Display news description or content
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -84,7 +87,8 @@ class NewaCard extends StatelessWidget {
                       ),
                       SizedBox(width: 4),
                       Text(
-                        news.published.toString(), // Display time ago from news model
+                        news.published.toString(),
+                        // Display time ago from news model
                         style: TextStyle(
                           color: Colors.white70,
                         ),

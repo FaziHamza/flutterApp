@@ -2,11 +2,11 @@
 import 'dart:developer';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
 
 class NextPage extends StatefulWidget {
   final String title;
@@ -14,6 +14,7 @@ class NextPage extends StatefulWidget {
   final String url;
   final String? oldUrl;
   final bool hideBar;
+
   const NextPage({
     super.key,
     required this.title,
@@ -34,16 +35,20 @@ class _NextPageState extends State<NextPage> {
   String oldUrl = '';
 
   setImageLink() {
-    try{
-      print('this is image Logo ::${widget.logImage}');
-      print('this is loading url :: ${widget.url}');
-      if(widget.logImage.length> 0){
+    try {
+      if (kDebugMode) {
+        print('this is loading url :: ${widget.url}');
+        print('this is image Logo ::${widget.logImage}');
+      }
+      if (widget.logImage.isNotEmpty) {
         if (widget.logImage[widget.logImage.length - 1] == '/') {
           imageLink = widget.logImage.substring(0, widget.logImage.length - 1);
         }
       }
-    }on Exception{
-      print("Error");
+    } on Exception {
+      if (kDebugMode) {
+        print("Error");
+      }
     }
   }
 
@@ -54,14 +59,14 @@ class _NextPageState extends State<NextPage> {
   void initState() {
     super.initState();
     oldUrl = widget.oldUrl.toString();
-  
+
     analytics.logEvent(
       name: 'pages_tracked',
       parameters: {
         'page_name': 'External Page',
       },
     );
-  
+
     setImageLink();
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -81,11 +86,10 @@ class _NextPageState extends State<NextPage> {
               isLoading = false;
             });
           },
-
           onNavigationRequest: (request) async {
             if (GetPlatform.isAndroid) {
               Get.to(
-                    () => NextPage(
+                () => NextPage(
                     title: widget.title,
                     oldUrl: widget.url,
                     url: request.url,
@@ -94,16 +98,17 @@ class _NextPageState extends State<NextPage> {
               );
               return NavigationDecision.prevent;
             } else if (GetPlatform.isIOS) {
-              print('request url ==== ${request.url}');
-              if (
-              request.url.contains('fotbolldirekt.se/') ||
+              if (kDebugMode) {
+                print('request url ==== ${request.url}');
+              }
+              if (request.url.contains('fotbolldirekt.se/') ||
                   request.url.contains('https://online.equipe.com/') ||
                   request.url.contains('https://ridsport.se/') ||
                   request.url.contains('https://www.scorebat.com/') ||
                   request.url.contains('https://fotbolldirekt.se/') ||
-                  request.url.contains('https://online-uploads.equipeassets.com/') ||
-                  request.url.contains('https://www.fotbollskanalen.se/')
-              ) {
+                  request.url
+                      .contains('https://online-uploads.equipeassets.com/') ||
+                  request.url.contains('https://www.fotbollskanalen.se/')) {
                 log('this request condition is true :: ${request.url}');
                 await Future.delayed(
                   const Duration(milliseconds: 500),
@@ -111,10 +116,9 @@ class _NextPageState extends State<NextPage> {
 
                 if (widget.oldUrl != widget.url && oldUrl != "") {
                   Get.to(
-                        () => NextPage(
+                    () => NextPage(
                         title: widget.title,
-                        oldUrl: "",
-                        // widget.url,
+                        oldUrl: "", // widget.url,
                         url: request.url.toString(),
                         logImage: widget.logImage),
                     preventDuplicates: false,
@@ -127,9 +131,13 @@ class _NextPageState extends State<NextPage> {
                 }
               }
             } else {
-              Get.to(() =>
-                  NextPage(title: widget.title, url: request.url, logImage: widget.logImage),
-                preventDuplicates: false,);
+              Get.to(
+                () => NextPage(
+                    title: widget.title,
+                    url: request.url,
+                    logImage: widget.logImage),
+                preventDuplicates: false,
+              );
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
@@ -141,21 +149,22 @@ class _NextPageState extends State<NextPage> {
       ..loadRequest(Uri.parse(widget.url));
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return widget.hideBar ? custom(context) : defaultView(context);
   }
-  
+
   Widget defaultView(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
           Container(
-           color: const Color(0xff262626),
-            alignment:Alignment.bottomCenter,
+            color: const Color(0xff262626),
+            alignment: Alignment.bottomCenter,
             height: 85.0,
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -183,9 +192,7 @@ class _NextPageState extends State<NextPage> {
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : WebViewWidget(
-                   controller: controller
-                  ),
+                : WebViewWidget(controller: controller),
           ),
         ],
       ),
@@ -245,8 +252,7 @@ class _NextPageState extends State<NextPage> {
     );
   }
 
-
-  Widget custom(BuildContext context){
+  Widget custom(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -267,8 +273,10 @@ class _NextPageState extends State<NextPage> {
             left: 0,
             right: 0,
             child: Container(
-              color: const Color(0xff262626), // Slight transparency
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
+              color: const Color(0xff262626),
+              // Slight transparency
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
               height: 85.0,
               alignment: Alignment.bottomCenter,
               child: Row(
@@ -305,12 +313,14 @@ class _NextPageState extends State<NextPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+                    padding:
+                        const EdgeInsets.only(left: 12, right: 12, bottom: 12),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.rectangle,
-                        borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(32.0)),
                         border: Border.all(color: Colors.white),
                       ),
                       child: Padding(
@@ -318,7 +328,8 @@ class _NextPageState extends State<NextPage> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            if (widget.logImage != 'null' && widget.logImage != '')
+                            if (widget.logImage != 'null' &&
+                                widget.logImage != '')
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
                                 child: Image.network(
