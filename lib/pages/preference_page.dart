@@ -245,7 +245,7 @@ class PreferencePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Obx(() {
-        var items = navController.getNavbarItems([]);
+        var items = navController.getNavbarItems();
         if (items.isEmpty) {
           return const SizedBox.shrink();
         }

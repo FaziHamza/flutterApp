@@ -9,10 +9,9 @@ import 'bottom_navbar_item.dart';
 
 class BottomNavbarSection extends StatelessWidget {
   final ValueChanged<BottomNavigationBarItem>? onClick;
-  List<Subtopic> savedSubtopics = [];
  // const BottomNavbarSection({super.key, this.onClick});
 
-  BottomNavbarSection({super.key, required this.savedSubtopics, this.onClick});
+  BottomNavbarSection({super.key, this.onClick});
 
   // final SubtopicNavController navController =
   //   Get.put(SubtopicNavController(), permanent: true);
@@ -20,7 +19,7 @@ class BottomNavbarSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SubtopicNavController>(builder: (navController) {
-      var items = navController.getNavbarItems(savedSubtopics);
+      var items = navController.getNavbarItems();
       if (items.isEmpty) {
         return Container(
           height: 90,

@@ -47,6 +47,8 @@ class Subtopic extends HiveObject {
   final bool? isExternalUrl;
   @HiveField(20)
   final String? externalUrl;
+  @HiveField(21)
+  final bool? isSubtopicVideo;
 
   RxBool isSwitchedOn;
 
@@ -72,6 +74,7 @@ class Subtopic extends HiveObject {
     this.isExternalUrl,
     this.externalUrl,
     bool switchedOn = false,
+    this.isSubtopicVideo
   }) : isSwitchedOn = switchedOn.obs;
 
   Subtopic copyWith({
@@ -95,6 +98,7 @@ class Subtopic extends HiveObject {
     bool? isMobile,
     bool? isExternalUrl,
     String? externalUrl,
+    bool? isSubtopicVideo,
   }) =>
       Subtopic(
         subTopicId: subTopicId ?? this.subTopicId,
@@ -117,6 +121,7 @@ class Subtopic extends HiveObject {
         isMobile: isMobile ?? this.isMobile,
         isExternalUrl: isExternalUrl ?? this.isExternalUrl,
         externalUrl: externalUrl ?? this.externalUrl,
+        isSubtopicVideo: isSubtopicVideo ?? this.isSubtopicVideo
       );
 
   factory Subtopic.fromRawJson(String str) =>
@@ -146,6 +151,7 @@ class Subtopic extends HiveObject {
         isMobile: json["isMobile"],
         isExternalUrl: json["isExternalUrl"],
         externalUrl: json["externalUrl"],
+        isSubtopicVideo: json["isSubtopicVideo"]
       );
 
   Map<String, dynamic> toJson() =>
@@ -170,5 +176,6 @@ class Subtopic extends HiveObject {
         "isMobile": isMobile,
         "isExternalUrl": isExternalUrl,
         "externalUrl": externalUrl,
+        "isSubtopicVideo": isSubtopicVideo
       };
 }

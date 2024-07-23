@@ -1,4 +1,3 @@
-// import 'package:facebook_app_events/facebook_app_events.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,60 +6,32 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:news/controllers/app_controller.dart';
-import 'package:news/firebase_api/firebase_api.dart';
-import 'package:news/helper/ad_helper.dart';
-import 'package:news/models/News.dart';
 import 'package:news/pages/home_page.dart';
-import 'package:news/services/notification_service.dart';
-import 'package:news/test.dart';
+import 'package:news/services/preference_service.dart';
+import 'package:news/services/subtopic_service.dart';
 import 'package:news/utils/app_color_swatch.dart';
 import 'package:news/utils/subtopic_navitem_controller.dart';
-
-import 'controllers/app_web_controller.dart';
 import 'firebase_api/LocalNotification/local_notification_plugin.dart';
 import 'firebase_api/firebase_messaging_plugin.dart';
 import 'firebase_options.dart';
 import 'models/api_response_controller.dart';
 import 'models/subtopic.dart';
 
-// @pragma('vm:entry-point')
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   // other Firebase background services initialization here
-//   await Firebase.initializeApp();
-//
-//   print("Handling a background message: ${message.messageId}");
-//   NotificationService().handleMessaging();
-//   NotificationService().postMessageHandler();
-// }
-//
-// getToken() async {
-//   String? token = await FirebaseMessaging.instance.getToken();
-//   print("Token ;\n $token    \nand");
-// }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // final RemoteMessage? message=await FirebaseMessaging.instance.getInitialMessage();
-
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   await initLocalNotification();
   Get.put(AppController());
-  // FacebookAppEvents().setAutoLogAppEventsEnabled(true);
-  // FacebookAppEvents().setAppId("YOUR_APP_ID");
-  // AdHelper.init();
+
   final ApiResponseController apiResponseController =
       Get.put(ApiResponseController());
+
   //Firebase
-
-
-  // FirebaseApi().initNotification();
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   analytics.setAnalyticsCollectionEnabled(true);
-
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  // getToken();
 
   //Hive
   await Hive.initFlutter();
@@ -69,15 +40,6 @@ Future<void> main() async {
   Hive.registerAdapter(SubtopicAdapter());
   await Hive.openBox('navbarBox');
   await Hive.openBox('settings');
- // getToken();
- //  if(message!=null)
- //  {
- //    Future.delayed(Duration(seconds: 2)).then((_)
- //    {
- //
- //    });
- //
- //  }
   runApp(MyApp(apiResponseController: apiResponseController));
 }
 
@@ -105,7 +67,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     widget.apiResponseController.fetchTopics();
-    var navController = Get.put(SubtopicNavController());
+    Get.put(SubtopicNavController());
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'SportBlitz News',
@@ -116,16 +78,16 @@ class _MyAppState extends State<MyApp> {
           ),
           primarySwatch: AppColorSwatch.customBlack,
           switchTheme: SwitchThemeData(
-            thumbColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-              if (states.contains(MaterialState.disabled)) {
+            thumbColor: WidgetStateProperty.resolveWith<Color>(
+                (Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) {
                 return Colors.black45;
               }
               return Colors.black;
             }),
-            trackColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-              if (states.contains(MaterialState.disabled)) {
+            trackColor: WidgetStateProperty.resolveWith<Color>(
+                (Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) {
                 return Colors.white54;
               }
               return Colors.white;
@@ -133,11 +95,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         onDispose: onDispose,
-        home: MyhomePage()
-        // HomePage()
-        // PreferenceService().isPreferencePageAllowed()
-        //     ? HomePage()
-        //     : PreferencePage(),
+        home: const MyhomePage()
         );
   }
 }
@@ -151,33 +109,49 @@ class MyhomePage extends StatefulWidget {
 }
 
 class _MyhomePageState extends State<MyhomePage> {
-
+ final apiResponseController =
+      Get.put(ApiResponseController(), permanent: true);
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
-      final RemoteMessage? message=await FirebaseMessaging.instance.getInitialMessage();
-      if(message!=null)
-      {
-        Future.delayed(Duration(seconds: 2)).then((_)
-        {
-          AppWebController.to.controller.value.loadRequest(
-              Uri.parse(message.data["deeplink"]));
-        });
-
-      }
-      await setupInteractedMessage();
-    });
     isAndroidPermissionGranted();
     requestNotificationPermissions();
+    loadMenuItem();
   }
   @override
   Widget build(BuildContext context) {
-    return
-      //TestScreen();
-      HomePage();
+    return  HomePage();
   }
+
+Future<void> loadMenuItem() async {
+  print("Update Menu");
+  final response = await apiResponseController.fetchTopics();
+  void updateSubtopic(Subtopic subTopic) {
+    PreferenceService().saveSubtopic(subTopic);
+  }
+
+  bool isSubtopicUpdated(Subtopic savedSubtopic) {
+    for (var item in response.menuItems ?? []) {
+      for (var topic in item.topics ?? []) {
+        for (var subTopic in topic.subtopics ?? []) {
+          if (savedSubtopic.subTopicId == subTopic.subTopicId) {
+            updateSubtopic(subTopic);
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+  List<Subtopic> savedSubtopics = PreferenceService().loadNavbarItems();
+  for (var savedSubtopic in savedSubtopics) {
+    if (!isSubtopicUpdated(savedSubtopic)) {
+      PreferenceService().removeSubtopic(savedSubtopic, false);
+      SubtopicService().unsubscribeToSubtopic(savedSubtopic.subTopicId!);
+    }
+  }
+  SubtopicNavController.to.getNavbarItems();
+}
 }
 

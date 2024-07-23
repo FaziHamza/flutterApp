@@ -32,7 +32,7 @@ class SubtopicNavController extends GetxController {
       update();
     } else {
       activeSubtopics.remove(subtopic);
-      PreferenceService().removeSubtopic(subtopic);
+      PreferenceService().removeSubtopic(subtopic, true);
       SubtopicService().unsubscribeToSubtopic(subtopic.subTopicId!);
       update();
     }
@@ -43,6 +43,7 @@ class SubtopicNavController extends GetxController {
       PreferenceService().savedPreferencePage(false);
     }
     update();
+    SubtopicNavController.to.getNavbarItems();
   }
 
   void toggleSelectedNavItem(index, ) {
@@ -71,8 +72,8 @@ class SubtopicNavController extends GetxController {
   }
 
   // Method to build the bottom navigation bar items
-  List<BottomNavigationBarItem> getNavbarItems(List<Subtopic> savedSubtopics) {
-    activeSubtopics.value = savedSubtopics.isNotEmpty ? savedSubtopics : PreferenceService().loadNavbarItems();
+  List<BottomNavigationBarItem> getNavbarItems() {
+    activeSubtopics.value = PreferenceService().loadNavbarItems();
     return activeSubtopics.map((subtopic) {
       return BottomNavigationBarItem(
         // You can customize this icon
@@ -92,7 +93,7 @@ class SubtopicNavController extends GetxController {
                 height: 32.0,
                 width: 32.0,
               ),
-        tooltip: subtopic.subTopicId,
+        tooltip: subtopic.toRawJson(),
         key: Key(subtopic.keyword.toString()),
         backgroundColor: activeSubtopics[navItemPosition.value] == subtopic ? const Color(0xff365880) : Colors.white
       );

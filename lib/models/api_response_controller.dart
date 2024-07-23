@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
+import 'package:news/models/api_highlights_response.dart';
 import 'package:news/models/News.dart';
 import 'package:news/models/api_response.dart';
 import 'package:news/models/my_pod_cast_response.dart';
@@ -50,7 +51,7 @@ class ApiResponseController extends GetxController {
       ApiMySiteResponse apiResponse = ApiMySiteResponse.fromJson(jsonDecode(response.body));
       return apiResponse;
     } else {
-      throw Exception('Failed to load news');
+      throw Exception('Failed to load sites');
     }
   }
 
@@ -65,7 +66,7 @@ class ApiResponseController extends GetxController {
       ApiPodCastResponse apiResponse = ApiPodCastResponse.fromJson(jsonDecode(response.body));
       return apiResponse;
     } else {
-      throw Exception('Failed to load news');
+      throw Exception('Failed to load podcast');
     }
   }
 
@@ -80,7 +81,24 @@ class ApiResponseController extends GetxController {
       ApiHilightsResponse apiResponse = ApiHilightsResponse.fromJson(jsonDecode(response.body));
       return apiResponse;
     } else {
-      throw Exception('Failed to load news');
+      throw Exception('Failed to load video Hilights');
+    }
+  }
+
+  
+  Future<ApiHighlightsResponse> fetchHilights({ required String type,  required String subtopic}) async {
+     _cancelToken = CancelToken();
+     if(type == 'compitition'){
+      type = 'competition';
+     }
+    var uri = Uri.parse('https://www.scorebat.com/video-api/v3/$type/$subtopic/?token=ODE3NDNfMTY5MjUxODgyM18yNDEwMTkwOTQzNGM3NDIxY2MwZjZkNjM3NzNjMGY4NjFmZmNjZTYy');
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+       //print('${uri.path}: ${response.body}');
+      ApiHighlightsResponse apiResponse = ApiHighlightsResponse.fromJson(jsonDecode(response.body));
+      return apiResponse;
+    } else {
+      throw Exception('Failed to load Hilights');
     }
   }
 

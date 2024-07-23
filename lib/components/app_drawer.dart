@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -13,29 +15,15 @@ import '../utils/app_color_swatch.dart';
 import '../models/subtopic.dart';
 
 class AppDrawer {
-  Widget getAppDrawer(BuildContext context, ValueChanged<Subtopic>? onClick) {
+  Widget getAppDrawer(ValueChanged<Subtopic>? onClick, ValueChanged<bool> onClose) {
     ApiResponseController apiResponseController = Get.find();
-
-    final storage = GetStorage();
-    // List<Subtopic> savedSubtopics = PreferenceService().loadNavbarItems();
-
-    showSnackBar() {
-      if (storage.read("showNotification") == true) {
-        storage.write("showNotification", false);
-        storage.write("isFirstTime", false);
-      }
-      Navigator.pop(context);
-    }
-
-    storage.writeIfNull("isFirstTime", true);
-    storage.writeIfNull("showNotification", true);
 
     return SafeArea(
       child: SizedBox(
         width: Get.width,
         child: Padding(
           padding: const EdgeInsets.only(
-              bottom: 80.0, left: 20.0, right: 20.0, top: 60.0),
+              bottom: 100.0, left: 20.0, right: 20.0, top: 70.0),
           child: Drawer(
             backgroundColor: AppColorSwatch.appDrawBgCOlor,
             shape:
@@ -53,11 +41,10 @@ class AppDrawer {
                               builder: (subTopNavController) {
                             return InkWell(
                               onTap: () {
-                                showSnackBar();
+                                onClose(true);
                               },
                               child: const Icon(
-                                Icons.close,
-                                color: Color(0xFF666666),
+                                Icons.close, color: Color(0xFF666666),
                               ),
                             );
                           })

@@ -314,8 +314,9 @@ class _NextPageState extends State<NextPage> {
                 children: [
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+                        const EdgeInsets.only(left: 12, right: 12, bottom: 12, top: 8),
                     child: Container(
+                      width: 300,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.rectangle,
@@ -326,7 +327,6 @@ class _NextPageState extends State<NextPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Row(
-                          mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             if (widget.logImage != 'null' &&
                                 widget.logImage != '')
@@ -348,6 +348,7 @@ class _NextPageState extends State<NextPage> {
                               style: const TextStyle(
                                 color: Colors.black,
                               ),
+                              maxLines: 1,
                             ),
                           ],
                         ),

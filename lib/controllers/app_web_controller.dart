@@ -99,7 +99,7 @@ class AppWebController extends GetxController {
     } else {
       params = const PlatformWebViewControllerCreationParams();
     }
-    bottomBarItems = navController.getNavbarItems([]);
+    bottomBarItems = navController.getNavbarItems();
 
     if (controller.value.platform is AndroidWebViewController) {
       AndroidWebViewController.enableDebugging(true);

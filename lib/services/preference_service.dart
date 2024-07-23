@@ -13,10 +13,10 @@ class PreferenceService {
     
   }
 
-  void removeSubtopic(Subtopic subtopic) {
+  void removeSubtopic(Subtopic subtopic, bool menuUpdate) {
     final box = Hive.box('navbarBox');
     box.delete(subtopic.subTopicId);
-    SubtopicNavController.to.getNavbarItems([]);
+    if(menuUpdate) SubtopicNavController.to.getNavbarItems();
   }
 
   List<Subtopic> loadNavbarItems() {

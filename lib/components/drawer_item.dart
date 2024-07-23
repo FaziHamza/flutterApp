@@ -23,7 +23,6 @@ class DrawerItem extends StatefulWidget {
 class _DrawerItemState extends State<DrawerItem> {
   SubtopicNavController subtopicNavController = Get.find();
   ApiResponseController apiResponseController = Get.find();
-  List<Subtopic> savedSubtopics = PreferenceService().loadNavbarItems();
 
   bool _isExpanded = false;
 
@@ -88,7 +87,7 @@ class _DrawerItemState extends State<DrawerItem> {
                                 topic.highlights2 ?? '                ',
                                 style: const TextStyle(fontSize: 12.0),
                               ),
-                              color: const MaterialStatePropertyAll(
+                              color: const WidgetStatePropertyAll(
                                   Color.fromRGBO(79, 79, 80, 1)),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)),
@@ -104,7 +103,7 @@ class _DrawerItemState extends State<DrawerItem> {
                                 'Favoriter ♥️',
                                 style: TextStyle(fontSize: 12.0),
                               ),
-                              color: const MaterialStatePropertyAll(
+                              color: const WidgetStatePropertyAll(
                                   const Color.fromRGBO(79, 79, 80, 1)),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)),
@@ -115,7 +114,7 @@ class _DrawerItemState extends State<DrawerItem> {
                           ],
                         ),
                       ));
-
+                      List<Subtopic> savedSubtopics = PreferenceService().loadNavbarItems();
                       //list tile
                       widgets.addAll(topic.subtopics!.map((subtopic) {
                         for (var savedSubtopic in savedSubtopics) {
@@ -159,8 +158,7 @@ class _DrawerItemState extends State<DrawerItem> {
                                     value: subtopic.isSwitchedOn.value,
                                     onChanged: (bool value) {
                                       subtopic.isSwitchedOn.value = value;
-                                      subtopicNavController.toggleSubtopic(
-                                          subtopic, value);
+                                      subtopicNavController.toggleSubtopic( subtopic, value);
                                       if (value) {
                                         widget.onClick!(subtopic);
                                       }
