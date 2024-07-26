@@ -2,16 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:news/main.dart';
 import 'package:news/pages/next_page.dart';
-import 'package:news/test.dart';
-
-import '../../controllers/app_web_controller.dart';
-import '../../pages/home_page.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin=FlutterLocalNotificationsPlugin();
 final StreamController<String?> selectNotificationStream=StreamController<String?>.broadcast();
@@ -35,24 +30,19 @@ Future<bool>isAndroidPermissionGranted()async{
 
 void notificationTapBackground(NotificationResponse notificationResponse)
 {
-print("YES YES YES ${notificationResponse.payload}");
+if (kDebugMode) {
+  print("YES YES YES ${notificationResponse.payload}");
+}
 if(notificationResponse.payload!=null)
   {
     final data=jsonDecode(notificationResponse.payload!);
-   // Get.put(AppWebController()).url_link.value="https://www.sportblitznews.se/news/notify/34HM9FK";
-   Future.delayed(Duration(seconds: 1)).then((_)
+   Future.delayed(const Duration(seconds: 1)).then((_)
    {
-    //  AppWebController.to.controller.value.loadRequest(
-    //      Uri.parse(data['deeplink']));
-          print("Nitification link: ${data['deeplink']}");
+          if (kDebugMode) {
+            print("Nitification link: ${data['deeplink']}");
+          }
          Get.off(()=> NextPage(title: '',logImage: '',url: data['deeplink'], hideBar: true,));
    });
-
-    // AppWebController.to.controller.value.loadRequest(
-    //     Uri.parse(data['deeplink']));
-   // Get.off(()=>HomePage());
-  //  Get.off(() => ShowNotificationNewsScreen(isFirstTime: true,link:data['deeplink'],));
-    //notificationResponse.payload["deeplink"]
   }
 }
 
@@ -63,7 +53,7 @@ Future<void>showNotification(RemoteMessage message)async{
     ticker: 'ticker'
   );
   const notificationDetails=NotificationDetails(android: detail);
-  await flutterLocalNotificationsPlugin.show(Random().nextInt(1000), message?.notification?.title??'', message.notification?.body??'', notificationDetails,payload: jsonEncode(message.data));
+  await flutterLocalNotificationsPlugin.show(Random().nextInt(1000), message.notification?.title??'', message.notification?.body??'', notificationDetails,payload: jsonEncode(message.data));
 }
 
 Future<void>initLocalNotification()async

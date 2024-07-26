@@ -1,11 +1,8 @@
 import 'dart:convert';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:news/pages/next_page.dart';
-
 import '../pages/home_page.dart';
 
 class FirebaseApi {
@@ -38,8 +35,6 @@ class FirebaseApi {
             channel.id,
             channel.name,
             channelDescription: channel.description,
-            // TODO add a proper drawable resource to android, for now using
-            //      one that already exists in example app.
             icon: '@drawable/logo',
           ),
         ),
@@ -48,7 +43,7 @@ class FirebaseApi {
   }
   Future<void> initLocalNotification() async {
     final InitializationSettings initializationSettings =
-        InitializationSettings(
+        const InitializationSettings(
       android: AndroidInitializationSettings("@drawable/logo"),
       // iOS: initializationSettingsDarwin,
       // macOS: initializationSettingsDarwin,

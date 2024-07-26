@@ -1,15 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:news/components/drawer_item.dart';
 import 'package:news/models/api_response_controller.dart';
-import 'package:news/utils/app_constants.dart';
 import 'package:news/utils/subtopic_navitem_controller.dart';
-
 import '../controllers/app_controller.dart';
-import '../controllers/app_web_controller.dart';
 import '../models/api_response.dart';
 import '../utils/app_color_swatch.dart';
 import '../models/subtopic.dart';

@@ -17,12 +17,12 @@ class AppController extends GetxController {
 
   Widget copyRight() {
     return Text(
-            '©${DateTime.now().year} www.sportblitznews.se | All Rights Reserved.',
-            style: const TextStyle(
-              fontSize: 10.0,
-              color: Colors.white54,
-            ),
-            textAlign: TextAlign.center,
-          );
+      '©${DateTime.now().year} www.sportblitznews.se | All Rights Reserved.',
+      style: const TextStyle(
+        fontSize: 10.0,
+        color: Colors.white54,
+      ),
+      textAlign: TextAlign.center,
+    );
   }
 }

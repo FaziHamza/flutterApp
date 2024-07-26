@@ -26,10 +26,12 @@ class AppWebController extends GetxController {
   Rx<WebViewController> detailController = WebViewController().obs;
 
   String _lastPageLink = '';
+
   String get lastPageLink => _lastPageLink;
-  var url_link="".obs;
+  var url_link = "".obs;
 
   bool _isShowBackButton = false;
+
   bool get isShowBackButton => _isShowBackButton;
 
   toggleLastLink(String link) {
@@ -88,8 +90,8 @@ class AppWebController extends GetxController {
   List<BottomNavigationBarItem> bottomBarItems = [];
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-  void initializeController({String link=""}) {
-    print("LINK LINK ${link!=""}    link ${link}");
+  void initializeController({String link = ""}) {
+    print("LINK LINK ${link != ""}    link ${link}");
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams(
@@ -160,7 +162,6 @@ class AppWebController extends GetxController {
             print("this is uri of the link ::: $uri");
             debugPrint("hello world this is uri link :: $uri");
             log("hello world this is log of uri ::: $uri");
-
 
             if (change.url!.contains('isExternal')) {
               analytics.logEvent(
@@ -272,14 +273,14 @@ class AppWebController extends GetxController {
       ..loadRequest(
         Uri.parse(
             //"https://www.sportblitznews.se/news/notify/34HM9FK"
-            link!=""?"https://www.sportblitznews.se/news/notify/34HM9FK":bottomBarItems.isNotEmpty
-            ? getLink(bottomBarItems[0].tooltip.toString())
-            : _getBaseUrl()
-        ),
+            link != ""
+                ? "https://www.sportblitznews.se/news/notify/34HM9FK"
+                : bottomBarItems.isNotEmpty
+                    ? getLink(bottomBarItems[0].tooltip.toString())
+                    : _getBaseUrl()),
       );
     update();
   }
-
 
   String _getBaseUrl() {
     if (GetPlatform.isAndroid) {

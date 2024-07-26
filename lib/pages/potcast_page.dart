@@ -6,6 +6,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class PodcastPage extends StatefulWidget {
   final String subtopicId;
   final String title;
+
   PodcastPage({required this.subtopicId, required this.title});
 
   @override

@@ -9,14 +9,15 @@ import 'package:news/controllers/app_controller.dart';
 import 'package:news/pages/home_page.dart';
 import 'package:news/services/preference_service.dart';
 import 'package:news/services/subtopic_service.dart';
+import 'package:news/utils/CustomColors.dart';
 import 'package:news/utils/app_color_swatch.dart';
 import 'package:news/utils/subtopic_navitem_controller.dart';
+
 import 'firebase_api/LocalNotification/local_notification_plugin.dart';
 import 'firebase_api/firebase_messaging_plugin.dart';
 import 'firebase_options.dart';
 import 'models/api_response_controller.dart';
 import 'models/subtopic.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,13 +49,22 @@ var localNotificationToken = ''.obs;
 class MyApp extends StatefulWidget {
   final ApiResponseController apiResponseController;
 
-  MyApp({required this.apiResponseController, super.key});
+  const MyApp({required this.apiResponseController, super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  ThemeMode _themeMode = ThemeMode.system; // Default to system theme
+
+  void _toggleTheme() {
+    setState(() {
+      _themeMode =
+          _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    });
+  }
+
   void onDispose() {
     Hive.close();
   }
@@ -100,7 +110,6 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-
 class MyhomePage extends StatefulWidget {
   const MyhomePage({super.key});
 
@@ -109,7 +118,7 @@ class MyhomePage extends StatefulWidget {
 }
 
 class _MyhomePageState extends State<MyhomePage> {
- final apiResponseController =
+  final apiResponseController =
       Get.put(ApiResponseController(), permanent: true);
 
   @override
@@ -119,39 +128,39 @@ class _MyhomePageState extends State<MyhomePage> {
     requestNotificationPermissions();
     loadMenuItem();
   }
+
   @override
   Widget build(BuildContext context) {
-    return  HomePage();
+    return HomePage();
   }
 
-Future<void> loadMenuItem() async {
-  print("Update Menu");
-  final response = await apiResponseController.fetchTopics();
-  void updateSubtopic(Subtopic subTopic) {
-    PreferenceService().saveSubtopic(subTopic);
-  }
+  Future<void> loadMenuItem() async {
+    final response = await apiResponseController.fetchTopics();
+    void updateSubtopic(Subtopic subTopic) {
+      PreferenceService().saveSubtopic(subTopic);
+    }
 
-  bool isSubtopicUpdated(Subtopic savedSubtopic) {
-    for (var item in response.menuItems ?? []) {
-      for (var topic in item.topics ?? []) {
-        for (var subTopic in topic.subtopics ?? []) {
-          if (savedSubtopic.subTopicId == subTopic.subTopicId) {
-            updateSubtopic(subTopic);
-            return true;
+    bool isSubtopicUpdated(Subtopic savedSubtopic) {
+      for (var item in response.menuItems ?? []) {
+        for (var topic in item.topics ?? []) {
+          for (var subTopic in topic.subtopics ?? []) {
+            if (savedSubtopic.subTopicId == subTopic.subTopicId) {
+              updateSubtopic(subTopic);
+              return true;
+            }
           }
         }
       }
+      return false;
     }
-    return false;
-  }
-  List<Subtopic> savedSubtopics = PreferenceService().loadNavbarItems();
-  for (var savedSubtopic in savedSubtopics) {
-    if (!isSubtopicUpdated(savedSubtopic)) {
-      PreferenceService().removeSubtopic(savedSubtopic, false);
-      SubtopicService().unsubscribeToSubtopic(savedSubtopic.subTopicId!);
-    }
-  }
-  SubtopicNavController.to.getNavbarItems();
-}
-}
 
+    List<Subtopic> savedSubtopics = PreferenceService().loadNavbarItems();
+    for (var savedSubtopic in savedSubtopics) {
+      if (!isSubtopicUpdated(savedSubtopic)) {
+        PreferenceService().removeSubtopic(savedSubtopic, false);
+        SubtopicService().unsubscribeToSubtopic(savedSubtopic.subTopicId!);
+      }
+    }
+    SubtopicNavController.to.menuUpdate();
+  }
+}

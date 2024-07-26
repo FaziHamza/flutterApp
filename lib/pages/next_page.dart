@@ -163,8 +163,7 @@ class _NextPageState extends State<NextPage> {
             color: const Color(0xff262626),
             alignment: Alignment.bottomCenter,
             height: 85.0,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -313,8 +312,8 @@ class _NextPageState extends State<NextPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 12, right: 12, bottom: 12, top: 8),
+                    padding: const EdgeInsets.only(
+                        left: 12, right: 12, bottom: 12, top: 8),
                     child: Container(
                       width: 300,
                       decoration: BoxDecoration(

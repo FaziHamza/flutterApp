@@ -104,7 +104,7 @@ class _DrawerItemState extends State<DrawerItem> {
                                 style: TextStyle(fontSize: 12.0),
                               ),
                               color: const WidgetStatePropertyAll(
-                                  const Color.fromRGBO(79, 79, 80, 1)),
+                                   Color.fromRGBO(79, 79, 80, 1)),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)),
                               side: BorderSide.none,
@@ -124,9 +124,7 @@ class _DrawerItemState extends State<DrawerItem> {
                         }
                         return Column(
                           children: [
-                            const Divider(
-                                height: 4,
-                                color: AppColorSwatch.appDrawBgCOlor),
+                            const Divider(  height: 4, color: AppColorSwatch.appDrawBgCOlor),
                             ListTile(
                               leading: Padding(
                                 padding: const EdgeInsets.only(left: 16.0),
@@ -134,21 +132,12 @@ class _DrawerItemState extends State<DrawerItem> {
                                   backgroundColor: Colors.white,
                                   radius: 16.0,
                                   child: AppController.to.isSvg(subtopic.logo!)
-                                      ? SvgPicture.network(
-                                          subtopic.logo!,
-                                          height: 24.0,
-                                          width: 24.0,
-                                        )
-                                      : Image.network(
-                                          subtopic.logo!,
-                                          height: 24.0,
-                                          width: 24.0,
-                                        ),
+                                      ? SvgPicture.network( subtopic.logo!, height: 24.0,  width: 24.0, )
+                                      : Image.network(  subtopic.logo!,height: 24.0, width: 24.0,)
                                 ),
                               ),
                               title: Text(
-                                subtopic.name!,
-                                style: const TextStyle(fontSize: 15.0),
+                                subtopic.name!, style: const TextStyle(fontSize: 15.0),
                               ),
                               trailing: Transform.scale(
                                 scaleX: 0.7,
