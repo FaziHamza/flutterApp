@@ -263,7 +263,7 @@ class MainNewsList extends StatelessWidget {
                         details: "null",
                         groupName: "null",
                         postTime: item.date,
-                        mId: '',
+                        mId: item.videos.first.id ?? '',
                         endIcon: '',
                         isExternal: false,
                         matchUrl: item.matchviewUrl),

@@ -111,19 +111,11 @@ class NewsFirstCard extends StatelessWidget {
                 if (isExternal &&
                     endIcon.isNotEmpty &&
                     !AppController.to.isSvg(endIcon))
-                  Image.network(
-                    endIcon,
-                    height: 22,
-                    width: 38
-                  ),
+                  Image.network(endIcon, height: 22, width: 38),
                 if (isExternal &&
                     endIcon.isNotEmpty &&
                     AppController.to.isSvg(endIcon))
-                  SvgPicture.network(
-                    endIcon,
-                    height: 22,
-                    fit: BoxFit.contain
-                  ),
+                  SvgPicture.network(endIcon, height: 22, fit: BoxFit.contain),
                 if (!isExternal || endIcon.isEmail)
                   Image.asset(
                     mId.length > 7
@@ -211,19 +203,12 @@ class NewsOtherCard extends StatelessWidget {
                   if (isExternal &&
                       endIcon.isNotEmpty &&
                       !AppController.to.isSvg(endIcon))
-                    Image.network(
-                        endIcon,
-                        height: 22,
-                        width: 38
-                    ),
+                    Image.network(endIcon, height: 22, width: 38),
                   if (isExternal &&
                       endIcon.isNotEmpty &&
                       AppController.to.isSvg(endIcon))
-                    SvgPicture.network(
-                        endIcon,
-                        height: 22,
-                        fit: BoxFit.contain
-                    ),
+                    SvgPicture.network(endIcon,
+                        height: 22, fit: BoxFit.contain),
                   if (!isExternal || endIcon.isEmail)
                     Image.asset(
                       mId.length > 7
@@ -284,24 +269,30 @@ class NewsHighCard extends StatelessWidget {
                     imageUrl: imageUrl,
                     mHeight: 100,
                     mColor: Colors.transparent),
-                const Positioned(
-                  child: Icon(
+                Container(
+                  height: 35,
+                  width: 35,
+                  decoration: const BoxDecoration(
+                    color: Colors.black, // Background color
+                    shape: BoxShape.circle, // Circular shape
+                  ), // Padding to give space around the icon
+                  child: const Icon(
                     Icons.play_circle_filled,
                     color: Colors.white,
-                    size: 24,
+                    size: 35,
                   ),
                 ),
               ]),
               const SizedBox(height: 3),
               SizedBox(
-                  height: 40,
+                  height: 30,
                   child: Text(
                     title,
                     style: const TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
-                    maxLines: 3,
+                    maxLines: 2,
                   )),
               if (matchUrl != "null" && matchUrl.isNotEmpty)
                 Center(
@@ -309,19 +300,36 @@ class NewsHighCard extends StatelessWidget {
                     onTap: () {
                       if (matchUrl != "null" && matchUrl.isNotEmpty) {
                         Get.to(() => NextPage(
-                              title: title,
+                              title: '',
                               url: matchUrl,
-                              logImage: imageUrl,
+                              logImage: '',
                             ));
                       }
                     },
-                    child: const Text(
-                      'View Match',
-                      style: TextStyle(
-                        color: Colors.white,
-                        // Change text color to indicate it is clickable
-                        decoration:
-                            TextDecoration.underline, // Underline the text
+                    child: Container(
+                      width: 75,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 3.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(
+                            Icons.remove_red_eye,
+                            size: 10.0,
+                            color: Colors.black,
+                          ),
+                          Spacer(flex: 3),
+                          Text(
+                            'View Match',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),
