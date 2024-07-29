@@ -152,13 +152,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final customColors = Theme.of(context).extension<CustomColors>()!;
+
     return Scaffold(
       key: homeScaffoldKey,
       body: Column(
         children: [
           Container(
             padding: const EdgeInsets.only(left: 10),
-            color: const Color(0xff262626),
+            color: customColors.topBarColor,
             alignment:Alignment.bottomCenter,
             height: 85.0, // Height of your custom app bar
             child: Row(
@@ -184,6 +186,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         ],
       ),
       drawer: AppDrawer().getAppDrawer(
+        customColors,
         (value) {
           String mKey = value.keyword ?? '';
           if (mCurrentKey != mKey) {

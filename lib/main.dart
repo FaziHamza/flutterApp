@@ -79,34 +79,46 @@ class _MyAppState extends State<MyApp> {
     widget.apiResponseController.fetchTopics();
     Get.put(SubtopicNavController());
     return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'SportBlitz News',
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-            backgroundColor: Colors.transparent,
+      debugShowCheckedModeBanner: false,
+      title: 'SportBlitz News',
+      theme: ThemeData.light().copyWith(
+        scaffoldBackgroundColor: AppColorSwatch.bgContainerColorLight,
+        extensions: <ThemeExtension<dynamic>>[
+          CustomColors(
+            cardColor: AppColorSwatch.cardColorLight,
+            topBarColor: AppColorSwatch.topBarColorLight,
+            bgContainerColor: AppColorSwatch.bgContainerColorLight,
+            bgBarColor: AppColorSwatch.bgBarColorLight,
+            iconTextColor: AppColorSwatch.iconTextColorLight,
+            titleTextColor: AppColorSwatch.titleTextColorLight,
+            switchColor: AppColorSwatch.switchColorLight,
+            badgeColor: AppColorSwatch.badgeColorLight,
+            badgeTextColor: AppColorSwatch.badgeTextColorLight,
+            sitesCardColor: AppColorSwatch.siteCardColorLight,
           ),
-          primarySwatch: AppColorSwatch.customBlack,
-          switchTheme: SwitchThemeData(
-            thumbColor: WidgetStateProperty.resolveWith<Color>(
-                (Set<WidgetState> states) {
-              if (states.contains(WidgetState.disabled)) {
-                return Colors.black45;
-              }
-              return Colors.black;
-            }),
-            trackColor: WidgetStateProperty.resolveWith<Color>(
-                (Set<WidgetState> states) {
-              if (states.contains(WidgetState.disabled)) {
-                return Colors.white54;
-              }
-              return Colors.white;
-            }),
+        ],
+      ),
+      darkTheme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: AppColorSwatch.bgContainerColorDark,
+        extensions: <ThemeExtension<dynamic>>[
+          CustomColors(
+            cardColor: AppColorSwatch.cardColorDark,
+            topBarColor: AppColorSwatch.topBarColorDark,
+            bgContainerColor: AppColorSwatch.bgContainerColorDark,
+            bgBarColor: AppColorSwatch.bgBarColorDark,
+            iconTextColor: AppColorSwatch.iconTextColorDark,
+            titleTextColor: AppColorSwatch.titleTextColorDark,
+            switchColor: AppColorSwatch.switchColorDark,
+            badgeColor: AppColorSwatch.badgeColorDark,
+            badgeTextColor: AppColorSwatch.badgeTextColorDark,
+            sitesCardColor: AppColorSwatch.siteCardColorDark,
           ),
-        ),
-        onDispose: onDispose,
-        home: const MyhomePage()
-        );
+        ],
+      ),
+      themeMode: _themeMode,
+      onDispose: onDispose,
+      home: const MyhomePage(),
+    );
   }
 }
 

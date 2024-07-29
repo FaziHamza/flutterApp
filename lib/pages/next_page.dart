@@ -8,6 +8,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../utils/CustomColors.dart';
+
 class NextPage extends StatefulWidget {
   final String title;
   final String logImage;
@@ -155,12 +157,13 @@ class _NextPageState extends State<NextPage> {
   }
 
   Widget defaultView(BuildContext context) {
+    final customColors = Theme.of(context).extension<CustomColors>()!;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors.bgContainerColor,
       body: Column(
         children: [
           Container(
-            color: const Color(0xff262626),
+            color: customColors.topBarColor,
             alignment: Alignment.bottomCenter,
             height: 85.0,
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
@@ -196,7 +199,7 @@ class _NextPageState extends State<NextPage> {
         ],
       ),
       bottomNavigationBar: Container(
-        color: const Color(0xff262626),
+        color: customColors.bgBarColor,
         child: ((widget.title == '' && widget.logImage == '') ||
                 (widget.title == 'null' && widget.logImage == 'null'))
             ? const Row(children: [])

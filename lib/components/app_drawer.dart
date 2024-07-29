@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news/components/drawer_item.dart';
 import 'package:news/models/api_response_controller.dart';
+import 'package:news/utils/CustomColors.dart';
 import 'package:news/utils/subtopic_navitem_controller.dart';
 import '../controllers/app_controller.dart';
 import '../models/api_response.dart';
@@ -9,7 +10,8 @@ import '../utils/app_color_swatch.dart';
 import '../models/subtopic.dart';
 
 class AppDrawer {
-  Widget getAppDrawer(ValueChanged<Subtopic>? onClick, ValueChanged<bool> onClose) {
+  Widget getAppDrawer(CustomColors customColors,
+      ValueChanged<Subtopic>? onClick, ValueChanged<bool> onClose) {
     ApiResponseController apiResponseController = Get.find();
 
     return SafeArea(
@@ -19,7 +21,7 @@ class AppDrawer {
           padding: const EdgeInsets.only(
               bottom: 100.0, left: 20.0, right: 20.0, top: 70.0),
           child: Drawer(
-            backgroundColor: AppColorSwatch.appDrawBgCOlor,
+            backgroundColor: customColors.bgContainerColor,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Padding(
@@ -37,8 +39,10 @@ class AppDrawer {
                               onTap: () {
                                 onClose(true);
                               },
-                              child: const Icon(
-                                Icons.close, color: Color(0xFF666666),
+                              child: Icon(
+                                Icons.close,
+                                color: customColors.iconTextColor ??
+                                    Color(0xFF666666),
                               ),
                             );
                           })
@@ -46,24 +50,24 @@ class AppDrawer {
                       )
                     ],
                   ),
-                  const Padding(
-                      padding: EdgeInsets.only(bottom: 10),
+                  Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
                             Icons.info_rounded,
                             size: 10.0,
-                            color: Color(0xFFFFFFFF),
+                            color: customColors.titleTextColor ??
+                                const Color(0xFFFFFFFF),
                           ),
-                          SizedBox(
-                            width: 5,
-                          ),
+                          const SizedBox(width: 5),
                           Text(
                             'Expand a heading and switch on subheadings to subscribe.',
                             style: TextStyle(
                               fontSize: 10.0,
-                              color: Color(0xFFFFFFFF),
+                              color: customColors.titleTextColor ??
+                                  const Color(0xFFFFFFFF),
                             ),
                           )
                         ],
@@ -85,9 +89,10 @@ class AppDrawer {
                             },
                             separatorBuilder:
                                 (BuildContext context, int index) {
-                              return const Divider(
+                              return Divider(
                                 height: 4,
-                                color: AppColorSwatch.appDrawBgCOlor,
+                                color: customColors.bgContainerColor ??
+                                    AppColorSwatch.bgContainerColorDark,
                               );
                             },
                           );
@@ -103,7 +108,8 @@ class AppDrawer {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 15, bottom: 3),
-                        child: AppController.to.copyRight(),
+                        child: AppController.to.copyRight(
+                            customColors.titleTextColor ?? Colors.white54),
                       ),
                       Image.asset(
                         'assets/image/black_sport_news.png',

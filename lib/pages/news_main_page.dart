@@ -11,9 +11,8 @@ import 'package:news/models/my_sites_reponse.dart';
 import 'package:news/models/my_video_hiegh_response.dart';
 import 'package:news/pages/next_page.dart';
 import 'package:news/pages/potcast_page.dart';
+import 'package:news/utils/CustomColors.dart';
 import 'package:news/utils/news_cards.dart';
-
-import '../utils/CustomColors.dart';
 
 @immutable
 class MainNewsList extends StatelessWidget {
@@ -21,13 +20,14 @@ class MainNewsList extends StatelessWidget {
 
   MainNewsList({
     super.key,
-     required this.mNewListIte,
+    required this.mNewListIte,
   });
 
   List<String> items = [];
 
   @override
   Widget build(BuildContext context) {
+    final customColors = Theme.of(context).extension<CustomColors>()!;
     return ListView.builder(
       padding: const EdgeInsets.all(5),
       itemCount: _calculateItemCount(),
@@ -52,7 +52,7 @@ class MainNewsList extends StatelessWidget {
           return _buildPodCastListRow();
         }
         if (mType == 'TodayH') {
-          return _buildTodayListRow();
+          return _buildTodayListRow(customColors);
         }
         return null;
       },
@@ -263,7 +263,7 @@ class MainNewsList extends StatelessWidget {
                         details: "null",
                         groupName: "null",
                         postTime: item.date,
-                        mId: item.videos.first.id ?? '',
+                        mId: '',
                         endIcon: '',
                         isExternal: false,
                         matchUrl: item.matchviewUrl),
@@ -372,7 +372,7 @@ class MainNewsList extends StatelessWidget {
     );
   }
 
-  Widget _buildTodayListRow() {
+  Widget _buildTodayListRow(CustomColors customColors) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -411,10 +411,10 @@ class MainNewsList extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.format_align_left,
                             size: 10.0,
-                            color: Color(0xFFFFFFFF),
+                            color: customColors.titleTextColor,
                           ),
                           const SizedBox(
                             width: 5,
@@ -425,9 +425,9 @@ class MainNewsList extends StatelessWidget {
                                   item.content ??
                                   item.contentEng ??
                                   '',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 11.0,
-                                color: Color(0xFFFFFFFF),
+                                color: customColors.titleTextColor,
                               ),
                               maxLines: 1,
                             ),

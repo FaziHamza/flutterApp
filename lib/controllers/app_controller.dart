@@ -15,12 +15,12 @@ class AppController extends GetxController {
     buttonDisabled.value = value;
   }
 
-  Widget copyRight() {
+  Widget copyRight(Color mColor) {
     return Text(
       '©${DateTime.now().year} www.sportblitznews.se | All Rights Reserved.',
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 10.0,
-        color: Colors.white54,
+        color: mColor,
       ),
       textAlign: TextAlign.center,
     );

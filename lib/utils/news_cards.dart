@@ -32,17 +32,18 @@ class NewsFirstCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customColors = Theme.of(context).extension<CustomColors>()!;
     return Card(
       elevation: 4,
       margin: const EdgeInsets.all(5),
-      color: const Color(0xff262626),
+      color: customColors.cardColor,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RoundedImage(imageUrl: imageUrl, mHeight: 200),
-            const SizedBox(height: 5),
+            const SizedBox(height: 15),
             Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
@@ -63,10 +64,10 @@ class NewsFirstCard extends StatelessWidget {
             const SizedBox(height: 3),
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: customColors.titleTextColor),
               maxLines: 2,
             ),
             //const SizedBox(height: 1),
@@ -76,7 +77,7 @@ class NewsFirstCard extends StatelessWidget {
                 style: {
                   "p": Style(
                     fontSize: FontSize(12.0),
-                    color: Colors.white,
+                    color: customColors.titleTextColor,
                     margin: Margins.zero,
                     padding: HtmlPaddings.zero,
                     maxLines: 3,
@@ -94,15 +95,15 @@ class NewsFirstCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 10.0, vertical: 4.0),
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(79, 79, 80, 1),
+                    color: customColors.badgeColor,
                     borderRadius: BorderRadius.circular(
                         20.0), // Adjust the radius as needed
                     //border: Border.all(color: Colors.white, width: 1.0)
                   ),
                   child: Text(
                     timeAgo(postTime),
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 243, 243, 243),
+                    style: TextStyle(
+                      color: customColors.badgeTextColor,
                       fontSize: 9.0, // Adjust the font size as needed
                     ),
                   ),
@@ -157,12 +158,13 @@ class NewsOtherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customColors = Theme.of(context).extension<CustomColors>()!;
     return SizedBox(
       width: 125, // Adjust the width as per your design requirements
       child: Card(
         elevation: 4,
         margin: const EdgeInsets.only(left: 0, top: 0, bottom: 5),
-        color: const Color(0xff262626),
+        color: customColors.cardColor,
         child: Padding(
           padding: const EdgeInsets.all(6.0),
           child: Column(
@@ -175,10 +177,10 @@ class NewsOtherCard extends StatelessWidget {
                   height: 40,
                   child: Text(
                     title,
-                    style: const TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: customColors.titleTextColor),
                     maxLines: 3,
                   )),
               const SizedBox(height: 3),
@@ -188,13 +190,13 @@ class NewsOtherCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8.0, vertical: 3.0),
                     decoration: BoxDecoration(
-                      color: const Color.fromRGBO(79, 79, 80, 1),
+                      color: customColors.badgeColor,
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: Text(
                       timeAgo(postTime),
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 243, 243, 243),
+                      style: TextStyle(
+                        color: customColors.badgeTextColor,
                         fontSize: 9.0,
                       ),
                     ),
@@ -253,12 +255,13 @@ class NewsHighCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customColors = Theme.of(context).extension<CustomColors>()!;
     return SizedBox(
       width: 125,
       child: Card(
         elevation: 4,
         margin: const EdgeInsets.only(left: 0, top: 0, bottom: 5),
-        color: const Color(0xff262626),
+        color: customColors.cardColor,
         child: Padding(
           padding: const EdgeInsets.all(4.0),
           child: Column(
@@ -288,11 +291,11 @@ class NewsHighCard extends StatelessWidget {
                   height: 30,
                   child: Text(
                     title,
-                    style: const TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 2,
+                    style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: customColors.titleTextColor),
+                    maxLines: 3,
                   )),
               if (matchUrl != "null" && matchUrl.isNotEmpty)
                 Center(
@@ -343,13 +346,13 @@ class NewsHighCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8.0, vertical: 3.0),
                     decoration: BoxDecoration(
-                      color: const Color.fromRGBO(79, 79, 80, 1),
+                      color: customColors.badgeColor,
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: Text(
                       timeAgo(postTime),
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 243, 243, 243),
+                      style: TextStyle(
+                        color: customColors.badgeTextColor,
                         fontSize: 9.0,
                       ),
                     ),
@@ -467,6 +470,7 @@ class MySiteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customColors = Theme.of(context).extension<CustomColors>()!;
     return SizedBox(
         width: 80, // Adjust the width as per your design requirements
         child: Padding(
@@ -474,14 +478,14 @@ class MySiteCard extends StatelessWidget {
           child: Card(
             elevation: 4,
             margin: const EdgeInsets.only(left: 0, top: 0, bottom: 5),
-            color: const Color(0xff262626),
+            color: customColors.cardColor,
             child: Padding(
               padding: const EdgeInsets.all(0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RoundedSmallImage(
-                      imageUrl: imageUrl, mHeight: 65, mColor: Colors.white)
+                      imageUrl: imageUrl, mHeight: 65, mColor: customColors.sitesCardColor ?? Colors.white)
                 ],
               ),
             ),

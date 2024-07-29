@@ -34,11 +34,6 @@ class AppColorSwatch {
     },
   );
 
-  static const Color appBarColor = Color(0xFF000000);
-
-  static const Color appChipColor = Color(0xFFFF7A00);
-
-  static const Color appDrawBgCOlor = Color.fromRGBO(46, 46, 46, 1);
 
   static const Color cardColorDark = Color(0xff262626);
   static const Color cardColorLight = Color(0xffF4F9FF);
@@ -51,6 +46,25 @@ class AppColorSwatch {
 
   static const Color bgBarColorDark = Color(0xff262626);
   static const Color bgBarColorLight = Color(0xffD9D9D9);
+
+  static const Color iconTextColorDark = Color(0xffD9D9D9);
+  static const Color iconTextColorLight = Color(0xff000000);
+
+  static const Color titleTextColorDark = Color(0xffFFFFFF);
+  static const Color titleTextColorLight = Color(0xff262626);
+
+  static const Color switchColorDark = Color(0xFFA7A7A7);
+  static const Color switchColorLight = Color(0xffD9D9D9);
+
+  static const Color badgeColorDark = Color(0xFF4F4F50);
+  static const Color badgeColorLight = Color(0xffD9D9D9);
+
+  static const Color badgeTextColorDark = Color(0xff262626);
+  static const Color badgeTextColorLight = Color(0xff262626);
+
+
+  static const Color siteCardColorDark = Color(0xffFFFFFF);
+  static const Color siteCardColorLight = Color(0xffF4F9FF);
 
 // Define other custom colors if needed
 // static const MaterialColor customAccentColor = MaterialColor(...);

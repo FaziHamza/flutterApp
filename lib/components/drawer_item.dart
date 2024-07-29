@@ -7,6 +7,7 @@ import '../models/api_response.dart';
 import '../models/api_response_controller.dart';
 import '../models/subtopic.dart';
 import '../services/preference_service.dart';
+import '../utils/CustomColors.dart';
 import '../utils/app_color_swatch.dart';
 import '../utils/subtopic_navitem_controller.dart';
 
@@ -28,6 +29,7 @@ class _DrawerItemState extends State<DrawerItem> {
 
   @override
   Widget build(BuildContext context) {
+    final customColors = Theme.of(context).extension<CustomColors>()!;
     return InkWell(
       onTap: () {
         setState(() {
@@ -35,8 +37,8 @@ class _DrawerItemState extends State<DrawerItem> {
         });
       },
       child: Container(
-          decoration: const BoxDecoration(
-              color: Color(0xFF262626),
+          decoration: BoxDecoration(
+              color: customColors.cardColor ?? Color(0xFF262626),
               borderRadius: BorderRadius.all(Radius.circular(8))),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,8 +71,8 @@ class _DrawerItemState extends State<DrawerItem> {
               ),
               if (_isExpanded)
                 Container(
-                  decoration: const BoxDecoration(
-                      color: Color(0xFF262626),
+                  decoration: BoxDecoration(
+                      color: customColors.cardColor,
                       borderRadius: BorderRadius.all(Radius.circular(8))),
                   child: Column(
                     children: widget.menuItem.topics!.expand((topic) {
@@ -85,36 +87,43 @@ class _DrawerItemState extends State<DrawerItem> {
                                   horizontal: 15, vertical: 4),
                               label: Text(
                                 topic.highlights2 ?? '                ',
-                                style: const TextStyle(fontSize: 12.0),
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: customColors.badgeTextColor),
                               ),
-                              color: const WidgetStatePropertyAll(
-                                  Color.fromRGBO(79, 79, 80, 1)),
+                              color: WidgetStatePropertyAll(
+                                  customColors.badgeColor ??
+                                      Color.fromRGBO(79, 79, 80, 1)),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)),
                               side: BorderSide.none,
-                              backgroundColor:
+                              backgroundColor: customColors.badgeColor ??
                                   const Color.fromRGBO(79, 79, 80, 1),
                             ),
                             const Spacer(),
                             Chip(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 4),
-                              label: const Text(
+                              label: Text(
                                 'Favoriter ♥️',
-                                style: TextStyle(fontSize: 12.0),
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: customColors.badgeTextColor),
                               ),
-                              color: const WidgetStatePropertyAll(
-                                   Color.fromRGBO(79, 79, 80, 1)),
+                              color: WidgetStatePropertyAll(
+                                  customColors.badgeColor ??
+                                      Color.fromRGBO(79, 79, 80, 1)),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)),
                               side: BorderSide.none,
-                              backgroundColor:
+                              backgroundColor: customColors.badgeColor ??
                                   const Color.fromRGBO(79, 79, 80, 1),
                             ),
                           ],
                         ),
                       ));
-                      List<Subtopic> savedSubtopics = PreferenceService().loadNavbarItems();
+                      List<Subtopic> savedSubtopics =
+                          PreferenceService().loadNavbarItems();
                       //list tile
                       widgets.addAll(topic.subtopics!.map((subtopic) {
                         for (var savedSubtopic in savedSubtopics) {
@@ -124,20 +133,34 @@ class _DrawerItemState extends State<DrawerItem> {
                         }
                         return Column(
                           children: [
-                            const Divider(  height: 4, color: AppColorSwatch.appDrawBgCOlor),
+                            Divider(
+                                height: 4,
+                                color: customColors.bgContainerColor ??
+                                    AppColorSwatch.bgContainerColorDark),
                             ListTile(
                               leading: Padding(
                                 padding: const EdgeInsets.only(left: 16.0),
                                 child: CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 16.0,
-                                  child: AppController.to.isSvg(subtopic.logo!)
-                                      ? SvgPicture.network( subtopic.logo!, height: 24.0,  width: 24.0, )
-                                      : Image.network(  subtopic.logo!,height: 24.0, width: 24.0,)
-                                ),
+                                    backgroundColor: Colors.white,
+                                    radius: 16.0,
+                                    child:
+                                        AppController.to.isSvg(subtopic.logo!)
+                                            ? SvgPicture.network(
+                                                subtopic.logo!,
+                                                height: 24.0,
+                                                width: 24.0,
+                                              )
+                                            : Image.network(
+                                                subtopic.logo!,
+                                                height: 24.0,
+                                                width: 24.0,
+                                              )),
                               ),
                               title: Text(
-                                subtopic.name!, style: const TextStyle(fontSize: 15.0),
+                                subtopic.name!,
+                                style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: customColors.titleTextColor),
                               ),
                               trailing: Transform.scale(
                                 scaleX: 0.7,
@@ -147,13 +170,16 @@ class _DrawerItemState extends State<DrawerItem> {
                                     value: subtopic.isSwitchedOn.value,
                                     onChanged: (bool value) {
                                       subtopic.isSwitchedOn.value = value;
-                                      subtopicNavController.toggleSubtopic( subtopic, value);
+                                      subtopicNavController.toggleSubtopic(
+                                          subtopic, value);
                                       if (value) {
                                         widget.onClick!(subtopic);
                                       }
                                     },
                                     activeTrackColor: const Color(0xFF365880),
-                                    inactiveTrackColor: const Color(0xFFA7A7A7),
+                                    inactiveTrackColor:
+                                        customColors.switchColor ??
+                                            const Color(0xFFA7A7A7),
                                   ),
                                 ),
                               ),

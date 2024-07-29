@@ -7,7 +7,11 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color? bgBarColor;
   final Color? badgeColor;
   final Color? titleTextColor;
+  final Color? iconTextColor;
   final Color? bodyTextColor;
+  final Color? switchColor;
+  final Color? badgeTextColor;
+  final Color? sitesCardColor;
 
   CustomColors({
     this.cardColor,
@@ -17,6 +21,10 @@ class CustomColors extends ThemeExtension<CustomColors> {
     this.bgContainerColor,
     this.titleTextColor,
     this.bodyTextColor,
+    this.iconTextColor,
+    this.switchColor,
+    this.badgeTextColor,
+    this.sitesCardColor,
   });
 
   @override
@@ -29,6 +37,10 @@ class CustomColors extends ThemeExtension<CustomColors> {
       badgeColor: bgBarColor ?? this.badgeColor,
       titleTextColor: titleTextColor ?? this.titleTextColor,
       bodyTextColor: bodyTextColor ?? this.bodyTextColor,
+      iconTextColor: iconTextColor ?? this.iconTextColor,
+      switchColor: switchColor ?? this.switchColor,
+      badgeTextColor: badgeTextColor ?? this.badgeTextColor,
+      sitesCardColor: sitesCardColor ?? this.sitesCardColor,
     );
   }
 
@@ -45,6 +57,10 @@ class CustomColors extends ThemeExtension<CustomColors> {
       badgeColor: Color.lerp(badgeColor, other.badgeColor, t),
       titleTextColor: Color.lerp(titleTextColor, other.titleTextColor, t),
       bodyTextColor: Color.lerp(bodyTextColor, other.bodyTextColor, t),
+      iconTextColor: Color.lerp(iconTextColor, other.iconTextColor, t),
+      switchColor: Color.lerp(switchColor, other.switchColor, t),
+      badgeTextColor: Color.lerp(badgeTextColor, other.badgeTextColor, t),
+      sitesCardColor: Color.lerp(sitesCardColor, other.sitesCardColor, t),
     );
   }
 }

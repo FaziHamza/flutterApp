@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:news/services/preference_service.dart';
+import '../utils/CustomColors.dart';
 import '../utils/app_color_swatch.dart';
 import '../utils/subtopic_navitem_controller.dart';
 import 'bottom_navbar_item.dart';
@@ -13,6 +14,7 @@ class BottomNavbarSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CustomColors customColors = Theme.of(context).extension<CustomColors>()!;
     return GetBuilder<SubtopicNavController>(builder: (navController) {
       var items = navController.getNavbarItems();
 
@@ -58,16 +60,16 @@ class BottomNavbarSection extends StatelessWidget {
         padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
         decoration: const BoxDecoration(),
         child: Container(
-          decoration: const BoxDecoration(
-            color: Color(0xff262626),
+          decoration: BoxDecoration(
+            color:  customColors.bgBarColor ??  Color(0xff262626),
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
           height: 110.0,
           width: double.infinity,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
-            decoration: const BoxDecoration(
-              color: Color(0xff262626),
+            decoration: BoxDecoration(
+              color:  customColors.bgBarColor ??  Color(0xff262626),
               borderRadius: BorderRadius.all(Radius.circular(15)),
             ),
             child: SingleChildScrollView(
