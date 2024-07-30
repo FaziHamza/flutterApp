@@ -56,7 +56,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = ThemeMode.system; // Default to system theme
+  ThemeMode _themeMode = ThemeMode.system;
 
   void _toggleTheme() {
     setState(() {
@@ -117,19 +117,26 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: _themeMode,
       onDispose: onDispose,
-      home: const MyhomePage(),
+      home: MyHomePage(
+          isLightMode: _themeMode == ThemeMode.light,
+          onTap: () {
+            _toggleTheme();
+          }),
     );
   }
 }
 
-class MyhomePage extends StatefulWidget {
-  const MyhomePage({super.key});
+class MyHomePage extends StatefulWidget {
+  final GestureTapCallback onTap;
+  final bool isLightMode;
+
+  const MyHomePage({super.key, required this.isLightMode, required this.onTap});
 
   @override
-  State<MyhomePage> createState() => _MyhomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyhomePageState extends State<MyhomePage> {
+class _MyHomePageState extends State<MyHomePage> {
   final apiResponseController =
       Get.put(ApiResponseController(), permanent: true);
 
@@ -143,7 +150,10 @@ class _MyhomePageState extends State<MyhomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return HomePage();
+    return HomePage(
+      isLightMode: widget.isLightMode,
+      onTap: widget.onTap,
+    );
   }
 
   Future<void> loadMenuItem() async {

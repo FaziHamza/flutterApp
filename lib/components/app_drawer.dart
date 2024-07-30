@@ -8,10 +8,15 @@ import '../controllers/app_controller.dart';
 import '../models/api_response.dart';
 import '../utils/app_color_swatch.dart';
 import '../models/subtopic.dart';
+import '../utils/theme_toggle.dart';
 
 class AppDrawer {
-  Widget getAppDrawer(CustomColors customColors,
-      ValueChanged<Subtopic>? onClick, ValueChanged<bool> onClose) {
+  Widget getAppDrawer(
+      bool isLightMode,
+      CustomColors customColors,
+      ValueChanged<Subtopic>? onClick,
+      ValueChanged<bool> onClose,
+      GestureTapCallback onTap) {
     ApiResponseController apiResponseController = Get.find();
 
     return SafeArea(
@@ -42,7 +47,7 @@ class AppDrawer {
                               child: Icon(
                                 Icons.close,
                                 color: customColors.iconTextColor ??
-                                    Color(0xFF666666),
+                                    const Color(0xFF666666),
                               ),
                             );
                           })
@@ -51,7 +56,19 @@ class AppDrawer {
                     ],
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.all(5),
+                      child: Text(
+                        'Customize your theme',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: customColors.titleTextColor ??
+                              const Color(0xFFFFFFFF),
+                        ),
+                        textAlign: TextAlign.center,
+                      )),
+                  ThemeToggleSwitch(isLightMode: isLightMode, onTap: onTap),
+                  Padding(
+                      padding: const EdgeInsets.only(bottom: 10, top: 10),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -65,7 +82,7 @@ class AppDrawer {
                           Text(
                             'Expand a heading and switch on subheadings to subscribe.',
                             style: TextStyle(
-                              fontSize: 10.0,
+                              fontSize: 11.0,
                               color: customColors.titleTextColor ??
                                   const Color(0xFFFFFFFF),
                             ),

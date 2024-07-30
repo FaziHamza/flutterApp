@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import '../pages/home_page.dart';
@@ -16,11 +17,16 @@ class FirebaseApi {
     if (message == null) return;
 
     print(message.notification?.title);
-    if(message.data['deeplink']!=null)
-    {
-      Get.off(() => HomePage(isFirstTime: true,link:message.data['deeplink'],));
+    if (message.data['deeplink'] != null) {
+      Get.off(() => HomePage(
+            isFirstTime: true,
+            link: message.data['deeplink'],
+            isLightMode: ThemeMode.system == ThemeMode.light,
+            onTap: () {},
+          ));
     }
   }
+
   void showFlutterNotification(RemoteMessage message) {
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
@@ -41,6 +47,7 @@ class FirebaseApi {
       );
     }
   }
+
   Future<void> initLocalNotification() async {
     final InitializationSettings initializationSettings =
         const InitializationSettings(
@@ -74,7 +81,7 @@ class FirebaseApi {
     _firebaseMessaging.getInitialMessage().then(handleMessage);
     FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
-     FirebaseMessaging.onMessage.listen(showFlutterNotification);
+    FirebaseMessaging.onMessage.listen(showFlutterNotification);
   }
 
   initNotification() async {
@@ -94,7 +101,7 @@ class FirebaseApi {
       'high_importance_channel', // id
       'High Importance Notifications', // title
       description:
-      'This channel is used for important notifications.', // description
+          'This channel is used for important notifications.', // description
       importance: Importance.high,
     );
 
@@ -106,7 +113,7 @@ class FirebaseApi {
     /// default FCM channel to enable heads up notifications.
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     /// Update the iOS foreground notification presentation options to allow
@@ -135,5 +142,4 @@ Future<void> handleBackgroundMessage(RemoteMessage? message) async {
   //     //   logImage: "logo",
   //     // ));
   //   }
-
 }

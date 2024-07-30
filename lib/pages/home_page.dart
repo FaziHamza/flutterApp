@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:news/components/app_drawer.dart';
 import 'package:news/models/News.dart';
+import 'package:news/models/api_highlights_response.dart';
+import 'package:news/models/api_response_controller.dart';
 import 'package:news/models/api_today_hilights_response.dart';
 import 'package:news/models/my_pod_cast_response.dart';
 import 'package:news/models/my_sites_reponse.dart';
@@ -11,17 +13,23 @@ import 'package:news/models/my_video_hiegh_response.dart';
 import 'package:news/models/subtopic.dart';
 import 'package:news/pages/bottom_navbar_section.dart';
 import 'package:news/pages/news_main_page.dart';
-import 'package:news/models/api_response_controller.dart';
+
 import '../utils/CustomColors.dart';
 import '../utils/drawer_controller.dart';
 import '../utils/subtopic_navitem_controller.dart';
-import 'package:news/models/api_highlights_response.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key, this.isFirstTime = true, this.link = ""});
-
   bool isFirstTime;
   String? link;
+  final GestureTapCallback onTap;
+  final bool isLightMode;
+
+  HomePage(
+      {super.key,
+      this.isFirstTime = true,
+      this.link = "",
+      required this.isLightMode,
+      required this.onTap});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -161,8 +169,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           Container(
             padding: const EdgeInsets.only(left: 10),
             color: customColors.topBarColor,
-            alignment:Alignment.bottomCenter,
-            height: 85.0, // Height of your custom app bar
+            alignment: Alignment.bottomCenter,
+            height: 85.0,
+            // Height of your custom app bar
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -178,14 +187,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           ),
           Expanded(
             child: Center(
-              child: isLoading
-                  ? const CircularProgressIndicator()
-                  : MainNewsList(mNewListIte: mNewListIte)
-            ),
+                child: isLoading
+                    ? const CircularProgressIndicator()
+                    : MainNewsList(mNewListIte: mNewListIte)),
           ),
         ],
       ),
       drawer: AppDrawer().getAppDrawer(
+        widget.isLightMode,
         customColors,
         (value) {
           String mKey = value.keyword ?? '';
@@ -200,6 +209,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           }
           Navigator.pop(context);
         },
+        widget.onTap,
       ),
       bottomNavigationBar: BottomNavbarSection(
         onClick: (value) {
