@@ -60,7 +60,7 @@ class AppDrawer {
                       child: Text(
                         'Customize your theme',
                         style: TextStyle(
-                          fontSize: 12.0,
+                          fontSize: 11.0,
                           color: customColors.titleTextColor ??
                               const Color(0xFFFFFFFF),
                         ),
