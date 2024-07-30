@@ -10,7 +10,6 @@ import 'package:news/models/my_pod_cast_response.dart';
 import 'package:news/models/my_sites_reponse.dart';
 import 'package:news/models/my_video_hiegh_response.dart';
 import 'package:news/pages/next_page.dart';
-import 'package:news/pages/potcast_page.dart';
 import 'package:news/utils/CustomColors.dart';
 import 'package:news/utils/news_cards.dart';
 
@@ -49,7 +48,7 @@ class MainNewsList extends StatelessWidget {
           return _buildMySiteListRow();
         }
         if (mType == 'PodCast') {
-          return _buildPodCastListRow();
+          return _buildPodCastListRow(context);
         }
         if (mType == 'TodayH') {
           return _buildTodayListRow(customColors);
@@ -206,7 +205,8 @@ class MainNewsList extends StatelessWidget {
                   padding: const EdgeInsets.all(2),
                   child: GestureDetector(
                     onTap: () {
-                      showWebViewDialog(context, item.embededCode!, false);
+                      showWebViewDialog(
+                          context, item.embededCode!, false, true, 220, 0);
                     },
                     child: NewsHighCard(
                       imageUrl: 'https://sportspotadmin.dev/${item.thumbnail}',
@@ -255,7 +255,8 @@ class MainNewsList extends StatelessWidget {
                   padding: const EdgeInsets.all(2),
                   child: GestureDetector(
                     onTap: () {
-                      showWebViewDialog(context, item.videos.first.embed, true);
+                      showWebViewDialog(
+                          context, item.videos.first.embed, true, true, 220, 0);
                     },
                     child: NewsHighCard(
                         imageUrl: item.thumbnail,
@@ -326,7 +327,7 @@ class MainNewsList extends StatelessWidget {
     );
   }
 
-  Widget _buildPodCastListRow() {
+  Widget _buildPodCastListRow(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -353,11 +354,13 @@ class MainNewsList extends StatelessWidget {
                   padding: const EdgeInsets.all(2),
                   child: GestureDetector(
                     onTap: () {
-                      String subTopicId = item.subTopicId.toString();
-                      if (subTopicId != "null" && subTopicId.isNotEmpty) {
-                        Get.to(() => PodcastPage(
-                            subtopicId: subTopicId, title: "Pod Cast"));
-                      }
+                      // String subTopicId = item.subTopicId.toString();
+                      // if (subTopicId != "null" && subTopicId.isNotEmpty) {
+                      //   Get.to(() => PodcastPage(
+                      //       subtopicId: subTopicId, title: "Pod Cast"));
+                      // }
+                      showWebViewDialog(context, item.embededCode ?? '', false,
+                          false, 150, 20);
                     },
                     child: MySiteCard(
                       imageUrl: 'https://sportspotadmin.dev/${item.thumbnail}',

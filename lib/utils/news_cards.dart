@@ -385,9 +385,18 @@ class NewsHighCard extends StatelessWidget {
 class WebViewDialog extends StatelessWidget {
   final String embededCode;
   final bool isSingle;
+  final bool isAuto;
+  final double mHeight;
+  final double radius;
 
-  const WebViewDialog(
-      {super.key, required this.embededCode, required this.isSingle});
+  const WebViewDialog({
+    super.key,
+    required this.embededCode,
+    required this.isSingle,
+    required this.isAuto,
+    required this.mHeight,
+    required this.radius,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -396,22 +405,26 @@ class WebViewDialog extends StatelessWidget {
         insetPadding: const EdgeInsets.all(30),
         content: SizedBox(
           width: double.maxFinite,
-          height: 220,
+          height: mHeight,
           child: Padding(
             padding: const EdgeInsets.all(0),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: double.maxFinite,
-                  height: 220,
-                  child: WebViewWidget(
-                    controller: WebViewController()
-                      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-                      ..loadRequest(Uri.parse(
-                          '${isSingle ? extractIframeSrc2(embededCode) : extractIframeSrc(embededCode)}&autoplay=1')),
-                  ),
-                )
-              ],
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(radius),
+              // Adjust the radius as needed
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.maxFinite,
+                    height: mHeight,
+                    child: WebViewWidget(
+                      controller: WebViewController()
+                        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                        ..loadRequest(Uri.parse(
+                            '${isSingle ? extractIframeSrc2(embededCode) : extractIframeSrc(embededCode)}${isAuto ? '&autoplay=1' : ''}')),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ));
@@ -448,14 +461,21 @@ String extractIframeSrc2(String html) {
   return extractedSrc;
 }
 
-void showWebViewDialog(BuildContext context, String url, bool isSingle) {
+void showWebViewDialog(BuildContext context, String url, bool isSingle,
+    bool isAuto, double mHeight, double radius) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       if (kDebugMode) {
         print('Src= ${extractIframeSrc(url)}');
       }
-      return WebViewDialog(embededCode: url, isSingle: isSingle);
+      return WebViewDialog(
+        embededCode: url,
+        isSingle: isSingle,
+        isAuto: isAuto,
+        mHeight: mHeight,
+        radius: radius,
+      );
     },
   );
 }
@@ -485,7 +505,9 @@ class MySiteCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RoundedSmallImage(
-                      imageUrl: imageUrl, mHeight: 65, mColor: customColors.sitesCardColor ?? Colors.white)
+                      imageUrl: imageUrl,
+                      mHeight: 65,
+                      mColor: customColors.sitesCardColor ?? Colors.white)
                 ],
               ),
             ),
