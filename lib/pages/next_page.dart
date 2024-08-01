@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:news/controllers/app_controller.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../utils/CustomColors.dart';
@@ -119,10 +120,12 @@ class _NextPageState extends State<NextPage> {
                 if (widget.oldUrl != widget.url && oldUrl != "") {
                   Get.to(
                     () => NextPage(
-                        title: widget.title,
-                        oldUrl: "", // widget.url,
-                        url: request.url.toString(),
-                        logImage: widget.logImage),
+                      title: widget.title,
+                      oldUrl: "",
+                      // widget.url,
+                      url: request.url.toString(),
+                      logImage: widget.logImage,
+                    ),
                     preventDuplicates: false,
                   );
                   return NavigationDecision.prevent;
@@ -135,9 +138,10 @@ class _NextPageState extends State<NextPage> {
             } else {
               Get.to(
                 () => NextPage(
-                    title: widget.title,
-                    url: request.url,
-                    logImage: widget.logImage),
+                  title: widget.title,
+                  url: request.url,
+                  logImage: widget.logImage,
+                ),
                 preventDuplicates: false,
               );
               return NavigationDecision.prevent;
@@ -148,7 +152,16 @@ class _NextPageState extends State<NextPage> {
           onWebResourceError: (WebResourceError error) {},
         ),
       )
-      ..loadRequest(Uri.parse(widget.url));
+      ..loadRequest(Uri.parse(updateThemeParameter(widget.url)));
+  }
+
+  String updateThemeParameter(String url) {
+    Uri uri = Uri.parse(url);
+    String theme = AppController.to.getIsDark() ? 'Dark' : 'Light';
+    Uri updatedUri = uri.replace(
+      queryParameters: {...uri.queryParameters, 'theme': theme},
+    );
+    return updatedUri.toString();
   }
 
   @override
@@ -255,8 +268,9 @@ class _NextPageState extends State<NextPage> {
   }
 
   Widget custom(BuildContext context) {
+    final customColors = Theme.of(context).extension<CustomColors>()!;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors.bgContainerColor,
       body: Stack(
         children: [
           // WebView
@@ -275,7 +289,7 @@ class _NextPageState extends State<NextPage> {
             left: 0,
             right: 0,
             child: Container(
-              color: const Color(0xff262626),
+            color: customColors.topBarColor,
               // Slight transparency
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),

@@ -10,9 +10,18 @@ class AppController extends GetxController {
   }
 
   final RxBool buttonDisabled = false.obs;
+  final RxBool isDark = true.obs;
 
   void setButtonDisabled(bool value) {
     buttonDisabled.value = value;
+  }
+
+  void setIsDark(bool value) {
+    isDark.value = value;
+  }
+
+  bool getIsDark() {
+    return isDark.value;
   }
 
   Widget copyRight(Color mColor) {

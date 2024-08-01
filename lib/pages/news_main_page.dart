@@ -13,6 +13,8 @@ import 'package:news/pages/next_page.dart';
 import 'package:news/utils/CustomColors.dart';
 import 'package:news/utils/news_cards.dart';
 
+import '../controllers/app_controller.dart';
+
 @immutable
 class MainNewsList extends StatelessWidget {
   final NewListIte mNewListIte;
@@ -95,7 +97,7 @@ class MainNewsList extends StatelessWidget {
       onTap: () {
         String article = (item.isExternal == true)
             ? item.articleLink.toString()
-            : getArticalLink(mNewListIte.mHeader, item.id.toString());
+            : item.articleDetailLink.toString();
         if (article != "null" && article.isNotEmpty) {
           Get.to(() =>
               NextPage(title: '', url: article, logImage: '', hideBar: true));
@@ -143,8 +145,7 @@ class MainNewsList extends StatelessWidget {
                     onTap: () {
                       String article = (item.isExternal == true)
                           ? item.articleLink.toString()
-                          : getArticalLink(
-                              mNewListIte.mHeader, item.id.toString());
+                          : item.articleDetailLink.toString();
                       //String article = item.articleLink.toString();
                       if (kDebugMode) {
                         print("article: $article");
@@ -407,7 +408,21 @@ class MainNewsList extends StatelessWidget {
                   padding: const EdgeInsets.all(2),
                   child: GestureDetector(
                     onTap: () {
-                      // Handle onTap for Podcast list item
+                      String article = (item.isExternal == true)
+                          ? item.articleLink.toString()
+                          : item.articleDetailLink.toString();
+                      //String article = item.articleLink.toString();
+                      if (kDebugMode) {
+                        print("article: $article");
+                      }
+                      if (article != "null" && article.isNotEmpty) {
+                        Get.to(() => NextPage(
+                              title: '',
+                              url: article,
+                              logImage: '',
+                              hideBar: item.isExternal == false,
+                            ));
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 10),
@@ -464,7 +479,8 @@ class MainNewsList extends StatelessWidget {
   }
 
   String getArticalLink(String item, String name) {
-    return 'https://sportblitznews.se/news/$item/$name';
+    String theme = AppController.to.getIsDark() ? 'Dark' : 'Light';
+    return 'https://article.sportspotadmin.dev/?newsId=$name&lang=sv&theme=$theme';
   }
 }
 

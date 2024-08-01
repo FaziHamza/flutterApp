@@ -62,6 +62,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _themeMode =
           _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+      AppController.to.setIsDark(_themeMode == ThemeMode.dark);
     });
   }
 
@@ -72,6 +73,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    AppController.to.setIsDark(_themeMode == ThemeMode.dark);
   }
 
   @override

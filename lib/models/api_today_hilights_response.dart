@@ -18,7 +18,6 @@ class ApiTodayHilightsResponse {
   }
 }
 
-
 class TodayHilights {
   final String? id;
   final String? title;
@@ -32,6 +31,7 @@ class TodayHilights {
   final String? content;
   final bool? isExternal;
   final String? articleLink;
+  final String? articleDetailLink;
   final String? imageLink;
   final String? creator;
   final String? creatorImg;
@@ -56,6 +56,7 @@ class TodayHilights {
     this.content,
     this.isExternal,
     this.articleLink,
+    this.articleDetailLink,
     this.imageLink,
     this.creator,
     this.creatorImg,
@@ -82,12 +83,14 @@ class TodayHilights {
         contributorRole: json['_contributorRole'],
         contentEng: json['_contentEng'],
         medias: json['_medias'] != null
-            ? List<TodayMedia>.from(json['_medias'].map((x) => TodayMedia.fromJson(x)))
+            ? List<TodayMedia>.from(
+                json['_medias'].map((x) => TodayMedia.fromJson(x)))
             : null,
         abstract: json['_abstract'],
         content: json['_content'],
         isExternal: json['_isExternal'],
         articleLink: json['_ArticleLink'],
+        articleDetailLink: json['_ArticleDetailLink'],
         imageLink: json['_ImageLink'],
         creator: json['_Creator'],
         creatorImg: json['_CreatorImg'],
@@ -117,6 +120,7 @@ class TodayHilights {
         '_content': content,
         '_isExternal': isExternal,
         '_ArticleLink': articleLink,
+        '_ArticleDetailLink': articleDetailLink,
         '_ImageLink': imageLink,
         '_Creator': creator,
         '_CreatorImg': creatorImg,
@@ -168,5 +172,4 @@ class TodayMedia {
         'type': type,
         'height': height,
       };
-      
 }

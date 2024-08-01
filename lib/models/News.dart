@@ -13,11 +13,10 @@ class ApiNewsResponse {
     );
   }
 
-  List<News> getNews(){
+  List<News> getNews() {
     return news;
   }
 }
-
 
 class News {
   final String? id;
@@ -32,6 +31,7 @@ class News {
   final String? content;
   final bool? isExternal;
   final String? articleLink;
+  final String? articleDetailLink;
   final String? creator;
   final String? creatorImg;
   final String? type;
@@ -55,6 +55,7 @@ class News {
     this.content,
     this.isExternal,
     this.articleLink,
+    this.articleDetailLink,
     this.creator,
     this.creatorImg,
     this.type,
@@ -79,6 +80,7 @@ class News {
     String? content,
     bool? isExternal,
     String? articleLink,
+    String? articleDetailLink,
     String? creator,
     String? creatorImg,
     String? type,
@@ -102,6 +104,7 @@ class News {
         content: content ?? this.content,
         isExternal: isExternal ?? this.isExternal,
         articleLink: articleLink ?? this.articleLink,
+        articleDetailLink: articleDetailLink ?? this.articleDetailLink,
         creator: creator ?? this.creator,
         creatorImg: creatorImg ?? this.creatorImg,
         type: type ?? this.type,
@@ -125,11 +128,14 @@ class News {
         contributorName: json["_contributorName"],
         contributorRole: json["_contributorRole"],
         contentEng: json["_contentEng"],
-        medias: json["_medias"] == null ? [] : List<Media>.from(json["_medias"].map((x) => Media.fromJson(x))),
+        medias: json["_medias"] == null
+            ? []
+            : List<Media>.from(json["_medias"].map((x) => Media.fromJson(x))),
         abstract: json["_abstract"],
         content: json["_content"],
         isExternal: json["_isExternal"],
         articleLink: json["_ArticleLink"],
+        articleDetailLink: json["_ArticleDetailLink"],
         creator: json["_Creator"],
         creatorImg: json["_CreatorImg"],
         type: json["_Type"],
@@ -138,7 +144,9 @@ class News {
         generalistName: json["_GeneralistName"],
         generalistRole: json["_GeneralistRole"],
         generalistProfile: json["_GeneralistProfile"],
-        published: json["_published"] == null ? null : DateTime.parse(json["_published"]),
+        published: json["_published"] == null
+            ? null
+            : DateTime.parse(json["_published"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -149,11 +157,14 @@ class News {
         "_contributorName": contributorName,
         "_contributorRole": contributorRole,
         "_contentEng": contentEng,
-        "_medias": medias == null ? [] : List<dynamic>.from(medias!.map((x) => x.toJson())),
+        "_medias": medias == null
+            ? []
+            : List<dynamic>.from(medias!.map((x) => x.toJson())),
         "_abstract": abstract,
         "_content": content,
         "_isExternal": isExternal,
         "_ArticleLink": articleLink,
+        "_ArticleDetailLink": articleDetailLink,
         "_Creator": creator,
         "_CreatorImg": creatorImg,
         "_Type": type,
