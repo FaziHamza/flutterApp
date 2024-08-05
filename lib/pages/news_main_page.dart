@@ -431,7 +431,7 @@ class MainNewsList extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.format_align_left,
-                            size: 10.0,
+                            size: 11.0,
                             color: customColors.titleTextColor,
                           ),
                           const SizedBox(
@@ -479,7 +479,7 @@ class MainNewsList extends StatelessWidget {
   }
 
   String getArticalLink(String item, String name) {
-    String theme = AppController.to.getIsDark() ? 'Dark' : 'Light';
+    String theme = AppController.to.getIsDark() ? 'dark' : 'light';
     return 'https://article.sportspotadmin.dev/?newsId=$name&lang=sv&theme=$theme';
   }
 }

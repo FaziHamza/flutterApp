@@ -14,6 +14,7 @@ import 'package:news/models/subtopic.dart';
 import 'package:news/pages/bottom_navbar_section.dart';
 import 'package:news/pages/news_main_page.dart';
 
+import '../controllers/app_controller.dart';
 import '../utils/CustomColors.dart';
 import '../utils/drawer_controller.dart';
 import '../utils/subtopic_navitem_controller.dart';
@@ -168,19 +169,31 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         children: [
           Container(
             padding: const EdgeInsets.only(left: 10),
-            color: customColors.topBarColor,
             alignment: Alignment.bottomCenter,
             height: 85.0,
             // Height of your custom app bar
+            decoration: BoxDecoration(
+              color: customColors.topBarColor, // Background color
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2), // Shadow color
+                  offset: Offset(0, 3), // Shadow offset
+                  blurRadius: 10, // Blur radius
+                  spreadRadius: 0, // Spread radius
+                ),
+              ],
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset('assets/image/black_sport_news.png'),
+                Image.asset(AppController.to.getIsDark()
+                    ? 'assets/image/black_sport_news.png'
+                    : 'assets/image/app_light_icon.png'),
                 IconButton(
                   onPressed: () {
                     homeScaffoldKey.currentState!.openDrawer();
                   },
-                  icon: const Icon(Icons.menu, color: Colors.white),
+                  icon: Icon(Icons.menu, color: customColors.titleTextColor),
                 ),
               ],
             ),

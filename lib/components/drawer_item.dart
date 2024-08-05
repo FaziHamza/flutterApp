@@ -45,7 +45,7 @@ class _DrawerItemState extends State<DrawerItem> {
             children: [
               ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppColorSwatch.blue,
                   child: AppController.to.isSvg(widget.menuItem.iconSource!)
                       ? SvgPicture.network(
                           widget.menuItem.iconSource!,

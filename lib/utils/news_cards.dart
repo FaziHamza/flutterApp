@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:news/pages/next_page.dart';
+import 'package:news/utils/app_color_swatch.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../controllers/app_controller.dart';
 import 'CustomColors.dart';
@@ -42,26 +43,28 @@ class NewsFirstCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RoundedImage(imageUrl: imageUrl, mHeight: 200),
-            const SizedBox(height: 15),
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
-              decoration: BoxDecoration(
-                color: const Color(0xff365880),
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: Text(
-                groupName != "null" && groupName != "" && groupName.isNotEmpty
-                    ? groupName
-                    : "Nyheter",
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 243, 243, 243),
-                  fontSize: 12.0,
+            Stack(alignment: Alignment.bottomLeft, children: [
+              RoundedImage(imageUrl: imageUrl, mHeight: 200),
+              Padding(padding: const EdgeInsets.only(bottom: 1, left: 8),
+              child: Container(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+                decoration: BoxDecoration(
+                  color: const Color(0xff365880),
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
-              ),
-            ),
-            const SizedBox(height: 3),
+                child: Text(
+                  groupName != "null" && groupName != "" && groupName.isNotEmpty
+                      ? groupName
+                      : "Nyheter",
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 243, 243, 243),
+                    fontSize: 12.0,
+                  ),
+                ),
+              ),),
+            ]),
+            const SizedBox(height: 10),
             Text(
               title,
               style: TextStyle(
@@ -178,7 +181,7 @@ class NewsOtherCard extends StatelessWidget {
                   child: Text(
                     title,
                     style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: customColors.titleTextColor),
                     maxLines: 3,
@@ -276,13 +279,13 @@ class NewsHighCard extends StatelessWidget {
                   height: 35,
                   width: 35,
                   decoration: const BoxDecoration(
-                    color: Colors.black, // Background color
+                    color: Colors.white, // Background color
                     shape: BoxShape.circle, // Circular shape
                   ), // Padding to give space around the icon
                   child: const Icon(
-                    Icons.play_circle_filled,
-                    color: Colors.white,
-                    size: 35,
+                    Icons.play_arrow,
+                    color: Colors.black,
+                    size: 30,
                   ),
                 ),
               ]),
@@ -292,7 +295,7 @@ class NewsHighCard extends StatelessWidget {
                   child: Text(
                     title,
                     style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: customColors.titleTextColor),
                     maxLines: 3,
@@ -314,7 +317,7 @@ class NewsHighCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 3.0),
                       decoration: BoxDecoration(
-                        color: Colors.white70,
+                        color: AppColorSwatch.blue,
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: const Row(
@@ -322,13 +325,13 @@ class NewsHighCard extends StatelessWidget {
                           Icon(
                             Icons.remove_red_eye,
                             size: 10.0,
-                            color: Colors.black,
+                            color: Colors.white,
                           ),
                           Spacer(flex: 3),
                           Text(
                             'View Match',
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 10,
                             ),
                           )

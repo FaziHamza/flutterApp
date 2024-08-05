@@ -157,7 +157,7 @@ class _NextPageState extends State<NextPage> {
 
   String updateThemeParameter(String url) {
     Uri uri = Uri.parse(url);
-    String theme = AppController.to.getIsDark() ? 'Dark' : 'Light';
+    String theme = AppController.to.getIsDark() ? 'dark' : 'light';
     Uri updatedUri = uri.replace(
       queryParameters: {...uri.queryParameters, 'theme': theme},
     );
@@ -185,7 +185,8 @@ class _NextPageState extends State<NextPage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  icon: Icon(Icons.arrow_back,
+                      color: customColors.titleTextColor),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -289,7 +290,7 @@ class _NextPageState extends State<NextPage> {
             left: 0,
             right: 0,
             child: Container(
-            color: customColors.topBarColor,
+              color: customColors.topBarColor,
               // Slight transparency
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
@@ -300,7 +301,8 @@ class _NextPageState extends State<NextPage> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    icon: Icon(Icons.arrow_back,
+                        color: customColors.titleTextColor),
                     onPressed: () {
                       Navigator.pop(context);
                     },

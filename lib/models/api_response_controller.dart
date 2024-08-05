@@ -149,7 +149,7 @@ class ApiResponseController extends GetxController {
           ApiTodayHilightsResponse.fromJson(response.data);
       return apiResponse;
     } else {
-      throw Exception('Failed to load news');
+      throw Exception('Failed to load Today');
     }
   }
 

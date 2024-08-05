@@ -39,13 +39,13 @@ class AppColorSwatch {
   static const Color cardColorLight = Color(0xffF4F9FF);
 
   static const Color topBarColorDark = Color(0xff262626);
-  static const Color topBarColorLight = Color(0xff365880);
+  static const Color topBarColorLight = Color(0xffFFFFFF);
 
   static const Color bgContainerColorDark = Color(0xff000000);
   static const Color bgContainerColorLight = Color(0xffFFFFFF);
 
-  static const Color bgBarColorDark = Color(0xff262626);
-  static const Color bgBarColorLight = Color(0xffD9D9D9);
+  static const Color bgBarColorDark = Color(0xff333333);
+  static const Color bgBarColorLight = Color(0xff333333);
 
   static const Color iconTextColorDark = Color(0xffD9D9D9);
   static const Color iconTextColorLight = Color(0xff000000);
@@ -57,7 +57,7 @@ class AppColorSwatch {
   static const Color switchColorLight = Color(0xffD9D9D9);
 
   static const Color badgeColorDark = Color(0xFF4F4F50);
-  static const Color badgeColorLight = Color(0xffD9D9D9);
+  static const Color badgeColorLight = Color(0xffE5F1FF);
 
   static const Color badgeTextColorDark = Color(0xff262626);
   static const Color badgeTextColorLight = Color(0xff262626);
@@ -65,6 +65,9 @@ class AppColorSwatch {
 
   static const Color siteCardColorDark = Color(0xffFFFFFF);
   static const Color siteCardColorLight = Color(0xffF4F9FF);
+
+
+  static const Color blue = Color(0xff365880);
 
 // Define other custom colors if needed
 // static const MaterialColor customAccentColor = MaterialColor(...);

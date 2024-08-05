@@ -93,6 +93,7 @@ flutter:
     - assets/image/sporspot_news.png
     - assets/image/afpnews.png
     - assets/image/black_sport_news.png
+    - assets/image/app_light_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

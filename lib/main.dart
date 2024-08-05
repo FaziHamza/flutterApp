@@ -62,7 +62,11 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _themeMode =
           _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
-      AppController.to.setIsDark(_themeMode == ThemeMode.dark);
+      final bool isDarkMode = _themeMode == ThemeMode.dark ||
+          (_themeMode == ThemeMode.system &&
+              WidgetsBinding.instance.window.platformBrightness == Brightness.dark);
+
+      AppController.to.setIsDark(isDarkMode);
     });
   }
 
@@ -73,7 +77,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    AppController.to.setIsDark(_themeMode == ThemeMode.dark);
+    final bool isDarkMode = _themeMode == ThemeMode.dark ||
+        (_themeMode == ThemeMode.system &&
+            WidgetsBinding.instance.window.platformBrightness == Brightness.dark);
+
+    AppController.to.setIsDark(isDarkMode);
   }
 
   @override
@@ -120,7 +128,9 @@ class _MyAppState extends State<MyApp> {
       themeMode: _themeMode,
       onDispose: onDispose,
       home: MyHomePage(
-          isLightMode: _themeMode == ThemeMode.light,
+          isLightMode: _themeMode == ThemeMode.light ||
+              (_themeMode == ThemeMode.system &&
+                  WidgetsBinding.instance.window.platformBrightness == Brightness.light),
           onTap: () {
             _toggleTheme();
           }),
