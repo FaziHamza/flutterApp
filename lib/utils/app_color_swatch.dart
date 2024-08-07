@@ -36,7 +36,13 @@ class AppColorSwatch {
 
 
   static const Color cardColorDark = Color(0xff262626);
-  static const Color cardColorLight = Color(0xffF4F9FF);
+  static const Color cardColorLight = Color(0xffFFFFFF);
+
+  static const Color cardItemColorDark = Color(0xff262626);
+  static const Color cardItemColorLight = Color(0xffF2F2F2);
+
+  static const Color lineItemColorDark = Color(0xff525252);
+  static const Color lineItemColorLight = Color(0xffD9D9D9);
 
   static const Color topBarColorDark = Color(0xff262626);
   static const Color topBarColorLight = Color(0xffFFFFFF);
@@ -53,14 +59,14 @@ class AppColorSwatch {
   static const Color titleTextColorDark = Color(0xffFFFFFF);
   static const Color titleTextColorLight = Color(0xff262626);
 
-  static const Color switchColorDark = Color(0xFFA7A7A7);
-  static const Color switchColorLight = Color(0xffD9D9D9);
+  static const Color switchColorDark = Color(0xFF7A757F);
+  static const Color switchColorLight = Color(0xff7A757F);
 
   static const Color badgeColorDark = Color(0xFF4F4F50);
   static const Color badgeColorLight = Color(0xffE5F1FF);
 
-  static const Color badgeTextColorDark = Color(0xff262626);
-  static const Color badgeTextColorLight = Color(0xff262626);
+  static const Color badgeTextColorDark = Color(0xffFFFFFF);
+  static const Color badgeTextColorLight = Color(0xff5B5C5E);
 
 
   static const Color siteCardColorDark = Color(0xffFFFFFF);

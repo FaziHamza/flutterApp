@@ -125,7 +125,7 @@ class MainNewsList extends StatelessWidget {
           child: Text(
             "Mer nyheter",
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -188,7 +188,7 @@ class MainNewsList extends StatelessWidget {
           child: Text(
             "Highlights",
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -238,7 +238,7 @@ class MainNewsList extends StatelessWidget {
           child: Text(
             "Highlights",
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -288,7 +288,7 @@ class MainNewsList extends StatelessWidget {
           child: Text(
             "Mina sajter",
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -337,7 +337,7 @@ class MainNewsList extends StatelessWidget {
           child: Text(
             "Podcasts",
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -387,7 +387,7 @@ class MainNewsList extends StatelessWidget {
               Text(
                 "Dagens rubriker",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -431,7 +431,7 @@ class MainNewsList extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.format_align_left,
-                            size: 11.0,
+                            size: 12.0,
                             color: customColors.titleTextColor,
                           ),
                           const SizedBox(
@@ -444,7 +444,7 @@ class MainNewsList extends StatelessWidget {
                                   item.contentEng ??
                                   '',
                               style: TextStyle(
-                                fontSize: 11.0,
+                                fontSize: 12.0,
                                 color: customColors.titleTextColor,
                               ),
                               maxLines: 1,

@@ -45,24 +45,28 @@ class NewsFirstCard extends StatelessWidget {
           children: [
             Stack(alignment: Alignment.bottomLeft, children: [
               RoundedImage(imageUrl: imageUrl, mHeight: 200),
-              Padding(padding: const EdgeInsets.only(bottom: 1, left: 8),
-              child: Container(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-                decoration: BoxDecoration(
-                  color: const Color(0xff365880),
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: Text(
-                  groupName != "null" && groupName != "" && groupName.isNotEmpty
-                      ? groupName
-                      : "Nyheter",
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 243, 243, 243),
-                    fontSize: 12.0,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 1, left: 8),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 5.0, vertical: 5.0),
+                  decoration: BoxDecoration(
+                    color: const Color(0xff365880),
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Text(
+                    groupName != "null" &&
+                            groupName != "" &&
+                            groupName.isNotEmpty
+                        ? groupName
+                        : "Nyheter",
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 243, 243, 243),
+                      fontSize: 16.0,
+                    ),
                   ),
                 ),
-              ),),
+              ),
             ]),
             const SizedBox(height: 10),
             Text(
@@ -79,7 +83,7 @@ class NewsFirstCard extends StatelessWidget {
                 data: "<p>$details</p>",
                 style: {
                   "p": Style(
-                    fontSize: FontSize(12.0),
+                    fontSize: FontSize(14.0),
                     color: customColors.titleTextColor,
                     margin: Margins.zero,
                     padding: HtmlPaddings.zero,
@@ -177,11 +181,11 @@ class NewsOtherCard extends StatelessWidget {
                   imageUrl: imageUrl, mHeight: 100, mColor: Colors.transparent),
               const SizedBox(height: 3),
               SizedBox(
-                  height: 40,
+                  height: 65,
                   child: Text(
                     title,
                     style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: customColors.titleTextColor),
                     maxLines: 3,
@@ -291,11 +295,11 @@ class NewsHighCard extends StatelessWidget {
               ]),
               const SizedBox(height: 3),
               SizedBox(
-                  height: 30,
+                  height: 65,
                   child: Text(
                     title,
                     style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: customColors.titleTextColor),
                     maxLines: 3,
@@ -495,7 +499,7 @@ class MySiteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final customColors = Theme.of(context).extension<CustomColors>()!;
     return SizedBox(
-        width: 80, // Adjust the width as per your design requirements
+        width: 85, // Adjust the width as per your design requirements
         child: Padding(
           padding: const EdgeInsets.only(right: 15),
           child: Card(
@@ -503,7 +507,7 @@ class MySiteCard extends StatelessWidget {
             margin: const EdgeInsets.only(left: 0, top: 0, bottom: 5),
             color: customColors.cardColor,
             child: Padding(
-              padding: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

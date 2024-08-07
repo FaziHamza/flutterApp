@@ -28,7 +28,7 @@ class _ThemeToggleSwitchState extends State<ThemeToggleSwitch> {
           height: 30,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            color: customColors.cardColor,
+            color: customColors.cardItemColor,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
@@ -46,7 +46,7 @@ class _ThemeToggleSwitchState extends State<ThemeToggleSwitch> {
                   Text(
                     'Light',
                     style: TextStyle(
-                        color: widget.isLightMode ? Colors.black : Colors.grey,
+                        color: widget.isLightMode ? Colors.white : Colors.white,
                         fontWeight:
                         widget.isLightMode ? FontWeight.bold : FontWeight.normal,
                         fontSize: 10),
@@ -54,7 +54,7 @@ class _ThemeToggleSwitchState extends State<ThemeToggleSwitch> {
                   Text(
                     'Dark',
                     style: TextStyle(
-                        color: !widget.isLightMode ? Colors.black : Colors.grey,
+                        color: !widget.isLightMode ? Colors.white : Colors.black,
                         fontWeight:
                         !widget.isLightMode ? FontWeight.bold : FontWeight.normal,
                         fontSize: 10),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class CustomColors extends ThemeExtension<CustomColors> {
   final Color? cardColor;
+  final Color? cardItemColor;
+  final Color? lineItemColor;
   final Color? topBarColor;
   final Color? bgContainerColor;
   final Color? bgBarColor;
@@ -15,6 +17,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
 
   CustomColors({
     this.cardColor,
+    this.cardItemColor,
+    this.lineItemColor,
     this.topBarColor,
     this.bgBarColor,
     this.badgeColor,
@@ -31,6 +35,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
   CustomColors copyWith({Color? customColor}) {
     return CustomColors(
       cardColor: customColor ?? this.cardColor,
+      cardItemColor: cardItemColor ?? this.cardItemColor,
+      lineItemColor: lineItemColor ?? this.lineItemColor,
       topBarColor: topBarColor ?? this.topBarColor,
       bgContainerColor: bgContainerColor ?? this.bgContainerColor,
       bgBarColor: bgBarColor ?? this.bgBarColor,
@@ -51,6 +57,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
     }
     return CustomColors(
       cardColor: Color.lerp(cardColor, other.cardColor, t),
+      cardItemColor: Color.lerp(cardItemColor, other.cardItemColor, t),
+      lineItemColor: Color.lerp(lineItemColor, other.lineItemColor, t),
       topBarColor: Color.lerp(topBarColor, other.topBarColor, t),
       bgContainerColor: Color.lerp(bgContainerColor, other.bgContainerColor, t),
       bgBarColor: Color.lerp(bgBarColor, other.bgBarColor, t),
